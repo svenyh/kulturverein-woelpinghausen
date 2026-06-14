@@ -240,13 +240,25 @@ svg {
   gap: 0.65rem;
   color: var(--color-white);
   z-index: 1001;
+  min-width: 0;
+  flex-shrink: 0;
 }
 
-.header__logo img {
-  width: 44px;
-  height: 44px;
+.header__logo img,
+.header__logo-img {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  padding: 3px;
+  background: var(--color-white);
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+}
+
+.logo-img {
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .header__logo-text {
@@ -731,10 +743,19 @@ svg {
   gap: 0.85rem;
   color: var(--color-white);
   margin-bottom: 0.75rem;
+  min-width: 0;
 }
 
-.footer__logo img {
+.footer__logo img,
+.footer__logo-img {
+  width: 48px;
+  height: 48px;
+  padding: 4px;
+  background: var(--color-white);
   border-radius: 50%;
+  object-fit: contain;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
 }
 
 .footer__logo span {
@@ -876,6 +897,19 @@ svg {
 
   .section {
     padding-block: 5.5rem;
+  }
+
+  .header__logo img,
+  .header__logo-img {
+    width: 48px;
+    height: 48px;
+    padding: 4px;
+  }
+
+  .footer__logo img,
+  .footer__logo-img {
+    width: 56px;
+    height: 56px;
   }
 
   .header__logo-text {
