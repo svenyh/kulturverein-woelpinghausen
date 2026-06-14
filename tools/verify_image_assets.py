@@ -7,9 +7,7 @@ ROOT = Path(__file__).resolve().parent.parent
 IMAGES = ROOT / "images"
 
 REQUIRED = [
-    "hero-bierkartographen-wide-cover.jpg",
-    "hero-bierkartographen-wide.jpg",
-    "hero-bierkartographen.jpg",
+    "hero-final.png",
     "logo-kulturverein.png",
     "gallery-biergarten-gruppe.jpg",
     "gallery-bierglaeser.jpg",
