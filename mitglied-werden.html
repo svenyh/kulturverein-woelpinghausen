@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitglied werden – Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
+</head>
+<body data-page="mitglied-werden">
+  <div id="site-header"></div>
+  <header class="page-hero page-hero--compact"><div class="container"><p class="page-hero__label">Mitmachen</p><h1 class="page-hero__title">Mitglied werden</h1><p class="page-hero__text">Werde Teil unserer Gemeinschaft – Ausflüge, Dorfleben und gute Gesellschaft in Wölpinghausen.</p></div></header>
+  <main class="page-content section--white">
+    <div class="container contact-grid">
+      <div>
+        <p style="color:var(--color-text-muted);margin-bottom:1rem;">Du magst Ausflüge, Tradition und das Miteinander im Dorf? Dann bist du bei uns richtig. Als Mitglied unterstützt du den Verein und gestaltest Termine aktiv mit.</p>
+        <p class="about__highlight">Gemeinsam. Heimat. Tradition.</p>
+        <ul style="color:var(--color-text-muted);margin:1rem 0 0 1.25rem;list-style:disc;">
+          <li>Gemeinsame Ausflüge und Vereinsfahrten</li>
+          <li>Unterstützung bei Dorfveranstaltungen</li>
+          <li>Verbindung zu Partnervereinen</li>
+        </ul>
+      </div>
+      <div class="auth-card" style="box-shadow:var(--shadow-md);">
+        <h2 class="auth-card__title">Mitgliedsanfrage</h2>
+        <p class="auth-card__subtitle">Das Formular ist vorbereitet – die digitale Verarbeitung wird später freigeschaltet.</p>
+        <form data-form-notice="join-notice" data-success-message="Vielen Dank! Deine Anfrage wurde entgegengenommen. Der Vorstand meldet sich bei dir.">
+          <div class="form-group"><label for="name">Name</label><input type="text" id="name" name="name" required></div>
+          <div class="form-group"><label for="email">E-Mail</label><input type="email" id="email" name="email" required></div>
+          <div class="form-group"><label for="phone">Telefon</label><input type="tel" id="phone" name="phone"></div>
+          <div class="form-group"><label for="message">Nachricht</label><textarea id="message" name="message" rows="4"></textarea></div>
+          <div class="form-actions"><button type="submit" class="btn btn--primary">Anfrage senden</button></div>
+          <div class="form-notice" id="join-notice" hidden></div>
+        </form>
+        <p class="form-footer">Alternativ: <a href="registrierung.html">Registrierungsformular</a></p>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/script.js"></script>
+</body>
+</html>

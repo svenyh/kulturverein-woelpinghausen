@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt – Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
+</head>
+<body data-page="kontakt">
+  <div id="site-header"></div>
+  <header class="page-hero page-hero--compact"><div class="container"><p class="page-hero__label">Schreib uns</p><h1 class="page-hero__title">Kontakt</h1><p class="page-hero__text">Fragen zu Terminen, Mitgliedschaft oder Kooperationen? Wir freuen uns auf deine Nachricht.</p></div></header>
+  <main class="page-content section--cream">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <h2 class="section__title">So erreichst du uns</h2>
+        <address class="footer__address" style="opacity:1;color:var(--color-text-muted);">
+          <strong style="color:var(--color-bordeaux);">Kulturverein Wölpinghausen e.V.</strong><br>Musterstraße 12<br>31515 Wölpinghausen<br><br>
+          <a href="mailto:info@kulturverein-woelpinghausen.de">info@kulturverein-woelpinghausen.de</a><br>
+          <a href="tel:+495089123456">05089 / 123456</a>
+        </address>
+        <p>Aktuelles Vereinsleben findest du auch auf Instagram.</p>
+        <a href="https://instagram.com" class="btn btn--primary" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <div class="app-card" style="margin-top:1.5rem;"><p class="app-card__label">Standort (vorbereitet)</p><p class="app-card__text">Kartenintegration kann später ergänzt werden – ohne externe Tracking-Dienste.</p></div>
+      </div>
+      <div class="auth-card" style="box-shadow:var(--shadow-md);">
+        <h2 class="auth-card__title">Nachricht senden</h2>
+        <form data-form-notice="contact-notice">
+          <div class="form-group"><label for="cname">Name</label><input type="text" id="cname" required></div>
+          <div class="form-group"><label for="cemail">E-Mail</label><input type="email" id="cemail" required></div>
+          <div class="form-group"><label for="cmsg">Nachricht</label><textarea id="cmsg" rows="4" required></textarea></div>
+          <div class="form-actions"><button type="submit" class="btn btn--primary">Absenden</button></div>
+          <div class="form-notice" id="contact-notice" hidden></div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="js/script.js"></script>
+</body>
+</html>

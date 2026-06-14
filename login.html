@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login – Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
+</head>
+<body class="auth-page">
+  <header class="header"><div class="container header__inner"><a href="index.html" class="header__logo"><img src="images/logo-kulturverein.png" alt="" width="44" height="44"><span class="header__logo-text"><span class="header__logo-name">Kulturverein</span><span class="header__logo-place">Wölpinghausen</span></span></a><a href="index.html" class="header__login">Zur Webseite</a></div></header>
+  <main class="auth-main">
+    <div class="auth-card">
+      <h1 class="auth-card__title">Mitglieder-Login</h1>
+      <p class="auth-card__subtitle">Der Mitgliederlogin ist in Vorbereitung und wird demnächst freigeschaltet.</p>
+      <form data-form-notice="login-notice" data-success-message="Login-Funktion folgt in Kürze. Du wirst zum Mitgliederbereich weitergeleitet.">
+        <div class="form-group"><label for="email">E-Mail</label><input type="email" id="email" required autocomplete="email"></div>
+        <div class="form-group"><label for="password">Passwort</label><input type="password" id="password" required autocomplete="current-password"></div>
+        <div class="form-actions"><button type="submit" class="btn btn--primary">Anmelden</button></div>
+        <div class="form-notice" id="login-notice" hidden></div>
+      </form>
+      <p class="form-footer"><a href="registrierung.html">Mitgliedsanfrage stellen</a> · <a href="mitgliederbereich.html">Mitgliederbereich (Vorschau)</a></p>
+    </div>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
