@@ -423,46 +423,52 @@ svg {
 .hero {
   position: relative;
   z-index: 1;
-  min-height: 520px;
+  min-height: 680px;
   display: flex;
   align-items: center;
   padding-top: var(--header-height);
   overflow: hidden;
+  background-color: var(--color-bordeaux-dark);
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(91, 15, 27, 0.98) 0%,
+      rgba(91, 15, 27, 0.88) 28%,
+      rgba(91, 15, 27, 0.45) 52%,
+      rgba(91, 15, 27, 0.18) 100%
+    ),
+    url("../images/hero-bierkartographen-wide-cover.jpg");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+
+.hero__media {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: var(--color-bordeaux-dark) url("../images/hero-bierkartographen-wide.jpg") center / cover no-repeat;
-}
-
-.hero__bg img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: 75% center;
+  display: none;
 }
 
 .hero__overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    90deg,
-    rgba(91, 15, 27, 0.9) 0%,
-    rgba(61, 10, 18, 0.78) 35%,
-    rgba(61, 10, 18, 0.45) 55%,
-    rgba(30, 8, 12, 0.15) 100%
-  );
+  display: none;
 }
 
 .hero__content {
   position: relative;
   z-index: 2;
-  padding-block: 3rem;
-  max-width: 640px;
+  width: 100%;
+  max-width: 620px;
+  margin-left: clamp(24px, 8vw, 140px);
+  margin-right: 1.25rem;
+  padding-top: 80px;
+  padding-bottom: 3rem;
 }
 
 .hero__tag {
@@ -475,9 +481,9 @@ svg {
 }
 
 .hero__title {
-  font-size: clamp(2.25rem, 8vw, 3.75rem);
+  font-size: clamp(44px, 5vw, 82px);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 0.95;
   color: var(--color-white);
   margin-bottom: 1rem;
 }
@@ -493,6 +499,28 @@ svg {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 560px;
+    background-image:
+      linear-gradient(
+        180deg,
+        rgba(91, 15, 27, 0.94) 0%,
+        rgba(91, 15, 27, 0.82) 45%,
+        rgba(61, 10, 18, 0.72) 100%
+      ),
+      url("../images/hero-bierkartographen-wide-cover.jpg");
+    background-position: center;
+  }
+
+  .hero__content {
+    margin-left: 24px;
+    margin-right: 24px;
+    padding-top: 70px;
+    max-width: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1037,7 +1065,7 @@ a.partner-card {
   }
 
   .hero {
-    min-height: 620px;
+    min-height: 680px;
   }
 
   .about__collage {
