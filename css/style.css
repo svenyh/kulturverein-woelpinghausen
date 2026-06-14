@@ -421,6 +421,7 @@ svg {
    Hero
    -------------------------------------------------------------------------- */
 .hero {
+  position: relative;
   width: 100%;
   height: auto;
   min-height: unset;
@@ -436,6 +437,35 @@ svg {
   display: block;
   height: auto;
   border-radius: 0 0 24px 24px;
+}
+
+.hero-hotspot {
+  position: absolute;
+  display: block;
+  z-index: 5;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hero-hotspot-member {
+  left: 5.7%;
+  top: 68%;
+  width: 13.5%;
+  height: 6.5%;
+}
+
+.hero-hotspot-instagram {
+  left: 21%;
+  top: 68%;
+  width: 18%;
+  height: 6.5%;
+}
+
+@media (max-width: 768px) {
+  .hero-hotspot-member,
+  .hero-hotspot-instagram {
+    display: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
