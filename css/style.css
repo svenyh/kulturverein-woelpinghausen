@@ -62,6 +62,16 @@ img {
   height: auto;
 }
 
+/* Alt-Text bei fehlenden Bildern nicht als sichtbarer Platzhalter */
+img.img--error {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -407,11 +417,13 @@ svg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  background: linear-gradient(135deg, #3d0a12 0%, #5b0f1b 50%, #701d2a 100%);
 }
 
 .hero__bg img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
 }
 
@@ -500,11 +512,15 @@ svg {
   border-radius: var(--radius-md);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  background: var(--color-cream);
+  position: relative;
+  min-height: 80px;
 }
 
 .collage__item img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
@@ -543,11 +559,13 @@ svg {
   position: relative;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+  background: var(--color-cream);
 }
 
 .event-card__image img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
@@ -647,11 +665,14 @@ svg {
   aspect-ratio: 1;
   border-radius: var(--radius-sm);
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  position: relative;
 }
 
 .gallery-grid__item img {
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
   transition: transform 0.35s ease, opacity 0.35s ease;
 }
@@ -1565,6 +1586,8 @@ svg {
   width: 100%;
   aspect-ratio: 4/3;
   object-fit: cover;
+  max-width: none;
+  background: var(--color-cream);
 }
 
 .trip-block__body {

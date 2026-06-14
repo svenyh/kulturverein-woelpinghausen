@@ -203,6 +203,14 @@
     });
   }
 
+  function initImageFallbacks() {
+    document.querySelectorAll('img').forEach((img) => {
+      const markBroken = () => img.classList.add('img--error');
+      img.addEventListener('error', markBroken);
+      if (img.complete && img.naturalWidth === 0) markBroken();
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page || '';
     const headerSlot = document.getElementById('site-header');
@@ -213,6 +221,7 @@
     initLightbox();
     initInstagramLinks();
     initFavicon();
+    initImageFallbacks();
     initForms();
   });
 
