@@ -48,13 +48,65 @@ npx serve .
 
 Dann: http://localhost:8080
 
-## GitHub Pages Deployment
+## Deployment
 
-Die Seite wird über **GitHub Pages** aus dem `main`-Branch bereitgestellt (Workflow in `.github/workflows/pages.yml`).
+Die Seite ist eine **statische HTML/CSS/JS-Seite ohne Build-Schritt**. Alle Dateien liegen im Repository-Root.
 
-Nach dem Push ist die Seite erreichbar unter:
+Details und Custom-Domain-Anleitung: [`docs/deployment.md`](docs/deployment.md)
 
-**https://svenyh.github.io/kulturverein-woelpinghausen/**
+### GitHub Pages (aktiv)
+
+| | |
+|---|---|
+| URL | https://svenyh.github.io/kulturverein-woelpinghausen/ |
+| Branch | `main` |
+| Mechanismus | GitHub Actions (`.github/workflows/pages.yml`) |
+
+Nach jedem Push auf `main` wird automatisch neu deployed (ca. 1–2 Minuten).
+
+### Cloudflare Pages (empfohlen für Produktion)
+
+| | |
+|---|---|
+| Projektname | `kulturverein-woelpinghausen` |
+| URL (nach Einrichtung) | https://kulturverein-woelpinghausen.pages.dev |
+| Branch | `main` |
+| Build command | *(leer – kein Build nötig)* |
+| Output directory | *(leer – Root `/`)* |
+
+**Einrichtung:** Cloudflare Dashboard → Workers & Pages → Create → Connect to Git → Repository `svenyh/kulturverein-woelpinghausen` → Framework: **None** → Deploy.
+
+Vollständige Schritte: [`docs/deployment.md`](docs/deployment.md)
+
+### GitHub Pages vs. Cloudflare Pages
+
+| | GitHub Pages | Cloudflare Pages |
+|---|---|---|
+| **Kosten** | Kostenlos (öffentliches Repo) | Kostenlos |
+| **URL** | `*.github.io/...` | `*.pages.dev` + eigene Domain |
+| **CDN/Performance** | Gut | Sehr gut (globales Cloudflare-Netz) |
+| **Eigene Domain + SSL** | Möglich, umständlicher | Einfach, automatisches SSL |
+| **Setup** | Bereits aktiv | Einmalig im Cloudflare-Dashboard |
+| **Auto-Deploy bei Push** | Ja | Ja (nach Git-Verbindung) |
+
+**Empfehlung:**
+
+- **GitHub Pages** – gut für Preview, Backup und schnellen Start (bereits aktiv)
+- **Cloudflare Pages** – empfohlen für **Produktion**, besonders wenn später eine **eigene Domain** (z. B. `kulturverein-woelpinghausen.de`) angebunden werden soll
+
+Beide können parallel laufen. Für die öffentliche Vereins-Domain später Cloudflare Pages nutzen.
+
+### Änderungen deployen
+
+Ein Push auf `main` aktualisiert **beide** Plattformen (sofern Cloudflare Pages mit GitHub verbunden ist):
+
+```bash
+git add .
+git commit -m "Update website"
+git push origin main
+```
+
+GitHub Pages: ca. 1–2 Minuten. Cloudflare Pages: ca. 1–2 Minuten.
 
 ## Geplante Erweiterung: Mitgliederlogin
 
@@ -84,13 +136,3 @@ Nach dem Push ist die Seite erreichbar unter:
 | **SQLite** | Nur für lokale Entwicklung |
 
 Technologie-Vorschlag: Node.js/Express oder Supabase als Backend, JWT-Sessions, bcrypt für Passwörter.
-
-## Änderungen pushen
-
-```bash
-git add .
-git commit -m "Beschreibung der Änderung"
-git push origin main
-```
-
-GitHub Pages aktualisiert die Vorschau automatisch nach dem Push (ca. 1–2 Minuten).
