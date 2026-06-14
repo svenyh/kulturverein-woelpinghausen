@@ -43,7 +43,7 @@ def render_header(active: str) -> str:
     <header class="header" id="header">
       <div class="container header__inner">
         <a href="index.html" class="header__logo" aria-label="Zur Startseite">
-          <img src="images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="48" height="48">
+          <img src="images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
           <span class="header__logo-text">
             <span class="header__logo-name">Kulturverein</span>
             <span class="header__logo-place">Wölpinghausen</span>

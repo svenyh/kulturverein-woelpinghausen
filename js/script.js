@@ -45,7 +45,7 @@
     <header class="header" id="header">
       <div class="container header__inner">
         <a href="index.html" class="header__logo" aria-label="Zur Startseite">
-          ${logoImg('header__logo-img', 48)}
+          ${logoImg('header__logo-img', 52)}
           <span class="header__logo-text">
             <span class="header__logo-name">Kulturverein</span>
             <span class="header__logo-place">Wölpinghausen</span>
@@ -210,8 +210,6 @@
 
       const chain = [
         img.dataset.fallback,
-        'images/biergarten.jpg',
-        'images/hero-gruppe.jpg',
         SITE.logoSrc,
       ].filter(Boolean);
 

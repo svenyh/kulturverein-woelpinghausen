@@ -271,8 +271,8 @@ svg {
 
 .header__logo img,
 .header__logo-img {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   flex-shrink: 0;
   padding: 3px;
   background: var(--color-white);
@@ -423,7 +423,7 @@ svg {
 .hero {
   position: relative;
   z-index: 1;
-  min-height: clamp(420px, 72vh, 680px);
+  min-height: 520px;
   display: flex;
   align-items: center;
   padding-top: var(--header-height);
@@ -434,7 +434,7 @@ svg {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: var(--color-bordeaux-dark) url("../images/biergarten.jpg") center / cover no-repeat;
+  background: var(--color-bordeaux-dark) url("../images/hero-bierkartographen-wide.jpg") center / cover no-repeat;
 }
 
 .hero__bg img {
@@ -442,7 +442,7 @@ svg {
   height: 100%;
   max-width: none;
   object-fit: cover;
-  object-position: center;
+  object-position: 75% center;
 }
 
 .hero__overlay {
@@ -450,10 +450,11 @@ svg {
   inset: 0;
   z-index: 1;
   background: linear-gradient(
-    135deg,
-    rgba(91, 15, 27, 0.82) 0%,
-    rgba(61, 10, 18, 0.55) 45%,
-    rgba(30, 8, 12, 0.75) 100%
+    90deg,
+    rgba(91, 15, 27, 0.9) 0%,
+    rgba(61, 10, 18, 0.78) 35%,
+    rgba(61, 10, 18, 0.45) 55%,
+    rgba(30, 8, 12, 0.15) 100%
   );
 }
 
@@ -579,6 +580,16 @@ svg {
   aspect-ratio: 16 / 10;
   overflow: hidden;
   background: var(--color-cream);
+}
+
+.event-card__image--logo {
+  background: var(--color-cream);
+}
+
+.event-card__image--logo img {
+  object-fit: contain;
+  object-position: center;
+  padding: 1.25rem;
 }
 
 .event-card__image img {
@@ -976,8 +987,8 @@ a.partner-card {
 
   .header__logo img,
   .header__logo-img {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     padding: 4px;
   }
 
@@ -1026,7 +1037,7 @@ a.partner-card {
   }
 
   .hero {
-    min-height: clamp(620px, 68vh, 720px);
+    min-height: 620px;
   }
 
   .about__collage {
