@@ -30,12 +30,18 @@ target_h = int(H * 0.82)
 target_w = int(logo.width * target_h / logo.height)
 logo = logo.resize((target_w, target_h), Image.LANCZOS)
 
+# Weißen Bildhintergrund transparent machen, damit kein harter Rand entsteht
+px = logo.load()
+for py in range(logo.height):
+    for px_x in range(logo.width):
+        r, g, b, a = px[px_x, py]
+        if a > 0 and r > 210 and g > 210 and b > 210:
+            px[px_x, py] = (BORDEAUX[0], BORDEAUX[1], BORDEAUX[2], 0)
+
 x = W - target_w - int(W * 0.05)
 y = (H - target_h) // 2
 
-bg = Image.new("RGBA", logo.size, (*BORDEAUX, 255))
 logo_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-logo_layer.paste(bg, (x, y))
 logo_layer.paste(logo, (x, y), logo)
 canvas = Image.alpha_composite(canvas.convert("RGBA"), logo_layer).convert("RGB")
 
