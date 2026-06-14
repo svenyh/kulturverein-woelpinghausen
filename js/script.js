@@ -205,9 +205,32 @@
 
   function initImageFallbacks() {
     document.querySelectorAll('img').forEach((img) => {
-      const markBroken = () => img.classList.add('img--error');
-      img.addEventListener('error', markBroken);
-      if (img.complete && img.naturalWidth === 0) markBroken();
+      if (img.dataset.fallbackInit) return;
+      img.dataset.fallbackInit = '1';
+
+      const chain = [
+        img.dataset.fallback,
+        'images/biergarten.jpg',
+        'images/hero-gruppe.jpg',
+        SITE.logoSrc,
+      ].filter(Boolean);
+
+      let step = 0;
+      const tryNext = () => {
+        while (step < chain.length) {
+          const next = chain[step++];
+          if (next && next !== img.getAttribute('src')) {
+            if (next.includes('logo')) {
+              img.classList.add('img--contain');
+            }
+            img.src = next;
+            return;
+          }
+        }
+        img.classList.add('img--error');
+      };
+
+      img.addEventListener('error', tryNext);
     });
   }
 
