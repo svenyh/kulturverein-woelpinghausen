@@ -234,19 +234,45 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  function markActiveNav(activePage) {
+    document.querySelectorAll('.nav__link').forEach((link) => {
+      link.classList.remove('nav__link--active');
+    });
+    if (!activePage) return;
+    const match = NAV.find((item) => item.id === activePage);
+    if (!match) return;
+    const activeLink = document.querySelector(`.nav__link[href="${match.href}"]`);
+    if (activeLink) activeLink.classList.add('nav__link--active');
+  }
+
+  function boot() {
     const page = document.body.dataset.page || '';
     const headerSlot = document.getElementById('site-header');
     const footerSlot = document.getElementById('site-footer');
-    if (headerSlot) headerSlot.innerHTML = renderHeader(page);
-    if (footerSlot) footerSlot.innerHTML = renderFooter();
+
+    if (headerSlot && !document.getElementById('header')) {
+      headerSlot.innerHTML = renderHeader(page);
+    } else {
+      markActiveNav(page);
+    }
+
+    if (footerSlot && !footerSlot.querySelector('.footer')) {
+      footerSlot.innerHTML = renderFooter();
+    }
+
     initNav();
     initLightbox();
     initInstagramLinks();
     initFavicon();
     initImageFallbacks();
     initForms();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
 
   window.KVW = SITE;
 })();

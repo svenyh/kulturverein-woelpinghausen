@@ -235,8 +235,9 @@ svg {
 #site-header,
 .site-header {
   position: relative;
-  z-index: 1000;
+  z-index: 1100;
   min-height: var(--header-height);
+  background: var(--color-bordeaux);
 }
 
 .header {
@@ -244,7 +245,7 @@ svg {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1100;
   background: var(--color-bordeaux);
   box-shadow: var(--shadow-sm);
   height: var(--header-height);
@@ -421,6 +422,7 @@ svg {
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
+  z-index: 1;
   min-height: clamp(420px, 72vh, 680px);
   display: flex;
   align-items: center;
