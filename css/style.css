@@ -573,6 +573,10 @@ svg {
   transition: transform 0.4s ease;
 }
 
+.js-lightbox-img {
+  cursor: pointer;
+}
+
 .collage__item:hover img {
   transform: scale(1.05);
 }
@@ -1673,7 +1677,7 @@ a.partner-card {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(20, 8, 10, 0.92);
+  background: rgba(20, 8, 10, 0.88);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1684,17 +1688,39 @@ a.partner-card {
   display: none;
 }
 
+.lightbox__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 90vw;
+}
+
 .lightbox__img {
-  max-width: min(960px, 100%);
+  display: block;
+  max-width: 90vw;
   max-height: 85vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
+}
+
+.lightbox__caption {
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 90vw;
 }
 
 .lightbox__close {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  z-index: 2;
   width: 44px;
   height: 44px;
   border: none;
@@ -1704,6 +1730,61 @@ a.partner-card {
   font-size: 1.75rem;
   line-height: 1;
   cursor: pointer;
+  transition: background var(--transition);
+}
+
+.lightbox__close:hover,
+.lightbox__close:focus-visible {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.lightbox__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.lightbox__nav:hover,
+.lightbox__nav:focus-visible {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.lightbox__nav--prev {
+  left: 1rem;
+}
+
+.lightbox__nav--next {
+  right: 1rem;
+}
+
+@media (max-width: 640px) {
+  .lightbox {
+    padding: 1rem;
+  }
+
+  .lightbox__close {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .lightbox__nav--prev {
+    left: 0.5rem;
+  }
+
+  .lightbox__nav--next {
+    right: 0.5rem;
+  }
 }
 
 .filter-bar {

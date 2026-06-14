@@ -135,31 +135,83 @@
   }
 
   function initLightbox() {
-    const gallery = document.querySelector('[data-lightbox]');
-    if (!gallery) return;
+    const thumbs = document.querySelectorAll('.js-lightbox-img');
+    if (!thumbs.length) return;
 
     const overlay = document.createElement('div');
     overlay.className = 'lightbox';
     overlay.hidden = true;
-    overlay.innerHTML = '<button class="lightbox__close" aria-label="Schließen">&times;</button><img class="lightbox__img" alt="">';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Bildansicht');
+    overlay.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Schließen">&times;</button>' +
+      '<button type="button" class="lightbox__nav lightbox__nav--prev" aria-label="Vorheriges Bild" hidden>&#8249;</button>' +
+      '<button type="button" class="lightbox__nav lightbox__nav--next" aria-label="Nächstes Bild" hidden>&#8250;</button>' +
+      '<figure class="lightbox__figure">' +
+      '<img class="lightbox__img" alt="">' +
+      '<figcaption class="lightbox__caption"></figcaption>' +
+      '</figure>';
     document.body.appendChild(overlay);
 
-    const img = overlay.querySelector('.lightbox__img');
-    const close = () => { overlay.hidden = true; document.body.style.overflow = ''; };
+    const imgEl = overlay.querySelector('.lightbox__img');
+    const caption = overlay.querySelector('.lightbox__caption');
+    const prevBtn = overlay.querySelector('.lightbox__nav--prev');
+    const nextBtn = overlay.querySelector('.lightbox__nav--next');
+    const closeBtn = overlay.querySelector('.lightbox__close');
+    const items = Array.from(thumbs);
+    let currentIndex = 0;
 
-    gallery.querySelectorAll('img').forEach((thumb) => {
-      thumb.style.cursor = 'pointer';
-      thumb.addEventListener('click', () => {
-        img.src = thumb.src;
-        img.alt = thumb.alt;
-        overlay.hidden = false;
-        document.body.style.overflow = 'hidden';
-      });
+    const show = (index) => {
+      currentIndex = index;
+      const thumb = items[currentIndex];
+      imgEl.src = thumb.currentSrc || thumb.src;
+      imgEl.alt = thumb.alt;
+      caption.textContent = thumb.alt || '';
+      caption.hidden = !thumb.alt;
+
+      const hasMultiple = items.length > 1;
+      prevBtn.hidden = !hasMultiple;
+      nextBtn.hidden = !hasMultiple;
+
+      overlay.hidden = false;
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    };
+
+    const close = () => {
+      overlay.hidden = true;
+      document.body.style.overflow = '';
+      imgEl.removeAttribute('src');
+    };
+
+    const step = (dir) => {
+      show((currentIndex + dir + items.length) % items.length);
+    };
+
+    items.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => show(index));
     });
 
-    overlay.querySelector('.lightbox__close').addEventListener('click', close);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !overlay.hidden) close(); });
+    prevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step(-1);
+    });
+    nextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      step(1);
+    });
+    closeBtn.addEventListener('click', close);
+    overlay.querySelector('.lightbox__figure').addEventListener('click', (e) => e.stopPropagation());
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (overlay.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
   }
 
   function initInstagramLinks() {
