@@ -45,6 +45,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  overflow-x: clip;
 }
 
 body {
@@ -54,6 +55,7 @@ body {
   color: var(--color-text);
   background: var(--color-white);
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
 img {
@@ -257,6 +259,7 @@ svg {
   justify-content: space-between;
   height: var(--header-height);
   gap: 1rem;
+  min-width: 0;
 }
 
 .header__logo {
@@ -290,6 +293,7 @@ svg {
   display: none;
   flex-direction: column;
   line-height: 1.15;
+  min-width: 0;
 }
 
 .header__logo-name {
@@ -635,6 +639,7 @@ svg {
   text-transform: uppercase;
   color: var(--color-bordeaux-light);
   transition: color var(--transition);
+  overflow-wrap: anywhere;
 }
 
 .event-card__link:hover,
@@ -760,6 +765,8 @@ a.partner-card {
   font-weight: 600;
   color: var(--color-bordeaux);
   line-height: 1.35;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* --------------------------------------------------------------------------
@@ -835,6 +842,7 @@ a.partner-card {
   font-size: 0.9rem;
   line-height: 1.8;
   opacity: 0.85;
+  overflow-wrap: anywhere;
 }
 
 .footer__address a:hover,
@@ -934,10 +942,6 @@ a.partner-card {
     grid-template-columns: repeat(4, 1fr);
   }
 
-  .partners-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .footer__bottom-inner {
     flex-direction: row;
     justify-content: space-between;
@@ -1020,6 +1024,10 @@ a.partner-card {
 
   .events-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .partners-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .club-life {
@@ -1247,7 +1255,7 @@ a.partner-card {
 
 /* Unterseiten-Header (öffentliche Unterseiten) */
 .page-hero {
-  padding-top: calc(var(--header-height) + 2.5rem);
+  padding-top: 2.5rem;
   padding-bottom: 2.5rem;
   background: var(--color-bordeaux);
   color: var(--color-white);
@@ -1358,6 +1366,8 @@ a.partner-card {
   color: var(--color-bordeaux);
   font-weight: 600;
   font-style: normal;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .legal-notice {
@@ -1793,6 +1803,66 @@ a.partner-card {
   }
   .trip-block__images img:first-child {
     grid-row: span 2;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Mobile responsive fixes
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  :root {
+    --container-padding: 1rem;
+  }
+
+  .section {
+    padding-block: 3rem;
+  }
+
+  .page-content {
+    padding-block: 2.5rem;
+  }
+
+  .page-hero {
+    padding-top: 2rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .page-hero--compact {
+    padding-bottom: 1.5rem;
+  }
+
+  .partners-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trip-block__images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .trip-block__images img:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 479px) {
+  .header__logo-text {
+    max-width: 9.5rem;
+  }
+
+  .header__logo-place {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
