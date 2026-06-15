@@ -701,7 +701,7 @@ svg {
    -------------------------------------------------------------------------- */
 .partners-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 1rem;
   margin-top: 2rem;
   align-items: stretch;
@@ -726,6 +726,7 @@ svg {
 a.partner-card {
   display: flex;
   flex-direction: column;
+  align-items: center;
   color: inherit;
   text-decoration: none;
 }
@@ -746,10 +747,12 @@ a.partner-card {
 }
 
 .partner-card__badge--logo {
-  width: auto;
-  height: auto;
-  min-height: 3.5rem;
-  max-height: 5rem;
+  width: 100%;
+  height: 5.5rem;
+  min-height: 5.5rem;
+  max-height: 5.5rem;
+  margin-inline: auto;
+  margin-bottom: 0.85rem;
   border-radius: var(--radius-sm);
   padding: 0.35rem 0.5rem;
   background: var(--color-white);
@@ -757,10 +760,12 @@ a.partner-card {
 
 .partner-card__logo {
   display: block;
-  max-height: 4.5rem;
-  width: auto;
+  max-height: 100%;
   max-width: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  object-position: center;
   margin-inline: auto;
 }
 
@@ -773,6 +778,28 @@ a.partner-card {
   hyphens: auto;
 }
 
+.partner-card__desc {
+  flex: 1;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.partner-card__cta {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-bordeaux-light);
+}
+
+a.partner-card:hover .partner-card__cta {
+  color: var(--color-bordeaux);
+}
+
 .partners-note {
   margin-top: 1.75rem;
   text-align: center;
@@ -782,7 +809,7 @@ a.partner-card {
 }
 
 .partners-grid--home {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
 }
 
 /* --------------------------------------------------------------------------
@@ -1047,7 +1074,7 @@ a.partner-card {
   }
 
   .partners-grid--home {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .club-life {
@@ -1829,6 +1856,13 @@ a.partner-card {
 /* --------------------------------------------------------------------------
    Mobile responsive fixes
    -------------------------------------------------------------------------- */
+@media (min-width: 768px) and (max-width: 991px) {
+  .partners-grid,
+  .partners-grid--home {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 767px) {
   :root {
     --container-padding: 1rem;
@@ -1851,14 +1885,6 @@ a.partner-card {
     padding-bottom: 1.5rem;
   }
 
-  .partners-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .partners-grid--home {
-    grid-template-columns: 1fr;
-  }
-
   .trip-block__images {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1868,16 +1894,6 @@ a.partner-card {
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 480px) and (max-width: 767px) {
-  .partners-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .partners-grid--home {
     grid-template-columns: repeat(2, 1fr);
   }
 }
