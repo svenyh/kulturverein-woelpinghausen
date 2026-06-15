@@ -20,6 +20,8 @@ REQUIRED = [
     "partner-schuetzenverein-woelpinghausen.png",
     "partner-dorfjugend-woelpinghausen.png",
     "partner-feuerwehr-woelpinghausen.png",
+    "partner-ir-graf-wilhelm.png",
+    "partner-sportverein-woelpinghausen.png",
 ]
 
 refs = set()

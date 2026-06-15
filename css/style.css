@@ -781,6 +781,10 @@ a.partner-card {
   line-height: 1.6;
 }
 
+.partners-grid--home {
+  grid-template-columns: repeat(2, 1fr);
+}
+
 /* --------------------------------------------------------------------------
    Mitglied werden
    -------------------------------------------------------------------------- */
@@ -1040,6 +1044,10 @@ a.partner-card {
 
   .partners-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .partners-grid--home {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .club-life {
@@ -1847,6 +1855,10 @@ a.partner-card {
     grid-template-columns: 1fr;
   }
 
+  .partners-grid--home {
+    grid-template-columns: 1fr;
+  }
+
   .trip-block__images {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1862,6 +1874,10 @@ a.partner-card {
 
 @media (min-width: 480px) and (max-width: 767px) {
   .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .partners-grid--home {
     grid-template-columns: repeat(2, 1fr);
   }
 }
