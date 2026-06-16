@@ -81,9 +81,8 @@
         <div class="footer__col">
           <h3 class="footer__heading">Kontakt</h3>
           <address class="footer__address">
-            Kulturverein Wölpinghausen e.V.<br>Musterstraße 12<br>31515 Wölpinghausen<br>
-            <a href="mailto:info@kulturverein-woelpinghausen.de">info@kulturverein-woelpinghausen.de</a><br>
-            <a href="tel:+495089123456">05089 / 123456</a>
+            Wölpinghausener Kulturverein<br>Wölpinghausen<br>
+            Kontaktaufnahme aktuell über das Organisationsteam.
           </address>
         </div>
         <div class="footer__col">
@@ -99,7 +98,7 @@
       </div>
       <div class="footer__bottom">
         <div class="container footer__bottom-inner">
-          <p>&copy; 2026 Kulturverein Wölpinghausen e.V.</p>
+          <p>&copy; 2026 Wölpinghausener Kulturverein</p>
           <div class="footer__legal">
             <a href="impressum.html">Impressum</a><span aria-hidden="true">|</span><a href="datenschutz.html">Datenschutz</a>
           </div>

@@ -1,6 +1,6 @@
 # Kulturverein Wölpinghausen
 
-Offizielle Webseite des **Kulturverein Wölpinghausen e.V.** – modern, responsiv und als statische HTML-Seite gehostet. Optisch orientiert am vorhandenen Mockup (Bordeaux, Creme, große Bilder, Kartenlayout).
+Offizielle Webseite des **Wölpinghausener Kulturverein** – modern, responsiv und als statische HTML-Seite gehostet. Optisch orientiert am vorhandenen Mockup (Bordeaux, Creme, große Bilder, Kartenlayout).
 
 ## Projektbeschreibung
 
