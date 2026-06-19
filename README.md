@@ -138,3 +138,59 @@ GitHub Pages: ca. 1–2 Minuten. Cloudflare Pages: ca. 1–2 Minuten.
 | **SQLite** | Nur für lokale Entwicklung |
 
 Technologie-Vorschlag: Node.js/Express oder Supabase als Backend, JWT-Sessions, bcrypt für Passwörter.
+
+## Test: Event-Import
+
+Das isolierte Testskript `tools/fetch-events-test.js` liest den öffentlichen iCalendar-Export der Samtgemeinde Sachsenhagen mit `node-ical` ein. Es ist nicht mit dem Frontend verbunden und veröffentlicht keine Termine.
+
+```bash
+npm install
+npm run events:test
+```
+
+Die nächsten maximal 20 Termine werden nach `Europe/Berlin` umgerechnet, im Terminal ausgegeben und testweise nach `data/events-test.json` geschrieben. Der Import übernimmt den Feed unverändert; eine automatische Filterung auf Wölpinghausen findet nicht statt. Die erzeugte JSON-Datei ist per `.gitignore` von der Veröffentlichung ausgeschlossen.
+
+Zusätzlich erzeugt das Skript `data/events-candidates.json` mit maximal 100 chronologisch sortierten und nach Monat gruppierten Kandidaten. Diese Datei dient ausschließlich der manuellen Prüfung. Jeder Termin startet mit `showOnWebsite: false`; eine spätere Veröffentlichung erfordert, dass dieses Feld bewusst auf `true` gesetzt wird. Auch diese Prüfdatei ist per `.gitignore` ausgeschlossen.
+
+Nach der manuellen Prüfung erzeugt folgender Befehl die öffentliche Datei `data/events.json`:
+
+```bash
+npm run events:publish
+```
+
+Das Publish-Skript übernimmt ausschließlich Termine mit dem strikt booleschen Wert `showOnWebsite: true`. Nicht freigegebene Termine und interne Prüfhinweise werden nicht in die öffentliche Datei geschrieben.
+
+Optional kann eine andere Export-URL verwendet werden:
+
+```powershell
+$env:SACHSENHAGEN_ICAL_URL="https://www.sachsenhagen.de/veranstaltungen/veranstaltungen.ical?..."
+npm.cmd run events:test
+```
+
+## Lokaler Admin-Prototyp: Eventkalender
+
+Der lokale Admin-Prototyp bündelt Import, manuelle Auswahl und Veröffentlichung in einer Oberfläche. Er läuft ausschließlich auf `127.0.0.1`, besitzt keine Authentifizierung und führt weder Git-Commits noch Pushes aus.
+
+```powershell
+npm.cmd install
+npm.cmd run admin:events
+```
+
+Danach im Browser öffnen: http://127.0.0.1:8787/admin-events.html
+
+Der Ablauf:
+
+1. **Termine neu laden** ruft den vorhandenen iCalendar-Import auf. Die Kandidaten werden neu geschrieben und beginnen aus Sicherheitsgründen alle mit `showOnWebsite: false`.
+2. Die Kandidaten lassen sich nach Monat, Verein/Organisation und Serienstatus filtern.
+3. Gewünschte Termine mit **Auf Website anzeigen** markieren und **Auswahl speichern** wählen. Dadurch wird nur die lokale, ignorierte Datei `data/events-candidates.json` geändert.
+4. **Eventkalender veröffentlichen** ruft das vorhandene Publish-Skript auf. Nur Einträge mit `showOnWebsite: true` werden nach `data/events.json` übernommen.
+5. Über **Vorschau** kann der öffentliche Kalender lokal kontrolliert werden.
+
+Ein anderer Port kann bei Bedarf gesetzt werden:
+
+```powershell
+$env:EVENT_ADMIN_PORT=8790
+npm.cmd run admin:events
+```
+
+Der Prototyp ist nicht für einen öffentlichen Server vorgesehen. Ohne spätere Authentifizierung und persistentes Backend darf er nicht als öffentlicher Admin-Bereich eingesetzt werden.

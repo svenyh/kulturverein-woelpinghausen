@@ -1,4 +1,10 @@
 node_modules/
+.wrangler/
+data/events-test.json
+data/events-candidates.json
+data/events-candidates-review.md
+data/events-selection.md
+data/events-selection-grouped.md
 .env
 *.log
 .DS_Store

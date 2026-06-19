@@ -60,46 +60,14 @@
   </header>
 
   <main class="page-content section--cream">
-    <div class="container event-calendar-grid">
-      <article class="event-calendar-card">
-        <div class="event-calendar-card__image" aria-label="Platzhalter für ein Bild zum Schützenfest">
-          <span>Bild wird ergänzt</span>
-        </div>
-        <div class="event-calendar-card__body">
-          <p class="event-calendar-card__date">Termin folgt</p>
-          <h2 class="event-calendar-card__title">Schützenfest</h2>
-          <p class="event-calendar-card__description">Beschreibung wird ergänzt.</p>
-          <div class="event-calendar-card__link-placeholder">Externer Link wird ergänzt</div>
-        </div>
-      </article>
-
-      <article class="event-calendar-card">
-        <div class="event-calendar-card__image" aria-label="Platzhalter für ein Bild zum Erntedankfest">
-          <span>Bild wird ergänzt</span>
-        </div>
-        <div class="event-calendar-card__body">
-          <p class="event-calendar-card__date">Termin folgt</p>
-          <h2 class="event-calendar-card__title">Erntedankfest</h2>
-          <p class="event-calendar-card__description">Beschreibung wird ergänzt.</p>
-          <div class="event-calendar-card__link-placeholder">Externer Link wird ergänzt</div>
-        </div>
-      </article>
-
-      <article class="event-calendar-card">
-        <div class="event-calendar-card__image" aria-label="Platzhalter für ein Bild zum Weihnachtsmarkt">
-          <span>Bild wird ergänzt</span>
-        </div>
-        <div class="event-calendar-card__body">
-          <p class="event-calendar-card__date">Termin folgt</p>
-          <h2 class="event-calendar-card__title">Weihnachtsmarkt</h2>
-          <p class="event-calendar-card__description">Beschreibung wird ergänzt.</p>
-          <div class="event-calendar-card__link-placeholder">Externer Link wird ergänzt</div>
-        </div>
-      </article>
+    <div class="container">
+      <p id="event-calendar-status" class="event-calendar-status" role="status">Termine werden geladen...</p>
+      <div id="event-calendar-groups" class="event-calendar-groups" hidden></div>
     </div>
   </main>
 
   <div id="site-footer"></div>
   <script src="js/script.js"></script>
+  <script src="js/eventkalender.js"></script>
 </body>
 </html>

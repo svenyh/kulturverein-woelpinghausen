@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eventkalender verwalten - Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/tools/admin-events.css">
+  <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
+</head>
+<body class="app-page admin-events-page">
+  <div class="app-banner"><strong>Lokaler Prototyp</strong> - keine Anmeldung, kein automatischer Push.</div>
+  <header class="header admin-events-header">
+    <div class="container header__inner">
+      <a href="/admin-events.html" class="header__logo" aria-label="Eventkalender-Verwaltung">
+        <img src="/images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
+        <span class="header__logo-text">
+          <span class="header__logo-name">Admin Webseite</span>
+          <span class="header__logo-place">Eventkalender</span>
+        </span>
+      </a>
+      <a href="/eventkalender.html" class="btn btn--outline">Vorschau</a>
+    </div>
+  </header>
+
+  <main class="admin-events-main">
+    <section class="admin-events-intro" aria-labelledby="page-title">
+      <div>
+        <p class="admin-events-kicker">Veranstaltungen</p>
+        <h1 id="page-title" class="app-content__title">Eventkalender verwalten</h1>
+        <p class="app-content__lead">Termine laden, manuell freigeben und anschließend lokal veröffentlichen.</p>
+      </div>
+      <div class="admin-events-actions" aria-label="Import und Veröffentlichung">
+        <button type="button" class="btn btn--outline" id="import-events">Termine neu laden</button>
+        <button type="button" class="btn btn--primary" id="publish-events">Eventkalender veröffentlichen</button>
+      </div>
+    </section>
+
+    <p class="admin-events-status" id="admin-status" role="status" aria-live="polite">Kandidaten werden geladen...</p>
+
+    <section class="admin-events-controls" aria-labelledby="filter-title">
+      <div class="admin-events-controls__heading">
+        <div>
+          <h2 id="filter-title">Kandidaten prüfen</h2>
+          <p id="candidate-summary">0 Termine</p>
+        </div>
+        <button type="button" class="btn btn--primary" id="save-selection" disabled>Auswahl speichern</button>
+      </div>
+      <div class="admin-events-filters">
+        <div class="form-group">
+          <label for="filter-month">Monat</label>
+          <select id="filter-month"><option value="">Alle Monate</option></select>
+        </div>
+        <div class="form-group">
+          <label for="filter-organizer">Verein / Organisation</label>
+          <select id="filter-organizer"><option value="">Alle Organisationen</option></select>
+        </div>
+        <div class="form-group">
+          <label for="filter-series">Serienveranstaltung</label>
+          <select id="filter-series">
+            <option value="">Ja und Nein</option>
+            <option value="yes">Ja</option>
+            <option value="no">Nein</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-events-list" id="candidate-list" aria-label="Terminkandidaten"></section>
+    <p class="admin-events-empty" id="candidate-empty" hidden>Keine Termine passen zu den gewählten Filtern.</p>
+  </main>
+
+  <script src="/tools/admin-events.js"></script>
+</body>
+</html>

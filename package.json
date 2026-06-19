@@ -1,0 +1,13 @@
+{
+  "name": "woelpinghausener-kulturverein-tools",
+  "private": true,
+  "scripts": {
+    "admin:events": "node tools/event-admin-server.js",
+    "events:test": "node tools/fetch-events-test.js",
+    "events:publish": "node tools/publish-events.js",
+    "events:selection": "node tools/create-event-selection.js"
+  },
+  "dependencies": {
+    "node-ical": "0.26.1"
+  }
+}
