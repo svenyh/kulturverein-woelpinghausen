@@ -4,7 +4,7 @@ const ical = require('node-ical');
 
 const TIME_ZONE = 'Europe/Berlin';
 const MAX_EVENTS = 20;
-const MAX_CANDIDATES = 100;
+const CANDIDATE_RANGE_DAYS = 365;
 const OUTPUT_PATH = path.resolve(__dirname, '..', 'data', 'events-test.json');
 const CANDIDATES_PATH = path.resolve(__dirname, '..', 'data', 'events-candidates.json');
 const REVIEW_PATH = path.resolve(__dirname, '..', 'data', 'events-candidates-review.md');
@@ -36,15 +36,7 @@ function timeKey(date, isAllDay) {
   }).format(date);
 }
 
-function buildExportUrl() {
-  if (process.env.SACHSENHAGEN_ICAL_URL) {
-    return process.env.SACHSENHAGEN_ICAL_URL;
-  }
-
-  const now = new Date();
-  const end = new Date(now.getTime() + 366 * 24 * 60 * 60 * 1000);
-  const startDate = dateKey(now);
-  const endDate = dateKey(end);
+function buildExportUrl(startDate, endDate) {
   const [startYear, startMonth, startDay] = startDate.split('-');
   const [endYear, endMonth, endDay] = endDate.split('-');
   const url = new URL('https://www.sachsenhagen.de/veranstaltungen/veranstaltungen.ical');
@@ -82,6 +74,35 @@ function buildExportUrl() {
   }
 
   return url.toString();
+}
+
+function monthlyDateRanges(startDate, endDate) {
+  const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+  const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
+  const end = new Date(Date.UTC(endYear, endMonth - 1, endDay));
+  let cursor = new Date(Date.UTC(startYear, startMonth - 1, startDay));
+  const ranges = [];
+
+  while (cursor <= end) {
+    const monthEnd = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 0));
+    const rangeEnd = monthEnd < end ? monthEnd : end;
+    ranges.push({
+      start: cursor.toISOString().slice(0, 10),
+      end: rangeEnd.toISOString().slice(0, 10),
+    });
+    cursor = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth() + 1, 1));
+  }
+
+  return ranges;
+}
+
+function buildExportUrls(startDate, endDate) {
+  if (process.env.SACHSENHAGEN_ICAL_URL) {
+    return [process.env.SACHSENHAGEN_ICAL_URL];
+  }
+
+  return monthlyDateRanges(startDate, endDate)
+    .map((range) => buildExportUrl(range.start, range.end));
 }
 
 function propertyValue(value) {
@@ -193,7 +214,7 @@ function buildCandidateGroups(events) {
   const groups = [];
   const groupsByMonth = new Map();
 
-  for (const event of events.slice(0, MAX_CANDIDATES)) {
+  for (const event of events) {
     const month = monthLabel(event.start);
     if (!groupsByMonth.has(month)) {
       const group = { month, events: [] };
@@ -309,40 +330,66 @@ function logDiagnostics(events, outputEvents, candidateSourceEvents) {
 }
 
 async function main() {
-  const exportUrl = buildExportUrl();
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 30000);
-
-  console.log(`[events-test] Lade iCalendar: ${exportUrl}`);
-
-  let response;
-  try {
-    response = await fetch(exportUrl, {
-      headers: {
-        Accept: 'text/calendar',
-        'User-Agent': 'Woelpinghausener-Kulturverein-Eventimport-Test/0.1',
-      },
-      signal: controller.signal,
-    });
-  } finally {
-    clearTimeout(timeout);
-  }
-
-  if (!response.ok) {
-    throw new Error(`iCalendar-Abruf fehlgeschlagen: HTTP ${response.status}`);
-  }
-
-  const calendarText = await response.text();
-  const calendar = await ical.async.parseICS(calendarText);
-  const events = Object.values(calendar).filter(
-    (entry) => entry?.type === 'VEVENT' && entry.start instanceof Date
-  );
   const today = dateKey(new Date());
+  const rangeEnd = dateKey(
+    new Date(Date.now() + CANDIDATE_RANGE_DAYS * 24 * 60 * 60 * 1000)
+  );
+  const exportUrls = buildExportUrls(today, rangeEnd);
+  const eventsById = new Map();
+
+  console.log(`[events-test] Lade ${exportUrls.length} iCalendar-Zeiträume.`);
+
+  for (const [index, exportUrl] of exportUrls.entries()) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
+    let response;
+
+    console.log(`[events-test] Zeitraum ${index + 1}/${exportUrls.length}: ${exportUrl}`);
+    try {
+      response = await fetch(exportUrl, {
+        headers: {
+          Accept: 'text/calendar',
+          'User-Agent': 'Woelpinghausener-Kulturverein-Eventimport-Test/0.1',
+        },
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    if (!response.ok) {
+      throw new Error(`iCalendar-Abruf fehlgeschlagen: HTTP ${response.status}`);
+    }
+
+    const calendarText = await response.text();
+    const calendar = await ical.async.parseICS(calendarText);
+    const periodEvents = Object.values(calendar).filter(
+      (entry) => entry?.type === 'VEVENT' && entry.start instanceof Date
+    );
+
+    for (const event of periodEvents) {
+      const normalized = normalizeEvent(event);
+      const identity = normalized.rawId || [
+        normalized.date,
+        normalized.time,
+        normalized.title,
+        normalized.location,
+      ].join('|');
+      if (!eventsById.has(identity)) {
+        eventsById.set(identity, event);
+      }
+    }
+  }
+
+  const events = Array.from(eventsById.values());
   const upcoming = events
-    .filter((event) => dateKey(event.start) >= today)
+    .filter((event) => {
+      const eventDate = dateKey(event.start);
+      return eventDate >= today && eventDate <= rangeEnd;
+    })
     .sort((a, b) => a.start - b.start);
   const outputEvents = upcoming.slice(0, MAX_EVENTS).map(normalizeEvent);
-  const candidateSourceEvents = upcoming.slice(0, MAX_CANDIDATES);
+  const candidateSourceEvents = upcoming;
   const candidateGroups = buildCandidateGroups(candidateSourceEvents);
 
   logDiagnostics(events, outputEvents, candidateSourceEvents);

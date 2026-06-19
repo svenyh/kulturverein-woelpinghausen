@@ -38,6 +38,25 @@
 
     <p class="admin-events-status" id="admin-status" role="status" aria-live="polite">Kandidaten werden geladen...</p>
 
+    <section class="admin-events-stats" aria-label="Kennzahlen">
+      <div class="admin-events-stat">
+        <strong id="stat-loaded">0</strong>
+        <span>Termine geladen</span>
+      </div>
+      <div class="admin-events-stat">
+        <strong id="stat-visible">0</strong>
+        <span>Aktuell sichtbar</span>
+      </div>
+      <div class="admin-events-stat">
+        <strong id="stat-selected">0</strong>
+        <span>Zur Veröffentlichung ausgewählt</span>
+      </div>
+      <div class="admin-events-stat">
+        <strong id="stat-series">0</strong>
+        <span>Serienveranstaltungen</span>
+      </div>
+    </section>
+
     <section class="admin-events-controls" aria-labelledby="filter-title">
       <div class="admin-events-controls__heading">
         <div>
@@ -47,6 +66,10 @@
         <button type="button" class="btn btn--primary" id="save-selection" disabled>Auswahl speichern</button>
       </div>
       <div class="admin-events-filters">
+        <div class="form-group">
+          <label for="filter-year">Jahr</label>
+          <select id="filter-year"><option value="">Alle Jahre</option></select>
+        </div>
         <div class="form-group">
           <label for="filter-month">Monat</label>
           <select id="filter-month"><option value="">Alle Monate</option></select>
@@ -68,6 +91,11 @@
 
     <section class="admin-events-list" id="candidate-list" aria-label="Terminkandidaten"></section>
     <p class="admin-events-empty" id="candidate-empty" hidden>Keine Termine passen zu den gewählten Filtern.</p>
+    <nav class="admin-events-pagination" id="candidate-pagination" aria-label="Seitennavigation" hidden>
+      <button type="button" class="btn btn--outline" id="page-previous">Zurück</button>
+      <p id="page-status">Seite 1 von 1</p>
+      <button type="button" class="btn btn--outline" id="page-next">Weiter</button>
+    </nav>
   </main>
 
   <script src="/tools/admin-events.js"></script>

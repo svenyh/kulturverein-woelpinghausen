@@ -1,9 +1,11 @@
 (function () {
   'use strict';
 
+  const PAGE_SIZE = 50;
   const state = {
     groups: [],
     events: [],
+    page: 1,
     dirty: false,
     busy: false,
   };
@@ -13,12 +15,21 @@
     summary: document.getElementById('candidate-summary'),
     list: document.getElementById('candidate-list'),
     empty: document.getElementById('candidate-empty'),
+    year: document.getElementById('filter-year'),
     month: document.getElementById('filter-month'),
     organizer: document.getElementById('filter-organizer'),
     series: document.getElementById('filter-series'),
     importButton: document.getElementById('import-events'),
     saveButton: document.getElementById('save-selection'),
     publishButton: document.getElementById('publish-events'),
+    statLoaded: document.getElementById('stat-loaded'),
+    statVisible: document.getElementById('stat-visible'),
+    statSelected: document.getElementById('stat-selected'),
+    statSeries: document.getElementById('stat-series'),
+    pagination: document.getElementById('candidate-pagination'),
+    pagePrevious: document.getElementById('page-previous'),
+    pageNext: document.getElementById('page-next'),
+    pageStatus: document.getElementById('page-status'),
   };
 
   function setStatus(message, type) {
@@ -31,6 +42,7 @@
     elements.importButton.disabled = busy;
     elements.publishButton.disabled = busy || state.dirty;
     elements.saveButton.disabled = busy || !state.events.length || !state.dirty;
+    updatePaginationControls();
   }
 
   function organizationName(event) {
@@ -66,17 +78,21 @@
 
   function prepareFilters() {
     const months = state.groups.map((group) => group.month).filter(Boolean);
+    const years = Array.from(
+      new Set(state.events.map((event) => String(event.date || '').slice(0, 4)).filter(Boolean))
+    ).sort();
     const organizations = Array.from(new Set(state.events.map(organizationName)))
       .sort((a, b) => a.localeCompare(b, 'de'));
+    addOptions(elements.year, years);
     addOptions(elements.month, months);
     addOptions(elements.organizer, organizations);
   }
 
   function matchesFilters(event) {
-    const groupMonth = state.groups.find((group) => group.events.includes(event))?.month || '';
     const seriesValue = elements.series.value;
     return (
-      (!elements.month.value || groupMonth === elements.month.value) &&
+      (!elements.year.value || String(event.date || '').startsWith(elements.year.value)) &&
+      (!elements.month.value || event._month === elements.month.value) &&
       (!elements.organizer.value || organizationName(event) === elements.organizer.value) &&
       (!seriesValue || (seriesValue === 'yes') === isSeries(event))
     );
@@ -103,7 +119,7 @@
       event.showOnWebsite = checkbox.checked;
       state.dirty = true;
       setBusy(false);
-      updateSummary();
+      updateStats();
       setStatus('Ungespeicherte Änderungen vorhanden.', 'warning');
     });
     checkboxLabel.append(checkbox, document.createTextNode(' Auf Website anzeigen'));
@@ -146,17 +162,38 @@
     return state.events.filter(matchesFilters);
   }
 
-  function updateSummary() {
-    const visible = filteredEvents().length;
+  function updateStats(visibleEvents) {
+    const visible = visibleEvents || filteredEvents();
     const approved = state.events.filter((event) => event.showOnWebsite === true).length;
-    elements.summary.textContent = `${visible} von ${state.events.length} sichtbar | ${approved} zur Veröffentlichung ausgewählt`;
+    const series = state.events.filter(isSeries).length;
+    elements.statLoaded.textContent = String(state.events.length);
+    elements.statVisible.textContent = String(visible.length);
+    elements.statSelected.textContent = String(approved);
+    elements.statSeries.textContent = String(series);
+  }
+
+  function updatePaginationControls(visibleCount) {
+    const count = visibleCount == null ? filteredEvents().length : visibleCount;
+    const pageCount = Math.max(1, Math.ceil(count / PAGE_SIZE));
+    elements.pagination.hidden = count <= PAGE_SIZE;
+    elements.pagePrevious.disabled = state.busy || state.page <= 1;
+    elements.pageNext.disabled = state.busy || state.page >= pageCount;
+    elements.pageStatus.textContent = `Seite ${state.page} von ${pageCount}`;
   }
 
   function renderEvents() {
     const events = filteredEvents();
-    elements.list.replaceChildren(...events.map(createEventCard));
+    const pageCount = Math.max(1, Math.ceil(events.length / PAGE_SIZE));
+    state.page = Math.min(state.page, pageCount);
+    const pageStart = (state.page - 1) * PAGE_SIZE;
+    const pageEvents = events.slice(pageStart, pageStart + PAGE_SIZE);
+    elements.list.replaceChildren(...pageEvents.map(createEventCard));
     elements.empty.hidden = events.length > 0;
-    updateSummary();
+    elements.summary.textContent = events.length
+      ? `Seite ${state.page} von ${pageCount} · ${pageEvents.length} Termine auf dieser Seite`
+      : '0 Termine';
+    updateStats(events);
+    updatePaginationControls(events.length);
   }
 
   async function api(path, options) {
@@ -175,7 +212,12 @@
     try {
       const payload = await api('/api/candidates');
       state.groups = payload.groups || [];
-      state.events = state.groups.flatMap((group) => Array.isArray(group.events) ? group.events : []);
+      state.events = state.groups.flatMap((group) =>
+        Array.isArray(group.events)
+          ? group.events.map((event) => ({ ...event, _month: group.month || '' }))
+          : []
+      );
+      state.page = 1;
       state.dirty = false;
       prepareFilters();
       renderEvents();
@@ -241,8 +283,22 @@
     }
   }
 
-  [elements.month, elements.organizer, elements.series].forEach((select) => {
-    select.addEventListener('change', renderEvents);
+  [elements.year, elements.month, elements.organizer, elements.series].forEach((select) => {
+    select.addEventListener('change', () => {
+      state.page = 1;
+      renderEvents();
+    });
+  });
+  elements.pagePrevious.addEventListener('click', () => {
+    if (state.page <= 1) return;
+    state.page -= 1;
+    renderEvents();
+  });
+  elements.pageNext.addEventListener('click', () => {
+    const pageCount = Math.ceil(filteredEvents().length / PAGE_SIZE);
+    if (state.page >= pageCount) return;
+    state.page += 1;
+    renderEvents();
   });
   elements.importButton.addEventListener('click', importEvents);
   elements.saveButton.addEventListener('click', saveSelection);
