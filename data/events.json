@@ -1,1 +1,73 @@
-[]
+[
+  {
+    "month": "Juni 2026",
+    "events": [
+      {
+        "date": "2026-06-28",
+        "time": "00:00",
+        "title": "Tag der offenen Tür",
+        "location": "Naturfreundehaus Graf-Wilhelm",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061125-28050.html",
+        "organizer": "IR Graf Wilhelm"
+      }
+    ]
+  },
+  {
+    "month": "Juli 2026",
+    "events": [
+      {
+        "date": "2026-07-12",
+        "time": "15:30",
+        "title": "Königsschießen Finale + Grillfest",
+        "location": "Schützenhaus Wölpinghausen",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061130-28050.html",
+        "organizer": "Schützenverein Wölpinghausen"
+      },
+      {
+        "date": "2026-07-17",
+        "time": "16:45",
+        "title": "Schützenfest Wölpinghausen",
+        "location": "Festplatz Meeresblickstraße",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061131-28050.html",
+        "organizer": "Schützenverein Wölpinghausen"
+      },
+      {
+        "date": "2026-07-18",
+        "time": "14:00",
+        "title": "Kinderschützenfest",
+        "location": "Grüne Mitte, Festplatz",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061133-28050.html",
+        "organizer": "Schützenverein Wölpinghausen"
+      },
+      {
+        "date": "2026-07-19",
+        "time": "09:00",
+        "title": "Schützenfest Wölpinghausen",
+        "location": "Rottlokale",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061135-28050.html",
+        "organizer": "Schützenverein Wölpinghausen"
+      }
+    ]
+  },
+  {
+    "month": "September 2026",
+    "events": [
+      {
+        "date": "2026-09-12",
+        "time": "18:00",
+        "title": "Ernteparty",
+        "location": "Grüne Mitte",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061148-28050.html",
+        "organizer": "IG Erntefest Wölpinghausen"
+      },
+      {
+        "date": "2026-09-13",
+        "time": "10:00",
+        "title": "Erntefest mit Gottesdienst",
+        "location": "Grüne Mitte",
+        "sourceUrl": "https://www.sachsenhagen.de/regional/veranstaltungen/detail-900061149-28050.html",
+        "organizer": "IG Erntefest / Kirchengemeinde"
+      }
+    ]
+  }
+]

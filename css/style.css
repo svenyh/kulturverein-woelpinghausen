@@ -1012,6 +1012,14 @@ a.partner-card:hover .partner-card__cta {
     --header-height: 80px;
   }
 
+  body:not(.auth-page):not(.app-page) {
+    --header-height: 88px;
+  }
+
+  body:not(.auth-page):not(.app-page) .header__inner {
+    gap: 0.75rem;
+  }
+
   .section {
     padding-block: 5.5rem;
   }
@@ -1021,6 +1029,12 @@ a.partner-card:hover .partner-card__cta {
     width: 52px;
     height: 52px;
     padding: 4px;
+  }
+
+  body:not(.auth-page):not(.app-page) .header__logo img,
+  body:not(.auth-page):not(.app-page) .header__logo-img {
+    width: 60px;
+    height: 60px;
   }
 
   .footer__logo img,
@@ -1057,8 +1071,9 @@ a.partner-card:hover .partner-card__cta {
   }
 
   .nav__link {
-    font-size: 0.68rem;
-    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.5rem;
+    white-space: nowrap;
   }
 
   .about {
@@ -1105,9 +1120,21 @@ a.partner-card:hover .partner-card__cta {
    Large Desktop (≥ 1200px)
    -------------------------------------------------------------------------- */
 @media (min-width: 1200px) {
+  body:not(.auth-page):not(.app-page) .header__inner {
+    max-width: 1360px;
+  }
+
   .nav__link {
-    font-size: 0.72rem;
-    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.45rem;
+  }
+
+  body:not(.auth-page):not(.app-page) .header__logo-name {
+    font-size: 0.75rem;
+  }
+
+  body:not(.auth-page):not(.app-page) .header__logo-place {
+    font-size: 0.95rem;
   }
 
   .about__collage {
@@ -1508,6 +1535,17 @@ a.partner-card:hover .partner-card__cta {
     display: inline-flex;
   }
 
+  body:not(.auth-page):not(.app-page) .header__login {
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.74rem;
+  }
+
+  body:not(.auth-page):not(.app-page) .header__login svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
   .app-layout {
     grid-template-columns: 240px 1fr;
     max-width: 1200px;
@@ -1569,6 +1607,13 @@ a.partner-card:hover .partner-card__cta {
   align-items: center;
   justify-content: center;
   padding: clamp(4rem, 10svh, 7rem) var(--container-padding);
+}
+
+@media (min-width: 1200px) and (max-width: 1279px) {
+  body:not(.auth-page):not(.app-page) .header__logo-text,
+  body:not(.auth-page):not(.app-page) .header__instagram {
+    display: none;
+  }
 }
 
 .auth-card {
@@ -2119,8 +2164,8 @@ a.partner-card:hover .partner-card__cta {
   }
 
   .nav__link {
-    padding-inline: 0.45rem;
-    font-size: 0.64rem;
+    padding-inline: 0.25rem;
+    font-size: 0.68rem;
   }
 }
 
