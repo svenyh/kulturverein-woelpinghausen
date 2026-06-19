@@ -194,3 +194,9 @@ npm.cmd run admin:events
 ```
 
 Der Prototyp ist nicht für einen öffentlichen Server vorgesehen. Ohne spätere Authentifizierung und persistentes Backend darf er nicht als öffentlicher Admin-Bereich eingesetzt werden.
+
+## Cloudflare-Preview-Grundlage
+
+Unter `functions/` liegt die erste Pages-Functions-Grundlage für einen späteren Online-Adminbereich. Sie enthält derzeit nur eine öffentliche leere Event-API und einen durch Cloudflare Access zu schützenden Health-Endpunkt. Der bestehende Eventkalender verwendet weiterhin `data/events.json`.
+
+Die manuelle Einrichtung von D1, Migration, Access und Preview-Test ist hier dokumentiert: [`docs/cloudflare-admin-preview.md`](docs/cloudflare-admin-preview.md)

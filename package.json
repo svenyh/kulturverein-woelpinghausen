@@ -3,11 +3,18 @@
   "private": true,
   "scripts": {
     "admin:events": "node tools/event-admin-server.js",
+    "cf:dev": "wrangler pages dev . --port 8788",
+    "cf:d1:migrate:local": "wrangler d1 migrations apply kulturverein-events --local",
+    "cf:d1:migrate:remote": "wrangler d1 migrations apply kulturverein-events --remote",
     "events:test": "node tools/fetch-events-test.js",
     "events:publish": "node tools/publish-events.js",
     "events:selection": "node tools/create-event-selection.js"
   },
   "dependencies": {
+    "jose": "6.2.3",
     "node-ical": "0.26.1"
+  },
+  "devDependencies": {
+    "wrangler": "4.103.0"
   }
 }
