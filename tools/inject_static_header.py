@@ -7,8 +7,10 @@ ROOT = Path(__file__).resolve().parent.parent
 NAV = [
     ("startseite", "Startseite", "index.html"),
     ("termine", "Termine", "termine.html"),
+    ("eventkalender", "Eventkalender", "eventkalender.html"),
     ("ausfluege", "Ausflüge", "ausfluege.html"),
     ("galerie", "Galerie", "galerie.html"),
+    ("fotos-videos", "Fotos & Videos", "fotos-videos.html"),
     ("partnervereine", "Partnervereine", "partnervereine.html"),
     ("mitglied-werden", "Mitglied werden", "mitglied-werden.html"),
     ("kontakt", "Kontakt", "kontakt.html"),

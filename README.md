@@ -12,8 +12,10 @@ Offizielle Webseite des **Wölpinghausener Kulturverein** – modern, responsiv 
 |-------|--------|
 | `index.html` | Startseite (Hero, Über uns, Termine, Galerie, Partner) |
 | `termine.html` | Alle Termine |
+| `eventkalender.html` | Jahresübersicht wichtiger Veranstaltungen |
 | `ausfluege.html` | Ausflüge & Fahrten |
 | `galerie.html` | Fotogalerie mit Lightbox |
+| `fotos-videos.html` | Medienübersicht nach Veranstaltungen |
 | `partnervereine.html` | Partnervereine |
 | `mitglied-werden.html` | Mitgliedsanfrage |
 | `kontakt.html` | Kontakt |
