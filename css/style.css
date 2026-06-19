@@ -1568,7 +1568,7 @@ a.partner-card:hover .partner-card__cta {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem var(--container-padding) 4rem;
+  padding: clamp(4rem, 10svh, 7rem) var(--container-padding);
 }
 
 .auth-card {
