@@ -19,7 +19,6 @@
     { id: 'termine', label: 'Termine', href: 'termine.html' },
     { id: 'eventkalender', label: 'Eventkalender', href: 'eventkalender.html' },
     { id: 'ausfluege', label: 'Ausflüge', href: 'ausfluege.html' },
-    { id: 'galerie', label: 'Galerie', href: 'galerie.html' },
     { id: 'fotos-videos', label: 'Fotos & Videos', href: 'fotos-videos.html' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
     { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
