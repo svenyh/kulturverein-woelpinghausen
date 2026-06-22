@@ -82,7 +82,13 @@
             </section>
             <section class="media-event-card__section" aria-labelledby="koeln-videos">
               <h3 id="koeln-videos">Videos</h3>
-              <div class="media-placeholder media-placeholder--video"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Videos werden später ergänzt</p></div>
+              <div class="media-video" data-video-src="videos/koeln-2024.mp4">
+                <video class="media-video__player" controls playsinline preload="metadata" hidden aria-label="Video Köln 2024">
+                  <source src="videos/koeln-2024.mp4" type="video/mp4">
+                  Dein Browser unterstützt das Videoformat leider nicht.
+                </video>
+                <div class="media-video__placeholder"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Video bald verfügbar</p></div>
+              </div>
             </section>
           </div>
         </div>
@@ -110,7 +116,13 @@
             </section>
             <section class="media-event-card__section" aria-labelledby="duesseldorf-videos">
               <h3 id="duesseldorf-videos">Videos</h3>
-              <div class="media-placeholder media-placeholder--video"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Videos werden später ergänzt</p></div>
+              <div class="media-video" data-video-src="videos/duesseldorf-2025.mp4">
+                <video class="media-video__player" controls playsinline preload="metadata" hidden aria-label="Video Düsseldorf 2025">
+                  <source src="videos/duesseldorf-2025.mp4" type="video/mp4">
+                  Dein Browser unterstützt das Videoformat leider nicht.
+                </video>
+                <div class="media-video__placeholder"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Video bald verfügbar</p></div>
+              </div>
             </section>
           </div>
         </div>
@@ -138,7 +150,13 @@
             </section>
             <section class="media-event-card__section" aria-labelledby="leipzig-videos">
               <h3 id="leipzig-videos">Videos</h3>
-              <div class="media-placeholder media-placeholder--video"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Videos werden später ergänzt</p></div>
+              <div class="media-video" data-video-src="videos/leipzig-2026.mp4">
+                <video class="media-video__player" controls playsinline preload="metadata" hidden aria-label="Video Leipzig 2026">
+                  <source src="videos/leipzig-2026.mp4" type="video/mp4">
+                  Dein Browser unterstützt das Videoformat leider nicht.
+                </video>
+                <div class="media-video__placeholder"><span class="media-placeholder__play" aria-hidden="true">▶</span><p>Video bald verfügbar</p></div>
+              </div>
             </section>
           </div>
         </div>
@@ -148,5 +166,6 @@
 
   <div id="site-footer"></div>
   <script src="js/script.js"></script>
+  <script src="js/media-events.js"></script>
 </body>
 </html>

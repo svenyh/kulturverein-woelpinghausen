@@ -2180,11 +2180,6 @@ a.partner-card:hover .partner-card__cta {
   background: rgba(91, 15, 27, 0.08);
 }
 
-.media-placeholder--video {
-  gap: 0.65rem;
-  aspect-ratio: 16 / 9;
-}
-
 .media-placeholder__play {
   display: grid;
   place-items: center;
@@ -2195,6 +2190,47 @@ a.partner-card:hover .partner-card__cta {
   background: rgba(91, 15, 27, 0.12);
   color: var(--color-bordeaux);
   font-size: 0.85rem;
+}
+
+.media-video {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  min-height: 14rem;
+  border: 1px dashed rgba(91, 15, 27, 0.32);
+  border-radius: var(--radius-sm);
+  background: var(--color-cream);
+}
+
+.media-video__player {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 500px;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  background: #160509;
+}
+
+.media-video__player[hidden] {
+  display: none;
+}
+
+.media-video__placeholder {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-height: 14rem;
+  padding: 1rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.media-video__placeholder[hidden] {
+  display: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -2431,6 +2467,10 @@ a.partner-card:hover .partner-card__cta {
 
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .media-video__player {
+    max-height: none;
   }
 }
 
