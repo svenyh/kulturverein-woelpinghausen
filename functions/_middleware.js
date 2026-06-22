@@ -1,14 +1,6 @@
-import {
-  getAccessToken,
-  isAccessConfigured,
-  verifyAccessToken,
-} from './api/admin/_access.js';
+import { isAccessConfigured } from './api/admin/_access.js';
 import { applyAdminDevBypass } from './api/admin/_auth.js';
-import {
-  adminAuthRequiredResponse,
-  adminLockedResponse,
-  isAdminPath,
-} from './_admin-gate.js';
+import { adminLockedResponse, isAdminPath } from './_admin-gate.js';
 
 export async function onRequest(context) {
   const pathname = new URL(context.request.url).pathname;
@@ -25,14 +17,6 @@ export async function onRequest(context) {
     return adminLockedResponse(503);
   }
 
-  if (!getAccessToken(context.request)) {
-    return adminAuthRequiredResponse(401);
-  }
-
-  const accessPayload = await verifyAccessToken(context.request, context.env);
-  if (!accessPayload) {
-    return adminAuthRequiredResponse(403);
-  }
-
+  // Access ist am Edge aktiv: Authentifizierung dort, nicht in Functions.
   return context.next();
 }

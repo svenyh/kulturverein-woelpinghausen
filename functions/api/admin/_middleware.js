@@ -1,5 +1,5 @@
 import { applyAdminDevBypass } from './_auth.js';
-import { getAccessToken, isAccessConfigured, verifyAccessToken } from './_access.js';
+import { isAccessConfigured, verifyAccessToken } from './_access.js';
 
 function jsonResponse(payload, status) {
   return Response.json(payload, {
@@ -38,37 +38,11 @@ export async function onRequest(context) {
     return jsonResponse({ error: 'Online-Admin ist deaktiviert.' }, 503);
   }
 
-  if (!getAccessToken(request)) {
-    if (healthRequest) {
-      return jsonResponse(
-        {
-          ok: false,
-          status: 'unauthenticated',
-          reason: 'Cloudflare-Access-Token fehlt.',
-        },
-        401
-      );
-    }
-
-    return jsonResponse({ error: 'Nicht authentifiziert.' }, 401);
-  }
-
   const accessPayload = await verifyAccessToken(request, env);
-  if (!accessPayload) {
-    if (healthRequest) {
-      return jsonResponse(
-        {
-          ok: false,
-          status: 'forbidden',
-          reason: 'Cloudflare-Access-Token ist ungueltig.',
-        },
-        403
-      );
-    }
-
-    return jsonResponse({ error: 'Zugriff verweigert.' }, 403);
+  if (accessPayload) {
+    data.accessUser = { authenticated: true };
   }
 
-  data.accessUser = { authenticated: true };
+  // Access ist am Edge aktiv: Authentifizierung dort, nicht in Functions.
   return next();
 }
