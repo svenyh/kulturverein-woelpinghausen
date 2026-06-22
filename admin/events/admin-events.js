@@ -44,21 +44,24 @@
   function setApiOnline(online) {
     state.apiOnline = online;
     elements.offlineNotice.hidden = online;
+    updateActionButtons();
+  }
+
+  function updateActionButtons() {
+    elements.importButton.disabled = true;
+    elements.publishButton.disabled = state.busy || state.dirty || !state.apiOnline;
+    elements.saveButton.disabled = state.busy || !state.events.length || !state.dirty || !state.apiOnline;
+    updatePaginationControls();
   }
 
   function setBusy(busy) {
     state.busy = busy;
-    elements.importButton.disabled = true;
-    elements.publishButton.disabled = true;
-    elements.saveButton.disabled = busy || !state.events.length || !state.dirty || !state.apiOnline;
-    updatePaginationControls();
+    updateActionButtons();
   }
 
   function configurePendingActions() {
     elements.importButton.disabled = true;
     elements.importButton.title = `Import ${PREPARE_MESSAGE}`;
-    elements.publishButton.disabled = true;
-    elements.publishButton.title = `Veröffentlichung ${PREPARE_MESSAGE}`;
   }
 
   function organizationName(event) {
@@ -285,7 +288,20 @@
   }
 
   async function publishEvents() {
-    setStatus('Veröffentlichung wird vorbereitet.', 'info');
+    setBusy(true);
+    setStatus('Eventkalender wird veröffentlicht...');
+    try {
+      const payload = await api('/api/admin/publish', { method: 'POST' });
+      setStatus(payload.message, 'success');
+    } catch (error) {
+      if (error.message === OFFLINE_MESSAGE) {
+        handleOffline(OFFLINE_MESSAGE);
+      } else {
+        setStatus(error.message, 'error');
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function saveSelection() {

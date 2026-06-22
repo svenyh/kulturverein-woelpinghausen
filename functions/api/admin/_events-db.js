@@ -118,3 +118,72 @@ export async function updateSelections(db, selections) {
 
   await db.batch(statements);
 }
+
+export function rowToPublicEvent(row) {
+  return {
+    date: row.event_date,
+    time: row.event_time || null,
+    title: row.title,
+    location: row.location || null,
+    sourceUrl: row.source_url || null,
+    organizer: row.organizer || null,
+  };
+}
+
+export function groupPublishedEventsByMonth(rows) {
+  const groups = [];
+  const groupsByMonth = new Map();
+
+  for (const row of rows) {
+    const event = rowToPublicEvent(row);
+    const month = monthLabel(event.date);
+
+    if (!groupsByMonth.has(month)) {
+      const group = { month, events: [] };
+      groupsByMonth.set(month, group);
+      groups.push(group);
+    }
+
+    groupsByMonth.get(month).events.push(event);
+  }
+
+  return groups;
+}
+
+export async function listPublishedEventRows(db) {
+  const result = await db
+    .prepare(
+      `SELECT event_date, event_time, title, location, source_url, organizer
+       FROM events
+       WHERE source_status = 'active' AND published_on_website = 1
+       ORDER BY event_date ASC, COALESCE(event_time, '') ASC, title ASC`
+    )
+    .all();
+
+  return result.results || [];
+}
+
+export async function publishSelectedEvents(db) {
+  await db
+    .prepare(
+      `UPDATE events
+       SET published_on_website = selected_for_website,
+           published_at = CASE
+             WHEN selected_for_website = 1 THEN CURRENT_TIMESTAMP
+             ELSE NULL
+           END,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE source_status = 'active'`
+    )
+    .run();
+
+  const countResult = await db
+    .prepare(
+      `SELECT COUNT(*) AS count
+       FROM events
+       WHERE source_status = 'active' AND published_on_website = 1`
+    )
+    .first();
+
+  return Number(countResult?.count || 0);
+}
