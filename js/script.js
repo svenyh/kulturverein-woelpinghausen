@@ -16,7 +16,6 @@
 
   const NAV = [
     { id: 'startseite', label: 'Startseite', href: 'index.html' },
-    { id: 'termine', label: 'Termine', href: 'termine.html' },
     { id: 'eventkalender', label: 'Eventkalender', href: 'eventkalender.html' },
     { id: 'ausfluege', label: 'Ausflüge', href: 'ausfluege.html' },
     { id: 'fotos-videos', label: 'Fotos & Videos', href: 'fotos-videos.html' },
