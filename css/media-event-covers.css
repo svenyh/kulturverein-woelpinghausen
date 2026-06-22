@@ -16,6 +16,18 @@
   display: none;
 }
 
+.media-event-card__cover-image[hidden] {
+  display: none;
+}
+
+.media-event-card__cover--has-image .media-event-card__cover-placeholder {
+  display: none;
+}
+
+.media-event-card[id] {
+  scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
 @media (min-width: 1100px) {
   .media-event-card {
     grid-template-columns: 320px minmax(0, 1fr);

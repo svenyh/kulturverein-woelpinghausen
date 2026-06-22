@@ -241,15 +241,16 @@
   }
 
   function initForms() {
-    document.querySelectorAll('[data-form-notice]').forEach((form) => {
+    document.querySelectorAll('form[data-form-notice]:not([data-form-disabled])').forEach((form) => {
       form.addEventListener('submit', (e) => {
         e.preventDefault();
         const notice = form.querySelector('.form-notice') || document.getElementById(form.dataset.formNotice);
         if (notice) {
           notice.hidden = false;
-          notice.textContent = form.dataset.successMessage || 'Vielen Dank! Die digitale Verarbeitung wird in Kürze freigeschaltet.';
+          notice.textContent =
+            form.dataset.pendingMessage ||
+            'Online-Versand folgt später. Deine Eingabe wurde nicht übermittelt.';
         }
-        form.reset();
       });
     });
   }

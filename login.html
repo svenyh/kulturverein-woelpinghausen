@@ -3,23 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login – Kulturverein Wölpinghausen</title>
+  <meta name="description" content="Der Mitgliederbereich des Kulturverein Wölpinghausen ist in Vorbereitung.">
+  <title>Mitgliederbereich – Kulturverein Wölpinghausen</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
 </head>
 <body class="auth-page">
-  <header class="header"><div class="container header__inner"><a href="index.html" class="header__logo"><img src="images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52"><span class="header__logo-text"><span class="header__logo-name">Kulturverein</span><span class="header__logo-place">Wölpinghausen</span></span></a><a href="index.html" class="header__login">Zur Webseite</a></div></header>
+  <header class="header">
+    <div class="container header__inner">
+      <a href="index.html" class="header__logo">
+        <img src="images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
+        <span class="header__logo-text">
+          <span class="header__logo-name">Kulturverein</span>
+          <span class="header__logo-place">Wölpinghausen</span>
+        </span>
+      </a>
+      <a href="index.html" class="header__login">Zur Webseite</a>
+    </div>
+  </header>
   <main class="auth-main">
     <div class="auth-card">
-      <h1 class="auth-card__title">Mitglieder-Login</h1>
-      <p class="auth-card__subtitle">Der Mitgliederlogin ist in Vorbereitung und wird demnächst freigeschaltet.</p>
-      <form data-form-notice="login-notice" data-success-message="Login-Funktion folgt in Kürze. Du wirst zum Mitgliederbereich weitergeleitet.">
-        <div class="form-group"><label for="email">E-Mail</label><input type="email" id="email" required autocomplete="email"></div>
-        <div class="form-group"><label for="password">Passwort</label><input type="password" id="password" required autocomplete="current-password"></div>
-        <div class="form-actions"><button type="submit" class="btn btn--primary">Anmelden</button></div>
-        <div class="form-notice" id="login-notice" hidden></div>
-      </form>
-      <p class="form-footer"><a href="registrierung.html">Mitgliedsanfrage stellen</a> · <a href="mitgliederbereich.html">Mitgliederbereich (Vorschau)</a></p>
+      <h1 class="auth-card__title">Mitgliederbereich in Vorbereitung</h1>
+      <p class="auth-card__subtitle">Login, Terminanmeldungen und interne Inhalte werden später freigeschaltet. Bis dahin findest du Termine, Ausflüge und Kontaktmöglichkeiten auf der öffentlichen Webseite.</p>
+      <div class="form-notice" role="status">Der Mitglieder-Login ist noch nicht verfügbar. Es ist derzeit keine Anmeldung möglich.</div>
+      <div class="form-actions" style="margin-top:1.5rem;">
+        <a href="eventkalender.html" class="btn btn--primary">Zum Eventkalender</a>
+        <a href="mitglied-werden.html" class="btn btn--outline" style="margin-top:0.75rem;color:var(--color-bordeaux);border-color:var(--color-bordeaux);">Mitglied werden</a>
+      </div>
+      <p class="form-footer">Fragen? <a href="kontakt.html">Kontakt aufnehmen</a></p>
     </div>
   </main>
   <script src="js/script.js"></script>

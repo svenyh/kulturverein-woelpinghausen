@@ -63,13 +63,11 @@
       </div>
       <div class="auth-card" style="box-shadow:var(--shadow-md);">
         <h2 class="auth-card__title">Nachricht senden</h2>
-        <form data-form-notice="contact-notice">
-          <div class="form-group"><label for="cname">Name</label><input type="text" id="cname" required></div>
-          <div class="form-group"><label for="cemail">E-Mail</label><input type="email" id="cemail" required></div>
-          <div class="form-group"><label for="cmsg">Nachricht</label><textarea id="cmsg" rows="4" required></textarea></div>
-          <div class="form-actions"><button type="submit" class="btn btn--primary">Absenden</button></div>
-          <div class="form-notice" id="contact-notice" hidden></div>
-        </form>
+        <p class="auth-card__subtitle">Das Kontaktformular ist noch nicht angebunden. Bitte wende dich vorerst direkt an das Organisationsteam oder über Instagram.</p>
+        <div class="form-notice" role="status">Online-Versand folgt später. Deine Nachricht wird hier noch nicht übermittelt.</div>
+        <div class="form-actions" style="margin-top:1.25rem;">
+          <a href="#" data-instagram-link class="btn btn--primary">Über Instagram schreiben</a>
+        </div>
       </div>
     </div>
   </main>

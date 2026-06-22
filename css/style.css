@@ -2272,6 +2272,7 @@ a.partner-card:hover .partner-card__cta {
 }
 
 .media-video {
+  position: relative;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -2289,6 +2290,15 @@ a.partner-card:hover .partner-card__cta {
   aspect-ratio: 9 / 16;
   object-fit: contain;
   background: #160509;
+}
+
+.media-video:not(.media-video--ready) .media-video__player {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .media-video__player[hidden] {
