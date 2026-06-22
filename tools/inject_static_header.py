@@ -10,7 +10,7 @@ NAV = [
     ("eventkalender", "Eventkalender", "eventkalender.html"),
     ("ausfluege", "Ausflüge", "ausfluege.html"),
     ("galerie", "Galerie", "galerie.html"),
-    ("fotos-videos", "Fotos & Videos", "fotos-videos.html"),
+    ("fotos-videos", "Fotos & Videos", "veranstaltungen/"),
     ("partnervereine", "Partnervereine", "partnervereine.html"),
     ("mitglied-werden", "Mitglied werden", "mitglied-werden.html"),
     ("kontakt", "Kontakt", "kontakt.html"),
