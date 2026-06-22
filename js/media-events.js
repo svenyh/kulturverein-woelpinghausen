@@ -1,6 +1,23 @@
 (function () {
   'use strict';
 
+  document.querySelectorAll('[data-event-cover]').forEach((image) => {
+    const showCover = () => {
+      image.hidden = false;
+    };
+
+    const showFallback = () => {
+      image.hidden = true;
+    };
+
+    image.addEventListener('load', showCover, { once: true });
+    image.addEventListener('error', showFallback);
+
+    if (image.complete) {
+      image.naturalWidth > 0 ? showCover() : showFallback();
+    }
+  });
+
   document.querySelectorAll('.media-video[data-video-src]').forEach((container) => {
     const video = container.querySelector('.media-video__player');
     const placeholder = container.querySelector('.media-video__placeholder');
