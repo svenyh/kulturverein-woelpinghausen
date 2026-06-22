@@ -2,6 +2,12 @@
 
 Diese Grundlage ergänzt Pages Functions, eine D1-Migration und einen durch Cloudflare Access prüfbaren Health-Endpunkt. Der öffentliche Eventkalender liest weiterhin `data/events.json`. Import, Kandidatenverwaltung und Veröffentlichung bleiben in diesem Schritt lokal.
 
+## Deployment-Modus
+
+Die Preview muss aus einem **Cloudflare Pages-Projekt mit Git-Integration** entstehen. Im Dashboard bleiben **Build command** und **Deploy command** leer; als **Build output directory** wird `.` verwendet. Cloudflare veröffentlicht die Pages-Ausgabe nach einem Push automatisch.
+
+Ein Workers-Deploy-Command ist für diese Struktur nicht geeignet. `wrangler.jsonc` kennzeichnet das Projekt mit `pages_build_output_dir` ausdrücklich als Pages-Projekt.
+
 ## Enthaltene Endpunkte
 
 - `GET /api/events` liefert vorerst immer `[]`.

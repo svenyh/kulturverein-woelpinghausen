@@ -40,9 +40,16 @@ GitHub Pages wird automatisch nach jedem Push auf `main` neu deployed.
 | Production branch | `main` |
 | Framework preset | **None** |
 | Build command | *(leer lassen)* |
-| Build output directory | *(leer lassen)* |
+| Build output directory | `.` |
+| Deploy command | *(leer lassen)* |
 
-> Bei reinem HTML/CSS/JS im Root-Verzeichnis kein Build nötig. Cloudflare liefert die Dateien direkt aus dem Repository.
+> Bei reinem HTML/CSS/JS im Root-Verzeichnis ist kein Build nötig. Cloudflare Pages veröffentlicht den Repository-Root nach dem Git-Build automatisch.
+
+### Pages statt Workers Builds
+
+Für dieses Repository darf kein Workers-Deploy-Command konfiguriert sein. Insbesondere `wrangler deploy` erwartet einen Worker-Einstiegspunkt und passt nicht zur vorhandenen Pages-Functions-Struktur.
+
+Falls im Cloudflare-Dashboard ein Pflichtfeld **Deploy command** mit einem Workers-Befehl erscheint, ist das Projekt als Workers-Build angelegt. In diesem Fall ein neues Projekt über **Workers & Pages → Create → Pages → Connect to Git** erstellen. Bei einem Git-integrierten Pages-Projekt bleiben sowohl **Build command** als auch **Deploy command** leer; der Ausgabeordner ist `.`.
 
 ### Schritt 3: Deploy starten
 
@@ -72,6 +79,8 @@ npx wrangler login
 npx wrangler pages project create kulturverein-woelpinghausen --production-branch main
 npx wrangler pages deploy . --project-name=kulturverein-woelpinghausen --branch=main
 ```
+
+Dieser manuelle Pages-Upload ist nur eine Alternative zur Git-Integration. Nicht beide Deployment-Wege gleichzeitig konfigurieren.
 
 ---
 

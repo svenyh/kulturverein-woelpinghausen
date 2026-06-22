@@ -74,9 +74,12 @@ Nach jedem Push auf `main` wird automatisch neu deployed (ca. 1–2 Minuten).
 | URL (nach Einrichtung) | https://kulturverein-woelpinghausen.pages.dev |
 | Branch | `main` |
 | Build command | *(leer – kein Build nötig)* |
-| Output directory | *(leer – Root `/`)* |
+| Build output directory | `.` *(statischer Repository-Root)* |
+| Deploy command | *(leer – Pages deployt nach dem Git-Build automatisch)* |
 
 **Einrichtung:** Cloudflare Dashboard → Workers & Pages → Create → Connect to Git → Repository `svenyh/kulturverein-woelpinghausen` → Framework: **None** → Deploy.
+
+Wichtig: Das Repository muss als **Pages-Projekt** verbunden sein. Ein Workers-Deploy-Command ist hier falsch. Wenn das Dashboard zwingend einen Deploy-Command wie `wrangler deploy` verlangt, wurde ein Workers-Build statt eines Pages-Projekts angelegt.
 
 Vollständige Schritte: [`docs/deployment.md`](docs/deployment.md)
 
