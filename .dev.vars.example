@@ -1,0 +1,4 @@
+# Nur fuer lokales `wrangler pages dev`.
+# 1. Nach `.dev.vars` kopieren (Datei ist gitignored).
+# 2. Niemals ADMIN_DEV_BYPASS=true in Cloudflare Pages Production setzen.
+ADMIN_DEV_BYPASS=true

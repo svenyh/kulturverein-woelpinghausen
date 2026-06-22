@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "include": [
+    "/api/*",
+    "/admin",
+    "/admin/*",
+    "/admin.html",
+    "/tools/admin-events.html",
+    "/tools/admin-events.js",
+    "/tools/admin-events.css"
+  ],
+  "exclude": []
+}

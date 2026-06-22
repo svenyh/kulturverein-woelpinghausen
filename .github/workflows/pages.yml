@@ -24,13 +24,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Prepare public artifact
+        run: |
+          mkdir -p _site
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude 'admin/' \
+            --exclude 'tools/admin-events.html' \
+            --exclude 'tools/admin-events.js' \
+            --exclude 'tools/admin-events.css' \
+            --exclude 'deploy/' \
+            --exclude 'node_modules/' \
+            --exclude '.wrangler/' \
+            --exclude '_site/' \
+            ./ _site/
+          cp deploy/github-pages/admin.html _site/admin.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

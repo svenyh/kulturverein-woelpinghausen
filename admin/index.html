@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kulturverein Wölpinghausen – Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
+  <style>
+    .admin-home-main {
+      max-width: 1200px;
+      margin-inline: auto;
+    }
+
+    .admin-module-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .admin-module-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .admin-module-link .app-card {
+      height: 100%;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+
+    .admin-module-link:hover .app-card,
+    .admin-module-link:focus-visible .app-card {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(91, 15, 27, 0.18);
+    }
+
+    .admin-module-card {
+      height: 100%;
+    }
+
+    .admin-module-card--soon {
+      opacity: 0.72;
+    }
+
+    .admin-module-badge {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .admin-module-badge--active {
+      background: rgba(40, 117, 79, 0.12);
+      color: #28754f;
+    }
+
+    .admin-module-badge--soon {
+      background: rgba(91, 15, 27, 0.08);
+      color: var(--color-bordeaux-light);
+    }
+
+    @media (min-width: 640px) {
+      .admin-module-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 992px) {
+      .admin-module-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body class="app-page admin-home-page">
+  <div class="app-banner"><strong>Admin</strong> – Verwaltungsbereich für den Vorstand</div>
+  <header class="header admin-home-header">
+    <div class="container header__inner">
+      <a href="/admin/" class="header__logo" aria-label="Admin-Startseite">
+        <img src="/images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
+        <span class="header__logo-text">
+          <span class="header__logo-name">Kulturverein</span>
+          <span class="header__logo-place">Admin</span>
+        </span>
+      </a>
+      <a href="/eventkalender.html" class="btn btn--outline">Zur Webseite</a>
+    </div>
+  </header>
+
+  <main class="app-content admin-home-main">
+    <h1 class="app-content__title">Kulturverein Wölpinghausen – Admin</h1>
+    <p class="app-content__lead">Verwaltung der Webseiten-Inhalte. Derzeit ist nur der Eventkalender als Modul verfügbar.</p>
+
+    <div class="admin-module-grid">
+      <a href="/admin/events/" class="admin-module-link">
+        <article class="app-card">
+          <p class="app-card__label">Veranstaltungen</p>
+          <p class="app-card__value">Eventkalender verwalten</p>
+          <p class="app-card__text">Termine laden, prüfen und für die Webseite freigeben.</p>
+          <span class="admin-module-badge admin-module-badge--active">Aktiv</span>
+        </article>
+      </a>
+
+      <article class="app-card admin-module-card admin-module-card--soon" aria-disabled="true">
+        <p class="app-card__label">Medien</p>
+        <p class="app-card__value">Fotos &amp; Videos</p>
+        <p class="app-card__text">Bilder und Videos für die Webseite pflegen.</p>
+        <span class="admin-module-badge admin-module-badge--soon">Demnächst</span>
+      </article>
+
+      <article class="app-card admin-module-card admin-module-card--soon" aria-disabled="true">
+        <p class="app-card__label">Netzwerk</p>
+        <p class="app-card__value">Partnervereine</p>
+        <p class="app-card__text">Partnervereine und Verlinkungen verwalten.</p>
+        <span class="admin-module-badge admin-module-badge--soon">Demnächst</span>
+      </article>
+
+      <article class="app-card admin-module-card admin-module-card--soon" aria-disabled="true">
+        <p class="app-card__label">Verein</p>
+        <p class="app-card__value">Mitglieder</p>
+        <p class="app-card__text">Mitgliederverwaltung und interne Bereiche.</p>
+        <span class="admin-module-badge admin-module-badge--soon">Demnächst</span>
+      </article>
+
+      <article class="app-card admin-module-card admin-module-card--soon" aria-disabled="true">
+        <p class="app-card__label">System</p>
+        <p class="app-card__value">Einstellungen</p>
+        <p class="app-card__text">Allgemeine Admin-Einstellungen und Zugriffe.</p>
+        <span class="admin-module-badge admin-module-badge--soon">Demnächst</span>
+      </article>
+    </div>
+  </main>
+</body>
+</html>

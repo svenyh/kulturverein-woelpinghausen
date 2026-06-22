@@ -2,5 +2,17 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "kulturverein-woelpinghausen",
   "compatibility_date": "2026-06-19",
-  "pages_build_output_dir": "."
+  "pages_build_output_dir": ".",
+  // Leer lassen: nur lokal via .dev.vars auf "true" setzen (Development-only).
+  "vars": {
+    "ADMIN_DEV_BYPASS": ""
+  },
+  // D1-Binding für den Event-Admin (database_id aus `wrangler d1 create`).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "kulturverein-events",
+      "database_id": "b16fed5f-99fb-49fe-81c9-b88aa67823df"
+    }
+  ]
 }

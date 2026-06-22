@@ -1,9 +1,9 @@
-export function onRequestGet(context) {
+export function onRequestGet() {
   return Response.json(
     {
       ok: true,
-      service: 'event-admin-preview',
-      authenticated: Boolean(context.data.accessUser),
+      status: 'ready',
+      service: 'event-admin',
     },
     {
       headers: {

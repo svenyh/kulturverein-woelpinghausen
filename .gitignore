@@ -6,6 +6,7 @@ data/events-candidates-review.md
 data/events-selection.md
 data/events-selection-grouped.md
 .env
+.dev.vars
 *.log
 .DS_Store
 Thumbs.db
