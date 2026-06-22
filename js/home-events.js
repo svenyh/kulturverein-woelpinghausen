@@ -94,13 +94,35 @@
       .map(({ event }) => event);
   }
 
-  fetch('data/events.json', { cache: 'no-store' })
-    .then((response) => {
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      return response.json();
-    })
+  function hasVisibleGroups(groups) {
+    return (
+      Array.isArray(groups) &&
+      groups.some((group) => group && Array.isArray(group.events) && group.events.length > 0)
+    );
+  }
+
+  async function loadEventGroups() {
+    try {
+      const apiResponse = await fetch('/api/events', { cache: 'no-store' });
+      if (apiResponse.ok) {
+        const apiGroups = await apiResponse.json();
+        if (hasVisibleGroups(apiGroups)) {
+          return apiGroups;
+        }
+      }
+    } catch {
+      // Fallback auf data/events.json.
+    }
+
+    const jsonResponse = await fetch('data/events.json', { cache: 'no-store' });
+    if (!jsonResponse.ok) throw new Error(`HTTP ${jsonResponse.status}`);
+    const jsonGroups = await jsonResponse.json();
+    return Array.isArray(jsonGroups) ? jsonGroups : [];
+  }
+
+  loadEventGroups()
     .then((groups) => {
-      const events = upcomingEvents(Array.isArray(groups) ? groups : []);
+      const events = upcomingEvents(groups);
       if (!events.length) {
         status.textContent = EMPTY_MESSAGE;
         return;
