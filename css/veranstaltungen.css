@@ -1,0 +1,194 @@
+/* Öffentliche Veranstaltungsseiten – mobile first */
+.veranstaltungen-status {
+  margin: 0 0 1.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.veranstaltungen-list {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.veranstaltungen-card {
+  display: grid;
+  overflow: hidden;
+  background: var(--color-white);
+  border: 1px solid rgba(91, 15, 27, 0.08);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.veranstaltungen-card__cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--color-bordeaux-dark);
+  overflow: hidden;
+}
+
+.veranstaltungen-card__cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.veranstaltungen-card__cover-placeholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 1.5rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+  text-align: center;
+}
+
+.veranstaltungen-card__body {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.veranstaltungen-card__year {
+  margin: 0;
+  color: var(--color-bordeaux);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.veranstaltungen-card__title {
+  margin: 0.15rem 0 0;
+  color: var(--color-bordeaux);
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.veranstaltungen-card__description {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.veranstaltungen-card__actions {
+  margin-top: 0.25rem;
+}
+
+.veranstaltungen-detail-back {
+  margin-bottom: 1.25rem;
+}
+
+.veranstaltungen-detail-back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-bordeaux);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.veranstaltungen-detail-back a:hover {
+  text-decoration: underline;
+}
+
+.veranstaltungen-detail-hero {
+  margin-bottom: 1.5rem;
+}
+
+.veranstaltungen-detail-cover {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-top: 1rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bordeaux-dark);
+}
+
+.veranstaltungen-detail-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.veranstaltungen-detail-description {
+  margin: 0 0 1.5rem;
+  padding: 1rem;
+  border-left: 3px solid rgba(91, 15, 27, 0.28);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--color-cream);
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.veranstaltungen-detail-section {
+  margin-bottom: 1.75rem;
+}
+
+.veranstaltungen-detail-section h2 {
+  margin-bottom: 0.85rem;
+  color: var(--color-bordeaux);
+  font-size: 1.05rem;
+}
+
+.veranstaltungen-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.veranstaltungen-gallery__item {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.veranstaltungen-gallery__item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.veranstaltungen-video {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: #111;
+}
+
+.veranstaltungen-video video {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+}
+
+.veranstaltungen-empty {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 640px) {
+  .veranstaltungen-gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .veranstaltungen-card {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+
+  .veranstaltungen-card__cover {
+    min-height: 100%;
+  }
+
+  .veranstaltungen-gallery {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

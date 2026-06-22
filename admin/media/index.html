@@ -9,7 +9,7 @@
   <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
 </head>
 <body class="app-page admin-media-page">
-  <div class="app-banner"><strong>Fotos &amp; Medien</strong> – Coverbilder und Videos pflegen</div>
+  <div class="app-banner"><strong>Fotos &amp; Medien</strong> – Medien-CMS</div>
   <header class="header admin-media-header">
     <div class="container header__inner">
       <a href="/admin/" class="header__logo" aria-label="Zur Admin-Startseite">
@@ -19,7 +19,7 @@
           <span class="header__logo-place">Fotos &amp; Medien</span>
         </span>
       </a>
-      <a href="/eventkalender.html" class="btn btn--outline">Zur Webseite</a>
+      <a href="/veranstaltungen/" class="btn btn--outline">Öffentliche Vorschau</a>
     </div>
   </header>
 
@@ -28,12 +28,12 @@
       <div>
         <p class="admin-media-kicker">Medien</p>
         <h1 id="page-title" class="app-content__title">Fotos &amp; Medien</h1>
-        <p class="app-content__lead">Medien für Veranstaltungen prüfen und Metadaten pflegen. Dateien werden aktuell über Git/Cursor eingepflegt.</p>
+        <p class="app-content__lead">Metadaten, Galerie-Pfade und Sichtbarkeit für Veranstaltungen pflegen. Datei-Upload folgt später.</p>
       </div>
     </section>
 
     <aside class="admin-media-notice" aria-label="Hinweise zur Medienpflege">
-      <p><strong>Datei-Upload folgt später.</strong> Beschreibungen, Notizen und Pfade werden serverseitig gespeichert. Binärdateien noch nicht.</p>
+      <p><strong>Datei-Upload folgt später.</strong> Texte, Pfade und Galerie-Einträge werden in D1 gespeichert. Binärdateien weiterhin über Git/Cursor.</p>
     </aside>
 
     <p class="admin-media-status" id="media-status" role="status" aria-live="polite">Medien werden geladen …</p>
@@ -72,11 +72,25 @@
             <dt>Jahr</dt>
             <dd id="media-edit-year">–</dd>
           </div>
+          <div class="admin-media-meta__row">
+            <dt>Slug</dt>
+            <dd><code id="media-edit-slug">–</code></dd>
+          </div>
         </dl>
 
         <div class="form-group">
+          <label for="media-edit-title-input">Titel</label>
+          <input type="text" id="media-edit-title-input" required>
+        </div>
+
+        <div class="form-group">
+          <label for="media-edit-seo-title">SEO-Titel</label>
+          <input type="text" id="media-edit-seo-title" placeholder="Optionaler Seitentitel für Suchmaschinen">
+        </div>
+
+        <div class="form-group">
           <label for="media-edit-description">Beschreibung</label>
-          <textarea id="media-edit-description" rows="3" placeholder="Öffentliche Beschreibung für diesen Medienbereich …"></textarea>
+          <textarea id="media-edit-description" rows="3" placeholder="Öffentliche Beschreibung …"></textarea>
         </div>
 
         <div class="form-group">
@@ -91,9 +105,30 @@
 
         <div class="form-group">
           <label for="media-edit-note">Notiz / Beschreibung intern</label>
-          <textarea id="media-edit-note" rows="4" placeholder="Interne Notiz für den Vorstand …"></textarea>
-          <p class="admin-media-field-hint">Interne Notiz – nur im Admin sichtbar, serverseitig gespeichert.</p>
+          <textarea id="media-edit-note" rows="3" placeholder="Interne Notiz für den Vorstand …"></textarea>
+          <p class="admin-media-field-hint">Nur im Admin sichtbar, serverseitig in D1 gespeichert.</p>
         </div>
+
+        <div class="admin-media-checkboxes">
+          <label class="admin-media-checkbox">
+            <input type="checkbox" id="media-edit-show-website">
+            Auf Webseite anzeigen
+          </label>
+          <label class="admin-media-checkbox">
+            <input type="checkbox" id="media-edit-show-archive">
+            Im Rückblick anzeigen
+          </label>
+        </div>
+
+        <section class="admin-media-gallery" aria-labelledby="media-gallery-title">
+          <div class="admin-media-gallery__header">
+            <h3 id="media-gallery-title">Fotogalerie</h3>
+            <button type="button" class="btn btn--outline" id="media-gallery-add">Bild hinzufügen</button>
+          </div>
+          <p class="admin-media-field-hint">Bildpfade manuell pflegen. Upload folgt später.</p>
+          <ul class="admin-media-gallery__list" id="media-gallery-list"></ul>
+          <p class="admin-media-gallery__empty" id="media-gallery-empty" hidden>Noch keine Galerie-Bilder hinterlegt.</p>
+        </section>
 
         <p class="admin-media-dialog__hint"><strong>Datei-Upload folgt später.</strong> Medien-Dateien werden derzeit über Git/Cursor eingepflegt.</p>
 

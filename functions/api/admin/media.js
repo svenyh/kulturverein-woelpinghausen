@@ -1,7 +1,7 @@
 import { getMediaEventById, listMediaEvents, updateMediaEvent } from './_media-db.js';
 import { requireAdminAccess } from './_require-access.js';
 
-const MAX_BODY_BYTES = 64 * 1024;
+const MAX_BODY_BYTES = 128 * 1024;
 
 function jsonResponse(payload, status) {
   return Response.json(payload, {
@@ -23,13 +23,13 @@ async function readJsonBody(request) {
   return JSON.parse(text);
 }
 
-function normalizePath(value, fieldName) {
+function normalizePath(value, fieldName, { allowEmpty = false } = {}) {
   if (typeof value !== 'string') {
     return { error: `${fieldName} muss ein Text sein.`, status: 400 };
   }
 
   const trimmed = value.trim();
-  if (!trimmed) {
+  if (!trimmed && !allowEmpty) {
     return { error: `${fieldName} darf nicht leer sein.`, status: 400 };
   }
 
@@ -37,7 +37,37 @@ function normalizePath(value, fieldName) {
     return { error: `${fieldName} ist ungueltig.`, status: 400 };
   }
 
+  if (!trimmed) {
+    return { value: '' };
+  }
+
   return { value: trimmed.startsWith('/') ? trimmed : `/${trimmed}` };
+}
+
+function validateGallery(value) {
+  if (!Array.isArray(value)) {
+    return { error: 'gallery muss eine Liste sein.', status: 400 };
+  }
+
+  const gallery = [];
+  for (const item of value) {
+    const normalized = normalizePath(item, 'gallery');
+    if (normalized.error) {
+      return normalized;
+    }
+    if (normalized.value) {
+      gallery.push(normalized.value);
+    }
+  }
+
+  return { gallery };
+}
+
+function validateBoolean(value, fieldName) {
+  if (typeof value !== 'boolean') {
+    return { error: `${fieldName} muss true oder false sein.`, status: 400 };
+  }
+  return { value };
 }
 
 function validateSaveBody(body) {
@@ -45,8 +75,16 @@ function validateSaveBody(body) {
     return { error: 'id fehlt.', status: 400 };
   }
 
+  if (typeof body.title !== 'string' || !body.title.trim()) {
+    return { error: 'title fehlt.', status: 400 };
+  }
+
   if (typeof body.description !== 'string') {
     return { error: 'description muss ein Text sein.', status: 400 };
+  }
+
+  if (typeof body.seoTitle !== 'string') {
+    return { error: 'seoTitle muss ein Text sein.', status: 400 };
   }
 
   if (typeof body.internalNote !== 'string') {
@@ -56,16 +94,30 @@ function validateSaveBody(body) {
   const coverPath = normalizePath(body.coverPath, 'coverPath');
   if (coverPath.error) return coverPath;
 
-  const videoPath = normalizePath(body.videoPath, 'videoPath');
+  const videoPath = normalizePath(body.videoPath, 'videoPath', { allowEmpty: true });
   if (videoPath.error) return videoPath;
+
+  const gallery = validateGallery(body.gallery);
+  if (gallery.error) return gallery;
+
+  const showOnWebsite = validateBoolean(body.showOnWebsite, 'showOnWebsite');
+  if (showOnWebsite.error) return showOnWebsite;
+
+  const showInArchive = validateBoolean(body.showInArchive, 'showInArchive');
+  if (showInArchive.error) return showInArchive;
 
   return {
     payload: {
       id: body.id.trim(),
+      title: body.title.trim(),
       description: body.description.trim(),
+      seoTitle: body.seoTitle.trim(),
       internalNote: body.internalNote.trim(),
       coverPath: coverPath.value,
       videoPath: videoPath.value,
+      gallery: gallery.gallery,
+      showOnWebsite: showOnWebsite.value,
+      showInArchive: showInArchive.value,
     },
   };
 }

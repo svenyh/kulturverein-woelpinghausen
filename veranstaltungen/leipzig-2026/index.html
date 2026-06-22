@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
+  <meta name="description" content="Veranstaltungsrückblick des Kulturverein Wölpinghausen.">
+  <title>Veranstaltung – Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/media-event-covers.css">
+  <link rel="stylesheet" href="css/veranstaltungen.css">
+  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
+</head>
+<body data-page="fotos-videos">
+  <div id="site-header" class="site-header"></div>
+
+  <main class="page-content section--cream">
+    <div class="container">
+      <p id="veranstaltungen-detail-status" class="veranstaltungen-status" role="status">Veranstaltung wird geladen …</p>
+
+      <article id="veranstaltungen-detail" class="veranstaltungen-detail" hidden>
+        <p class="veranstaltungen-detail-back">
+          <a href="veranstaltungen/">← Zurück zur Übersicht</a>
+        </p>
+
+        <header class="veranstaltungen-detail-hero">
+          <p class="section__label" id="veranstaltungen-detail-year">–</p>
+          <h1 class="page-hero__title" id="veranstaltungen-hero-title">Veranstaltung</h1>
+          <div class="veranstaltungen-detail-cover" id="veranstaltungen-detail-cover"></div>
+        </header>
+
+        <p class="veranstaltungen-detail-description" id="veranstaltungen-detail-description"></p>
+
+        <section class="veranstaltungen-detail-section" id="veranstaltungen-gallery-section" hidden aria-labelledby="veranstaltungen-gallery-title">
+          <h2 id="veranstaltungen-gallery-title">Fotogalerie</h2>
+          <div class="veranstaltungen-gallery" id="veranstaltungen-gallery"></div>
+        </section>
+
+        <section class="veranstaltungen-detail-section" id="veranstaltungen-video-section" hidden aria-labelledby="veranstaltungen-video-title">
+          <h2 id="veranstaltungen-video-title">Video</h2>
+          <div class="veranstaltungen-video" id="veranstaltungen-video"></div>
+        </section>
+
+        <h2 class="visually-hidden" id="veranstaltungen-detail-title">Veranstaltung</h2>
+      </article>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/script.js"></script>
+  <script src="js/veranstaltungen-detail.js"></script>
+</body>
+</html>

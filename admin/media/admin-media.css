@@ -424,6 +424,115 @@
   }
 }
 
+.admin-media-card__meta-line {
+  margin: 0;
+  color: #65727f;
+  font-size: 0.85rem;
+}
+
+.admin-media-checkboxes {
+  display: grid;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.admin-media-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #25313b;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-media-checkbox input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--color-bordeaux, #650d1a);
+}
+
+.admin-media-gallery {
+  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e7eb;
+}
+
+.admin-media-gallery__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.35rem;
+}
+
+.admin-media-gallery__header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.admin-media-gallery__list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-media-gallery__item {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.65rem;
+  border: 1px solid #d9dee2;
+  border-radius: 6px;
+  background: #f8f9fa;
+}
+
+.admin-media-gallery__input {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #c8d0d6;
+  border-radius: 4px;
+  font: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.admin-media-gallery__actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.admin-media-gallery__actions .btn {
+  width: 100%;
+  padding-inline: 0.35rem;
+  font-size: 0.82rem;
+}
+
+.admin-media-gallery__empty {
+  margin: 0.75rem 0 0;
+  color: #65727f;
+  font-size: 0.88rem;
+}
+
+@media (min-width: 640px) {
+  .admin-media-gallery__item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .admin-media-gallery__actions {
+    grid-template-columns: auto auto auto;
+  }
+
+  .admin-media-gallery__actions .btn {
+    width: auto;
+    min-width: 2.5rem;
+  }
+}
+
 @media (min-width: 900px) {
   .admin-media-card {
     grid-template-columns: 280px minmax(0, 1fr);
