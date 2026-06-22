@@ -1,41 +1,14 @@
 (function () {
   'use strict';
 
-  const NOTES_STORAGE_PREFIX = 'admin-media-note:';
-
-  const MEDIA_AREAS = [
-    {
-      id: 'koeln-2024',
-      title: 'Köln 2024',
-      year: '2024',
-      coverPath: '/images/events/koeln-2024/koeln-2024-cover.png',
-      videoPath: '/videos/koeln-2024.mp4',
-      description:
-        'Medien für die Veranstaltung in Köln 2024. Cover und Video werden auf der Webseite für diesen Eventbereich genutzt.',
-    },
-    {
-      id: 'duesseldorf-2025',
-      title: 'Düsseldorf 2025',
-      year: '2025',
-      coverPath: '/images/events/duesseldorf-2025/duesseldorf-2025-cover.png',
-      videoPath: '/videos/duesseldorf-2025.mp4',
-      description:
-        'Medien für die Veranstaltung in Düsseldorf 2025. Cover und Video werden auf der Webseite für diesen Eventbereich genutzt.',
-    },
-    {
-      id: 'leipzig-2026',
-      title: 'Leipzig 2026',
-      year: '2026',
-      coverPath: '/images/events/leipzig-2026/leipzig-2026-cover.png',
-      videoPath: '/videos/leipzig-2026.mp4',
-      description:
-        'Medien für die Veranstaltung in Leipzig 2026. Cover und Video werden auf der Webseite für diesen Eventbereich genutzt.',
-    },
-  ];
+  const OFFLINE_MESSAGE = 'Online-Verbindung wird vorbereitet.';
 
   const state = {
+    events: [],
     results: [],
-    activeAreaId: null,
+    activeEventId: null,
+    busy: false,
+    apiOnline: false,
   };
 
   const elements = {
@@ -55,7 +28,7 @@
     editNoteStatus: document.getElementById('media-edit-note-status'),
     editClose: document.getElementById('media-edit-close'),
     editCancel: document.getElementById('media-edit-cancel'),
-    editSaveNote: document.getElementById('media-edit-save-note'),
+    editSave: document.getElementById('media-edit-save'),
   };
 
   function setStatus(message, type) {
@@ -63,32 +36,63 @@
     elements.status.dataset.type = type || 'info';
   }
 
+  function setApiOnline(online) {
+    state.apiOnline = online;
+    updateSaveButton();
+  }
+
+  function setBusy(busy) {
+    state.busy = busy;
+    updateSaveButton();
+  }
+
+  function updateSaveButton() {
+    elements.editSave.disabled = state.busy || !state.apiOnline || !state.activeEventId;
+  }
+
   function displayPath(urlPath) {
-    return urlPath.replace(/^\//, '');
+    return String(urlPath || '').replace(/^\//, '');
   }
 
-  function noteStorageKey(areaId) {
-    return `${NOTES_STORAGE_PREFIX}${areaId}`;
+  function isOfflineResponse(response) {
+    return !response || response.status === 404 || response.status === 503;
   }
 
-  function loadLocalNote(areaId) {
+  async function api(path, options) {
+    let response;
     try {
-      return localStorage.getItem(noteStorageKey(areaId)) || '';
+      response = await fetch(path, {
+        ...options,
+        headers: options?.body
+          ? { 'Content-Type': 'application/json', ...(options.headers || {}) }
+          : options?.headers,
+      });
     } catch {
-      return '';
+      throw new Error(OFFLINE_MESSAGE);
     }
-  }
 
-  function saveLocalNote(areaId, note) {
+    let payload = {};
     try {
-      localStorage.setItem(noteStorageKey(areaId), note);
-      return true;
+      payload = await response.json();
     } catch {
-      return false;
+      if (isOfflineResponse(response)) {
+        throw new Error(OFFLINE_MESSAGE);
+      }
     }
+
+    if (!response.ok) {
+      if (isOfflineResponse(response)) {
+        throw new Error(OFFLINE_MESSAGE);
+      }
+      throw new Error(payload.error || `HTTP ${response.status}`);
+    }
+
+    return payload;
   }
 
   async function assetExists(urlPath) {
+    if (!urlPath) return false;
+
     try {
       const headResponse = await fetch(urlPath, { method: 'HEAD' });
       if (headResponse.ok) {
@@ -138,17 +142,17 @@
   }
 
   function renderAreaCard(entry) {
-    const { area, coverExists, videoExists } = entry;
+    const { event, coverExists, videoExists } = entry;
     const card = document.createElement('article');
     card.className = 'admin-media-card';
-    card.setAttribute('aria-labelledby', `media-title-${area.id}`);
+    card.setAttribute('aria-labelledby', `media-title-${event.id}`);
 
     const preview = document.createElement('div');
     preview.className = 'admin-media-card__preview';
     if (coverExists) {
       const img = document.createElement('img');
-      img.src = area.coverPath;
-      img.alt = `Cover ${area.title}`;
+      img.src = event.coverPath;
+      img.alt = `Cover ${event.title}`;
       img.loading = 'lazy';
       img.width = 320;
       img.height = 180;
@@ -162,7 +166,7 @@
 
     const header = document.createElement('div');
     header.className = 'admin-media-card__header';
-    header.innerHTML = `<h2 class="admin-media-card__title" id="media-title-${area.id}">${area.title}</h2>`;
+    header.innerHTML = `<h2 class="admin-media-card__title" id="media-title-${event.id}">${event.title}</h2>`;
 
     const badges = document.createElement('div');
     badges.className = 'admin-media-card__badges';
@@ -172,11 +176,15 @@
       createBadge('soon', 'Upload folgt später'),
     );
 
+    const description = document.createElement('p');
+    description.className = 'admin-media-card__description';
+    description.textContent = event.description || 'Keine Beschreibung hinterlegt.';
+
     const paths = document.createElement('div');
     paths.className = 'admin-media-card__paths';
     paths.innerHTML = `
-      <p><span>Cover:</span> <code>${displayPath(area.coverPath)}</code></p>
-      <p><span>Video:</span> <code>${displayPath(area.videoPath)}</code></p>
+      <p><span>Cover:</span> <code>${displayPath(event.coverPath)}</code></p>
+      <p><span>Video:</span> <code>${displayPath(event.videoPath)}</code></p>
     `;
 
     const actions = document.createElement('div');
@@ -184,84 +192,41 @@
     actions.append(
       createActionButton('Bearbeiten', {
         primary: true,
+        disabled: !state.apiOnline,
+        disabledReason: state.apiOnline ? '' : OFFLINE_MESSAGE,
         onClick: () => openEditDialog(entry),
       }),
       createActionButton('Cover ansehen', {
         disabled: !coverExists,
         disabledReason: coverExists ? '' : 'Cover ist nicht vorhanden.',
-        onClick: () => window.open(area.coverPath, '_blank', 'noopener,noreferrer'),
+        onClick: () => window.open(event.coverPath, '_blank', 'noopener,noreferrer'),
       }),
       createActionButton('Video prüfen', {
         disabled: !videoExists,
         disabledReason: videoExists ? '' : 'Video ist nicht vorhanden.',
-        onClick: () => window.open(area.videoPath, '_blank', 'noopener,noreferrer'),
+        onClick: () => window.open(event.videoPath, '_blank', 'noopener,noreferrer'),
       }),
     );
 
-    content.append(header, badges, paths, actions);
+    content.append(header, badges, description, paths, actions);
     card.append(preview, content);
     return card;
   }
 
-  function getActiveEntry() {
-    return state.results.find((entry) => entry.area.id === state.activeAreaId) || null;
-  }
-
-  function openEditDialog(entry) {
-    const { area, coverExists, videoExists } = entry;
-    state.activeAreaId = area.id;
-
-    elements.editKicker.textContent = 'Veranstaltung bearbeiten';
-    elements.editTitle.textContent = area.title;
-    elements.editYear.textContent = area.year;
-    elements.editCoverPath.textContent = displayPath(area.coverPath);
-    elements.editVideoPath.textContent = displayPath(area.videoPath);
-    elements.editDescription.textContent = area.description;
-    elements.editNote.value = loadLocalNote(area.id);
-    elements.editNoteStatus.textContent = '';
-
-    const statusParts = [];
-    statusParts.push(coverExists ? 'Cover vorhanden' : 'Cover fehlt');
-    statusParts.push(videoExists ? 'Video vorhanden' : 'Video fehlt');
-    elements.editNoteStatus.textContent = statusParts.join(' · ');
-
-    elements.dialog.showModal();
-  }
-
-  function closeEditDialog() {
-    state.activeAreaId = null;
-    elements.editNoteStatus.textContent = '';
-    elements.dialog.close();
-  }
-
-  function saveActiveNote() {
-    const entry = getActiveEntry();
-    if (!entry) return;
-
-    const note = elements.editNote.value.trim();
-    const saved = saveLocalNote(entry.area.id, note);
-    if (saved) {
-      elements.editNoteStatus.textContent =
-        'Notiz nur lokal in diesem Browser gespeichert – nicht auf dem Server.';
-    } else {
-      elements.editNoteStatus.textContent =
-        'Notiz konnte nicht lokal gespeichert werden (Browser-Speicher blockiert).';
-    }
-  }
-
-  async function loadMediaOverview() {
-    setStatus('Medien werden geprüft …', 'info');
-    elements.list.replaceChildren();
-
-    state.results = await Promise.all(
-      MEDIA_AREAS.map(async (area) => {
+  async function buildResults(events) {
+    return Promise.all(
+      events.map(async (event) => {
         const [coverExists, videoExists] = await Promise.all([
-          assetExists(area.coverPath),
-          assetExists(area.videoPath),
+          assetExists(event.coverPath),
+          assetExists(event.videoPath),
         ]);
-        return { area, coverExists, videoExists };
+        return { event, coverExists, videoExists };
       }),
     );
+  }
+
+  async function renderOverview() {
+    elements.list.replaceChildren();
 
     let coverCount = 0;
     let videoCount = 0;
@@ -272,27 +237,117 @@
       elements.list.append(renderAreaCard(entry));
     }
 
-    elements.statAreas.textContent = String(MEDIA_AREAS.length);
-    elements.statCovers.textContent = `${coverCount} / ${MEDIA_AREAS.length}`;
-    elements.statVideos.textContent = `${videoCount} / ${MEDIA_AREAS.length}`;
+    elements.statAreas.textContent = String(state.events.length);
+    elements.statCovers.textContent = `${coverCount} / ${state.events.length}`;
+    elements.statVideos.textContent = `${videoCount} / ${state.events.length}`;
 
-    const complete = coverCount === MEDIA_AREAS.length && videoCount === MEDIA_AREAS.length;
+    const complete = coverCount === state.events.length && videoCount === state.events.length;
     if (complete) {
-      setStatus('Alle erwarteten Medien sind vorhanden. Bearbeiten öffnet Details und interne Notizen.', 'success');
+      setStatus('Alle erwarteten Medien sind vorhanden. Metadaten können bearbeitet und gespeichert werden.', 'success');
     } else {
       setStatus(
-        'Einige Medien fehlen noch. Dateien werden über Git/Cursor gepflegt – Upload folgt später.',
+        'Einige Medien fehlen noch. Metadaten können bearbeitet werden – Datei-Upload folgt später.',
         'warning',
       );
     }
   }
 
+  function getActiveEntry() {
+    return state.results.find((entry) => entry.event.id === state.activeEventId) || null;
+  }
+
+  function openEditDialog(entry) {
+    const { event, coverExists, videoExists } = entry;
+    state.activeEventId = event.id;
+
+    elements.editKicker.textContent = 'Veranstaltung bearbeiten';
+    elements.editTitle.textContent = event.title;
+    elements.editYear.textContent = String(event.year || '–');
+    elements.editDescription.value = event.description || '';
+    elements.editCoverPath.value = event.coverPath || '';
+    elements.editVideoPath.value = event.videoPath || '';
+    elements.editNote.value = event.internalNote || '';
+    elements.editNoteStatus.textContent = [
+      coverExists ? 'Cover vorhanden' : 'Cover fehlt',
+      videoExists ? 'Video vorhanden' : 'Video fehlt',
+    ].join(' · ');
+
+    updateSaveButton();
+    elements.dialog.showModal();
+  }
+
+  function closeEditDialog() {
+    state.activeEventId = null;
+    elements.editNoteStatus.textContent = '';
+    updateSaveButton();
+    elements.dialog.close();
+  }
+
+  function replaceEvent(updatedEvent) {
+    state.events = state.events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event));
+    state.results = state.results.map((entry) =>
+      entry.event.id === updatedEvent.id ? { ...entry, event: updatedEvent } : entry
+    );
+  }
+
+  async function saveActiveChanges() {
+    const entry = getActiveEntry();
+    if (!entry || !state.apiOnline) return;
+
+    setBusy(true);
+    elements.editNoteStatus.textContent = 'Änderungen werden gespeichert …';
+
+    try {
+      const payload = await api('/api/admin/media', {
+        method: 'POST',
+        body: JSON.stringify({
+          id: entry.event.id,
+          description: elements.editDescription.value,
+          internalNote: elements.editNote.value,
+          coverPath: elements.editCoverPath.value,
+          videoPath: elements.editVideoPath.value,
+        }),
+      });
+
+      replaceEvent(payload.event);
+      state.results = await buildResults(state.events);
+      await renderOverview();
+      elements.editNoteStatus.textContent = payload.message;
+      setStatus(`${payload.message} (${entry.event.title})`, 'success');
+    } catch (error) {
+      elements.editNoteStatus.textContent =
+        error.message === OFFLINE_MESSAGE ? OFFLINE_MESSAGE : error.message;
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function loadMediaOverview() {
+    setBusy(true);
+    setStatus('Medien werden geladen …', 'info');
+    elements.list.replaceChildren();
+
+    try {
+      const payload = await api('/api/admin/media');
+      setApiOnline(true);
+      state.events = Array.isArray(payload.events) ? payload.events : [];
+      state.results = await buildResults(state.events);
+      await renderOverview();
+    } catch (error) {
+      setApiOnline(false);
+      setStatus(error.message === OFFLINE_MESSAGE ? OFFLINE_MESSAGE : error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   elements.editClose.addEventListener('click', closeEditDialog);
   elements.editCancel.addEventListener('click', closeEditDialog);
-  elements.editSaveNote.addEventListener('click', saveActiveNote);
+  elements.editSave.addEventListener('click', saveActiveChanges);
   elements.dialog.addEventListener('cancel', () => {
-    state.activeAreaId = null;
+    state.activeEventId = null;
     elements.editNoteStatus.textContent = '';
+    updateSaveButton();
   });
 
   loadMediaOverview();

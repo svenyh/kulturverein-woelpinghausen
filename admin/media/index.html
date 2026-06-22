@@ -28,15 +28,15 @@
       <div>
         <p class="admin-media-kicker">Medien</p>
         <h1 id="page-title" class="app-content__title">Fotos &amp; Medien</h1>
-        <p class="app-content__lead">Medien für Veranstaltungen prüfen und vorbereiten. Dateien werden aktuell über Git/Cursor gepflegt.</p>
+        <p class="app-content__lead">Medien für Veranstaltungen prüfen und Metadaten pflegen. Dateien werden aktuell über Git/Cursor eingepflegt.</p>
       </div>
     </section>
 
     <aside class="admin-media-notice" aria-label="Hinweise zur Medienpflege">
-      <p><strong>Datei-Upload folgt später.</strong> Diese Oberfläche dient der Übersicht und internen Notizen. Medien werden noch nicht auf dem Server gespeichert.</p>
+      <p><strong>Datei-Upload folgt später.</strong> Beschreibungen, Notizen und Pfade werden serverseitig gespeichert. Binärdateien noch nicht.</p>
     </aside>
 
-    <p class="admin-media-status" id="media-status" role="status" aria-live="polite">Medien werden geprüft …</p>
+    <p class="admin-media-status" id="media-status" role="status" aria-live="polite">Medien werden geladen …</p>
 
     <section class="admin-media-stats" aria-label="Medienübersicht">
       <div class="admin-media-stat">
@@ -72,25 +72,30 @@
             <dt>Jahr</dt>
             <dd id="media-edit-year">–</dd>
           </div>
-          <div class="admin-media-meta__row">
-            <dt>Cover-Pfad</dt>
-            <dd><code id="media-edit-cover-path">–</code></dd>
-          </div>
-          <div class="admin-media-meta__row">
-            <dt>Video-Pfad</dt>
-            <dd><code id="media-edit-video-path">–</code></dd>
-          </div>
         </dl>
 
-        <p class="admin-media-dialog__description" id="media-edit-description"></p>
+        <div class="form-group">
+          <label for="media-edit-description">Beschreibung</label>
+          <textarea id="media-edit-description" rows="3" placeholder="Öffentliche Beschreibung für diesen Medienbereich …"></textarea>
+        </div>
 
-        <p class="admin-media-dialog__hint"><strong>Datei-Upload folgt später.</strong> Medien werden derzeit über Git/Cursor eingepflegt.</p>
+        <div class="form-group">
+          <label for="media-edit-cover-path">Cover-Pfad</label>
+          <input type="text" id="media-edit-cover-path" autocomplete="off" spellcheck="false">
+        </div>
+
+        <div class="form-group">
+          <label for="media-edit-video-path">Video-Pfad</label>
+          <input type="text" id="media-edit-video-path" autocomplete="off" spellcheck="false">
+        </div>
 
         <div class="form-group">
           <label for="media-edit-note">Notiz / Beschreibung intern</label>
           <textarea id="media-edit-note" rows="4" placeholder="Interne Notiz für den Vorstand …"></textarea>
-          <p class="admin-media-field-hint">Wird nur lokal in diesem Browser gespeichert – nicht auf dem Server.</p>
+          <p class="admin-media-field-hint">Interne Notiz – nur im Admin sichtbar, serverseitig gespeichert.</p>
         </div>
+
+        <p class="admin-media-dialog__hint"><strong>Datei-Upload folgt später.</strong> Medien-Dateien werden derzeit über Git/Cursor eingepflegt.</p>
 
         <section class="admin-media-dropzones" aria-label="Upload-Vorbereitung">
           <h3 class="admin-media-dropzones__title">Upload (vorbereitet)</h3>
@@ -113,7 +118,7 @@
         <p class="admin-media-dialog__note-status" id="media-edit-note-status" role="status" aria-live="polite"></p>
         <div class="admin-media-dialog__actions">
           <button type="button" class="btn btn--outline" id="media-edit-cancel">Schließen</button>
-          <button type="button" class="btn btn--primary" id="media-edit-save-note">Notiz lokal speichern</button>
+          <button type="button" class="btn btn--primary" id="media-edit-save">Änderungen speichern</button>
         </div>
       </footer>
     </form>
