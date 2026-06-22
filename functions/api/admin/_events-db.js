@@ -187,3 +187,83 @@ export async function publishSelectedEvents(db) {
 
   return Number(countResult?.count || 0);
 }
+
+export async function upsertImportedEvents(db, events) {
+  const existingIds = new Set(await listActiveRawIds(db));
+  let importedCount = 0;
+  let updatedCount = 0;
+  const statements = [];
+
+  for (const event of events) {
+    if (!event.rawId) continue;
+
+    if (existingIds.has(event.rawId)) {
+      updatedCount += 1;
+    } else {
+      importedCount += 1;
+      existingIds.add(event.rawId);
+    }
+
+    statements.push(
+      db
+        .prepare(
+          `INSERT INTO events (
+             raw_id,
+             source_uid,
+             event_date,
+             event_time,
+             title,
+             location,
+             source_url,
+             organizer,
+             is_series,
+             review_note,
+             selected_for_website,
+             published_on_website,
+             source_status,
+             last_seen_at,
+             imported_at,
+             updated_at
+           ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+           ON CONFLICT(raw_id) DO UPDATE SET
+             source_uid = excluded.source_uid,
+             event_date = excluded.event_date,
+             event_time = excluded.event_time,
+             title = excluded.title,
+             location = excluded.location,
+             source_url = excluded.source_url,
+             organizer = excluded.organizer,
+             is_series = excluded.is_series,
+             review_note = excluded.review_note,
+             source_status = 'active',
+             last_seen_at = CURRENT_TIMESTAMP,
+             updated_at = CURRENT_TIMESTAMP`
+        )
+        .bind(
+          event.rawId,
+          event.sourceUid || event.rawId,
+          event.date,
+          event.time,
+          event.title,
+          event.location,
+          event.sourceUrl,
+          event.organizer,
+          event.isSeriesFlag ? 1 : 0,
+          event.reviewNote
+        )
+    );
+  }
+
+  if (statements.length) {
+    const chunkSize = 100;
+    for (let index = 0; index < statements.length; index += chunkSize) {
+      await db.batch(statements.slice(index, index + chunkSize));
+    }
+  }
+
+  return {
+    importedCount,
+    updatedCount,
+    candidateCount: events.length,
+  };
+}

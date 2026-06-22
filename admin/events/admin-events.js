@@ -3,7 +3,6 @@
 
   const PAGE_SIZE = 50;
   const OFFLINE_MESSAGE = 'Online-Verbindung wird vorbereitet.';
-  const PREPARE_MESSAGE = 'Wird vorbereitet.';
   const state = {
     groups: [],
     events: [],
@@ -48,7 +47,7 @@
   }
 
   function updateActionButtons() {
-    elements.importButton.disabled = true;
+    elements.importButton.disabled = state.busy || !state.apiOnline;
     elements.publishButton.disabled = state.busy || state.dirty || !state.apiOnline;
     elements.saveButton.disabled = state.busy || !state.events.length || !state.dirty || !state.apiOnline;
     updatePaginationControls();
@@ -57,11 +56,6 @@
   function setBusy(busy) {
     state.busy = busy;
     updateActionButtons();
-  }
-
-  function configurePendingActions() {
-    elements.importButton.disabled = true;
-    elements.importButton.title = `Import ${PREPARE_MESSAGE}`;
   }
 
   function organizationName(event) {
@@ -284,7 +278,25 @@
   }
 
   async function importEvents() {
-    setStatus('Import wird vorbereitet.', 'info');
+    const confirmed = window.confirm(
+      'Termine neu laden? Neue Kandidaten werden importiert. Bestehende Freigaben bleiben für gleiche Termin-IDs erhalten.'
+    );
+    if (!confirmed) return;
+
+    setBusy(true);
+    setStatus('Termine werden aus der Quelle geladen...');
+    try {
+      const payload = await api('/api/admin/import', { method: 'POST' });
+      await loadCandidates(payload.message);
+    } catch (error) {
+      if (error.message === OFFLINE_MESSAGE) {
+        handleOffline(OFFLINE_MESSAGE);
+      } else {
+        setStatus(error.message, 'error');
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function publishEvents() {
@@ -351,6 +363,5 @@
     event.returnValue = '';
   });
 
-  configurePendingActions();
   loadCandidates();
 })();
