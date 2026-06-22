@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotos &amp; Medien – Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/admin/media/admin-media.css">
+  <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
+</head>
+<body class="app-page admin-media-page">
+  <div class="app-banner"><strong>Fotos &amp; Medien</strong> – Coverbilder und Videos prüfen</div>
+  <header class="header admin-media-header">
+    <div class="container header__inner">
+      <a href="/admin/" class="header__logo" aria-label="Zur Admin-Startseite">
+        <img src="/images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
+        <span class="header__logo-text">
+          <span class="header__logo-name">Admin</span>
+          <span class="header__logo-place">Fotos &amp; Medien</span>
+        </span>
+      </a>
+      <a href="/eventkalender.html" class="btn btn--outline">Zur Webseite</a>
+    </div>
+  </header>
+
+  <main class="admin-media-main">
+    <section class="admin-media-intro" aria-labelledby="page-title">
+      <div>
+        <p class="admin-media-kicker">Medien</p>
+        <h1 id="page-title" class="app-content__title">Fotos &amp; Medien</h1>
+        <p class="app-content__lead">Übersicht der Medien für Veranstaltungen auf der Webseite.</p>
+      </div>
+    </section>
+
+    <aside class="admin-media-notice" aria-label="Hinweise zur Medienpflege">
+      <p><strong>Upload folgt später.</strong> Dateien werden aktuell noch über Git/Cursor gepflegt.</p>
+    </aside>
+
+    <p class="admin-media-status" id="media-status" role="status" aria-live="polite">Medien werden geprüft …</p>
+
+    <section class="admin-media-stats" aria-label="Medienübersicht">
+      <div class="admin-media-stat">
+        <strong id="stat-areas">0</strong>
+        <span>Veranstaltungsbereiche</span>
+      </div>
+      <div class="admin-media-stat">
+        <strong id="stat-covers">0</strong>
+        <span>Coverbilder vorhanden</span>
+      </div>
+      <div class="admin-media-stat">
+        <strong id="stat-videos">0</strong>
+        <span>Videos vorhanden</span>
+      </div>
+    </section>
+
+    <section class="admin-media-list" id="media-list" aria-label="Medienbereiche"></section>
+  </main>
+
+  <script src="/admin/media/admin-media.js"></script>
+</body>
+</html>
