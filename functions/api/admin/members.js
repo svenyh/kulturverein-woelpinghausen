@@ -158,12 +158,15 @@ function validatePayload(section, body, { partial = false } = {}) {
   if (contactPerson.error) return contactPerson;
   const status = validateStatus(body.status || 'offen');
   if (status.error) return status;
+  const visible = validateBoolean(body.visible, 'visible');
+  if (visible.error) return visible;
   return {
     payload: {
       eventName: eventName.value,
       task: task.value,
       contactPerson: contactPerson.value,
       status: status.value,
+      visible: visible.value,
     },
   };
 }
@@ -198,6 +201,10 @@ export async function onRequestPost(context) {
     return jsonResponse({ error: error.message || 'Ungueltige Anfrage.' }, status);
   }
 
+  if (!isValidSection(body?.section)) {
+    return jsonResponse({ error: 'section ist ungueltig.' }, 400);
+  }
+
   const validation = validatePayload(body.section, body.item || body);
   if (validation.error) return jsonResponse({ error: validation.error }, validation.status);
 
@@ -226,6 +233,10 @@ export async function onRequestPatch(context) {
 
   if (!body?.id || typeof body.id !== 'string') {
     return jsonResponse({ error: 'id fehlt.' }, 400);
+  }
+
+  if (!isValidSection(body?.section)) {
+    return jsonResponse({ error: 'section ist ungueltig.' }, 400);
   }
 
   const validation = validatePayload(body.section, body.item || body);

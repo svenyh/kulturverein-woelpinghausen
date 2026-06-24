@@ -1,87 +1,89 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <base href="/">
-  <meta name="description" content="Mitgliederbereich des Kulturverein Wölpinghausen – interne Informationen, Dokumente, Termine und Helferliste.">
-  <title>Mitgliederbereich – Kulturverein Wölpinghausen</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/members.css">
-  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
-</head>
-<body data-page="mitgliederbereich">
-  <div id="site-header" class="site-header"></div>
-
-  <header class="page-hero page-hero--compact">
-    <div class="container">
-      <p class="page-hero__label">Intern</p>
-      <h1 class="page-hero__title">Mitgliederbereich</h1>
-      <p class="page-hero__text">Informationen, Dokumente und Termine für Mitglieder des Kulturvereins Wölpinghausen.</p>
-    </div>
-  </header>
-
-  <main class="page-content section--cream">
-    <div class="container">
-      <section class="members-intro" aria-labelledby="members-welcome-title">
-        <p class="section__label">Willkommen</p>
-        <h2 id="members-welcome-title" class="section__title">Interner Vereinsbereich</h2>
-        <p class="members-intro__lead">Willkommen im digitalen Mitgliederbereich des Kulturvereins Wölpinghausen. Hier findet ihr aktuelle Mitteilungen, Vereinsdokumente, interne Termine und offene Helfer-Einsätze – alles an einem Ort für die Vereinsarbeit.</p>
-        <aside class="members-notice" aria-label="Hinweise zum Mitgliederbereich">
-          <p><strong>Hinweis zu Downloads:</strong> Dokumente werden schrittweise ergänzt. Ist eine Datei noch nicht hinterlegt, erscheint der Hinweis „Datei wird noch ergänzt“ statt eines Download-Links.</p>
-          <p><strong>Hinweis zu Helfer-Einsätzen:</strong> Eine Online-Anmeldung ist derzeit nicht verfügbar. Bitte wendet euch bei Interesse direkt an den genannten Ansprechpartner.</p>
-        </aside>
-      </section>
-
-      <section class="members-section" aria-labelledby="members-news-title">
-        <div class="members-section__header">
-          <h2 id="members-news-title" class="members-section__title">Aktuelle Informationen</h2>
-          <p class="members-section__hint">Mitteilungen und Hinweise aus dem Verein</p>
-        </div>
-        <p id="members-news-status" class="members-status" role="status">Informationen werden geladen …</p>
-        <div id="members-news-list" class="members-grid" hidden></div>
-      </section>
-
-      <section class="members-section" aria-labelledby="members-documents-title">
-        <div class="members-section__header">
-          <h2 id="members-documents-title" class="members-section__title">Dokumente</h2>
-          <p class="members-section__hint">Satzung, Formulare und Protokolle</p>
-        </div>
-        <p id="members-documents-status" class="members-status" role="status">Dokumente werden geladen …</p>
-        <div id="members-documents-list" class="members-grid" hidden></div>
-      </section>
-
-      <section class="members-section" aria-labelledby="members-events-title">
-        <div class="members-section__header">
-          <h2 id="members-events-title" class="members-section__title">Interne Termine</h2>
-          <p class="members-section__hint">Vereinsinterne Sitzungen und Planungstreffen</p>
-        </div>
-        <p id="members-events-status" class="members-status" role="status">Termine werden geladen …</p>
-        <div id="members-events-list" class="members-grid" hidden></div>
-      </section>
-
-      <section class="members-section" aria-labelledby="members-helpers-title">
-        <div class="members-section__header">
-          <h2 id="members-helpers-title" class="members-section__title">Helfer &amp; Organisation</h2>
-          <p class="members-section__hint">Offene Einsätze und Ansprechpartner</p>
-        </div>
-        <p id="members-helpers-status" class="members-status" role="status">Helfer-Einsätze werden geladen …</p>
-        <div id="members-helpers-list" class="members-grid" hidden></div>
-      </section>
-
-      <section class="members-section" aria-labelledby="members-downloads-title">
-        <div class="members-section__header">
-          <h2 id="members-downloads-title" class="members-section__title">Downloadbereich</h2>
-          <p class="members-section__hint">Direkter Zugriff auf veröffentlichte Dateien – nur wenn die Datei vorhanden ist</p>
-        </div>
-        <p id="members-downloads-status" class="members-status" role="status">Downloads werden geladen …</p>
-        <div id="members-downloads-list" class="members-grid members-grid--downloads" hidden></div>
-      </section>
-    </div>
-  </main>
-
-  <div id="site-footer"></div>
-  <script src="js/script.js"></script>
-  <script src="js/members.js"></script>
-</body>
-</html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
+  <meta name="description" content="Mitgliederbereich des Kulturverein Wölpinghausen – Vereinsinformationen, Dokumente, Termine und Helferliste.">
+  <title>Mitgliederbereich – Kulturverein Wölpinghausen</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/members.css">
+  <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
+</head>
+<body data-page="mitgliederbereich">
+  <div id="site-header" class="site-header"></div>
+
+  <header class="page-hero page-hero--compact">
+    <div class="container">
+      <p class="page-hero__label">Verein</p>
+      <h1 class="page-hero__title">Mitgliederbereich</h1>
+      <p class="page-hero__text">Informationen, Dokumente und Termine für Mitglieder und Interessierte des Kulturvereins Wölpinghausen.</p>
+    </div>
+  </header>
+
+  <main class="page-content section--cream">
+    <div class="container">
+      <section class="members-intro" aria-labelledby="members-welcome-title">
+        <p class="section__label">Willkommen</p>
+        <h2 id="members-welcome-title" class="section__title">Mitgliederinformationen</h2>
+        <p class="members-intro__lead">Hier findet ihr aktuelle Mitteilungen, Vereinsdokumente, Termine und offene Helfer-Einsätze. Der Vorstand pflegt die Inhalte regelmäßig.</p>
+        <aside class="members-notice" aria-label="Hinweise zum Mitgliederbereich">
+          <p><strong>Hinweis zur Erreichbarkeit:</strong> Dieser Bereich ist derzeit öffentlich erreichbar. Es werden nur allgemeine Vereinsinformationen veröffentlicht – keine vertraulichen Inhalte.</p>
+          <p><strong>Hinweis zu Downloads:</strong> Dokumente sind teils noch in Vorbereitung. Ist eine Datei noch nicht hinterlegt, erscheint der Hinweis „Datei wird noch ergänzt“ statt eines Download-Links.</p>
+          <p><strong>Hinweis zu Helfer-Einsätzen:</strong> Eine Online-Anmeldung ist derzeit nicht verfügbar. Bei Interesse bitte an den Vorstand wenden.</p>
+        </aside>
+      </section>
+
+      <section class="members-section" aria-labelledby="members-news-title">
+        <div class="members-section__header">
+          <h2 id="members-news-title" class="members-section__title">Aktuelle Informationen</h2>
+          <p class="members-section__hint">Mitteilungen und Hinweise aus dem Verein</p>
+        </div>
+        <p id="members-news-status" class="members-status" role="status">Informationen werden geladen …</p>
+        <div id="members-news-list" class="members-grid" hidden></div>
+      </section>
+
+      <section class="members-section" aria-labelledby="members-documents-title">
+        <div class="members-section__header">
+          <h2 id="members-documents-title" class="members-section__title">Dokumente</h2>
+          <p class="members-section__hint">Vereinsdokumente – teils noch in Vorbereitung</p>
+        </div>
+        <p id="members-documents-status" class="members-status" role="status">Dokumente werden geladen …</p>
+        <div id="members-documents-list" class="members-grid" hidden></div>
+      </section>
+
+      <section class="members-section" aria-labelledby="members-events-title">
+        <div class="members-section__header">
+          <h2 id="members-events-title" class="members-section__title">Vereinstermine</h2>
+          <p class="members-section__hint">Termine und Planungstreffen</p>
+        </div>
+        <p id="members-events-status" class="members-status" role="status">Termine werden geladen …</p>
+        <div id="members-events-list" class="members-grid" hidden></div>
+      </section>
+
+      <section class="members-section" aria-labelledby="members-helpers-title">
+        <div class="members-section__header">
+          <h2 id="members-helpers-title" class="members-section__title">Helfer &amp; Organisation</h2>
+          <p class="members-section__hint">Offene Einsätze – ohne Online-Anmeldung</p>
+        </div>
+        <p id="members-helpers-status" class="members-status" role="status">Helfer-Einsätze werden geladen …</p>
+        <div id="members-helpers-list" class="members-grid" hidden></div>
+      </section>
+
+      <section class="members-section" aria-labelledby="members-downloads-title">
+        <div class="members-section__header">
+          <h2 id="members-downloads-title" class="members-section__title">Downloadbereich</h2>
+          <p class="members-section__hint">Nur veröffentlichte Dateien – sonst Hinweis „Datei wird noch ergänzt“</p>
+        </div>
+        <p id="members-downloads-status" class="members-status" role="status">Downloads werden geladen …</p>
+        <div id="members-downloads-list" class="members-grid members-grid--downloads" hidden></div>
+      </section>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="js/script.js"></script>
+  <script src="js/members.js"></script>
+</body>
+</html>
+

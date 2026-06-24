@@ -5,7 +5,14 @@
     news: 'Aktuelle Informationen',
     documents: 'Dokumente',
     events: 'Interne Termine',
-    helpers: 'Helfer',
+    helpers: 'Helfer & Organisation',
+  };
+
+  const EMPTY_LABELS = {
+    news: 'Noch keine Informationen vorhanden.',
+    documents: 'Noch keine Dokumente vorhanden.',
+    events: 'Noch keine internen Termine vorhanden.',
+    helpers: 'Noch keine Helfer-Einsätze vorhanden.',
   };
 
   const state = {
@@ -48,7 +55,7 @@
     documents: [
       { name: 'title', label: 'Titel', type: 'text', required: true },
       { name: 'description', label: 'Beschreibung', type: 'textarea' },
-      { name: 'filename', label: 'Dateiname', type: 'text', required: true },
+      { name: 'filename', label: 'Dateiname (z. B. satzung.pdf)', type: 'text', required: true },
       { name: 'category', label: 'Kategorie', type: 'text' },
       { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
     ],
@@ -73,6 +80,7 @@
           { value: 'besetzt', label: 'Besetzt' },
         ],
       },
+      { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
     ],
   };
 
@@ -83,11 +91,15 @@
 
   function setFormStatus(message) {
     elements.formStatus.textContent = message || '';
+    elements.formStatus.dataset.type = message ? 'error' : '';
   }
 
   function setBusy(busy) {
     state.busy = busy;
     elements.save.disabled = busy || !state.apiOnline;
+    elements.addButtons.forEach((button) => {
+      button.disabled = busy || !state.apiOnline;
+    });
   }
 
   async function api(path, options) {
@@ -106,7 +118,7 @@
 
   function formatDate(value) {
     const parts = String(value || '').split('-');
-    if (parts.length !== 3) return value;
+    if (parts.length !== 3) return value || '–';
     return `${parts[2]}.${parts[1]}.${parts[0]}`;
   }
 
@@ -115,41 +127,120 @@
     return item.title;
   }
 
+  function getSectionItems(section) {
+    const items = state.content[section] || [];
+    if (section === 'news') {
+      return [...items].sort((a, b) => {
+        const priorityDiff = (b.priority ?? 0) - (a.priority ?? 0);
+        if (priorityDiff !== 0) return priorityDiff;
+        return String(b.createdAt || '').localeCompare(String(a.createdAt || ''));
+      });
+    }
+    if (section === 'events') {
+      return [...items].sort((a, b) => String(a.eventDate || '').localeCompare(String(b.eventDate || '')));
+    }
+    return items;
+  }
+
   function renderMeta(section, item) {
     if (section === 'news') {
-      return `${item.category || 'Info'} · Priorität ${item.priority} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
+      return `${item.category || 'Info'} · Anzeige-Priorität ${item.priority ?? 0} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
     }
     if (section === 'documents') {
-      return `${item.category || 'Dokument'} · ${item.filename} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
+      return `${item.category || 'Dokument'} · ${item.filename || '–'} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
     }
     if (section === 'events') {
       return `${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}${item.location ? ` · ${item.location}` : ''} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
     }
-    return `${item.eventName} · ${item.status} · ${item.contactPerson || 'Kein Ansprechpartner'}`;
+    return `${item.eventName} · ${item.status === 'offen' ? 'Offen' : 'Besetzt'} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
   }
 
   function renderDescription(section, item) {
-    if (section === 'helpers') return item.contactPerson ? `Ansprechpartner: ${item.contactPerson}` : '';
+    if (section === 'helpers') {
+      return item.contactPerson ? `Ansprechpartner: ${item.contactPerson}` : 'Kein Ansprechpartner hinterlegt.';
+    }
     return item.description || '';
+  }
+
+  function itemToApiPayload(section, item) {
+    if (section === 'news') {
+      return {
+        title: item.title,
+        description: item.description || '',
+        category: item.category || '',
+        priority: Number(item.priority ?? 0),
+        visible: Boolean(item.visible),
+      };
+    }
+    if (section === 'documents') {
+      return {
+        title: item.title,
+        description: item.description || '',
+        filename: item.filename,
+        category: item.category || '',
+        visible: Boolean(item.visible),
+      };
+    }
+    if (section === 'events') {
+      return {
+        title: item.title,
+        eventDate: item.eventDate,
+        eventTime: item.eventTime || '',
+        location: item.location || '',
+        description: item.description || '',
+        visible: Boolean(item.visible),
+      };
+    }
+    return {
+      eventName: item.eventName,
+      task: item.task,
+      contactPerson: item.contactPerson || '',
+      status: item.status || 'offen',
+      visible: Boolean(item.visible),
+    };
   }
 
   function renderLists() {
     Object.keys(elements.lists).forEach((section) => {
       const list = elements.lists[section];
       list.replaceChildren();
-      state.content[section].forEach((item) => {
+
+      if (!state.content[section].length) {
+        const empty = document.createElement('p');
+        empty.className = 'admin-members-empty';
+        empty.textContent = EMPTY_LABELS[section];
+        list.appendChild(empty);
+        return;
+      }
+
+      getSectionItems(section).forEach((item) => {
         const card = document.createElement('article');
         card.className = 'admin-members-card';
+        if (item.visible === false) {
+          card.classList.add('admin-members-card--hidden');
+        }
 
         const header = document.createElement('div');
         header.className = 'admin-members-card__header';
-        header.innerHTML = `
-          <div>
-            <h3 class="admin-members-card__title">${getItemTitle(section, item)}</h3>
-            <p class="admin-members-card__meta">${renderMeta(section, item)}</p>
-          </div>
-          ${item.visible === false ? '<span class="admin-members-badge admin-members-badge--hidden">Ausgeblendet</span>' : ''}
-        `;
+
+        const copy = document.createElement('div');
+        const title = document.createElement('h3');
+        title.className = 'admin-members-card__title';
+        title.textContent = getItemTitle(section, item);
+
+        const meta = document.createElement('p');
+        meta.className = 'admin-members-card__meta';
+        meta.textContent = renderMeta(section, item);
+
+        copy.append(title, meta);
+        header.appendChild(copy);
+
+        if (item.visible === false) {
+          const badge = document.createElement('span');
+          badge.className = 'admin-members-badge admin-members-badge--hidden';
+          badge.textContent = 'Ausgeblendet';
+          header.appendChild(badge);
+        }
 
         const text = document.createElement('p');
         text.className = 'admin-members-card__text';
@@ -164,13 +255,19 @@
         editButton.textContent = 'Bearbeiten';
         editButton.addEventListener('click', () => openDialog(section, item.id));
 
+        const toggleButton = document.createElement('button');
+        toggleButton.type = 'button';
+        toggleButton.className = 'btn btn--outline';
+        toggleButton.textContent = item.visible ? 'Ausblenden' : 'Sichtbar machen';
+        toggleButton.addEventListener('click', () => toggleVisibility(section, item.id));
+
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.className = 'btn btn--outline';
+        deleteButton.className = 'btn btn--outline admin-members-card__delete';
         deleteButton.textContent = 'Löschen';
         deleteButton.addEventListener('click', () => deleteItem(section, item.id));
 
-        actions.append(editButton, deleteButton);
+        actions.append(editButton, toggleButton, deleteButton);
         card.append(header, text, actions);
         list.appendChild(card);
       });
@@ -180,7 +277,9 @@
   function switchTab(section) {
     state.activeSection = section;
     elements.tabs.forEach((tab) => {
-      tab.classList.toggle('is-active', tab.dataset.membersTab === section);
+      const isActive = tab.dataset.membersTab === section;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
     elements.panels.forEach((panel) => {
       panel.hidden = panel.dataset.membersPanel !== section;
@@ -189,6 +288,15 @@
 
   function buildForm(section, item) {
     elements.fields.replaceChildren();
+
+    if (section === 'documents') {
+      const hint = document.createElement('p');
+      hint.className = 'admin-members-form-hint';
+      hint.textContent =
+        'Dateien werden aktuell noch über Git/Cursor in /downloads/ gepflegt. Upload folgt später. Der Dateiname verknüpft z. B. satzung.pdf mit /downloads/satzung.pdf.';
+      elements.fields.appendChild(hint);
+    }
+
     FIELD_CONFIG[section].forEach((field) => {
       const group = document.createElement('div');
       group.className = 'form-group';
@@ -249,7 +357,9 @@
     state.activeSection = section;
     state.editingId = id || null;
     const item = id ? state.content[section].find((entry) => entry.id === id) : null;
-    elements.formTitle.textContent = item ? `${SECTION_LABELS[section]} bearbeiten` : `${SECTION_LABELS[section]} anlegen`;
+    elements.formTitle.textContent = item
+      ? `${SECTION_LABELS[section]} bearbeiten`
+      : `${SECTION_LABELS[section]} anlegen`;
     buildForm(section, item);
     setFormStatus('');
     elements.dialog.showModal();
@@ -263,6 +373,12 @@
 
   async function saveItem() {
     const section = state.activeSection;
+    const form = elements.form;
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
     const item = readForm(section);
     setBusy(true);
     setFormStatus('Speichern …');
@@ -289,9 +405,36 @@
     }
   }
 
+  async function toggleVisibility(section, id) {
+    const item = state.content[section].find((entry) => entry.id === id);
+    if (!item) return;
+
+    const nextItem = { ...item, visible: !item.visible };
+    setBusy(true);
+    setStatus(nextItem.visible ? 'Eintrag wird sichtbar gemacht …' : 'Eintrag wird ausgeblendet …', 'info');
+
+    try {
+      await api('/api/admin/members', {
+        method: 'PATCH',
+        body: JSON.stringify({
+          section,
+          id,
+          item: itemToApiPayload(section, nextItem),
+        }),
+      });
+      await loadContent();
+      setStatus(nextItem.visible ? 'Eintrag ist jetzt sichtbar.' : 'Eintrag wurde ausgeblendet.', 'success');
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function deleteItem(section, id) {
     if (!window.confirm('Eintrag wirklich löschen?')) return;
     setBusy(true);
+    setStatus('Eintrag wird gelöscht …', 'info');
     try {
       await api(`/api/admin/members?section=${encodeURIComponent(section)}&id=${encodeURIComponent(id)}`, {
         method: 'DELETE',
@@ -318,9 +461,13 @@
       };
       state.apiOnline = true;
       renderLists();
+      switchTab(state.activeSection);
       setStatus('Mitgliederinhalte geladen. Einträge können gepflegt werden.', 'success');
     } catch (error) {
       state.apiOnline = false;
+      Object.keys(elements.lists).forEach((section) => {
+        elements.lists[section].replaceChildren();
+      });
       setStatus(error.message, 'error');
     } finally {
       setBusy(false);
@@ -338,6 +485,10 @@
   elements.close.addEventListener('click', closeDialog);
   elements.cancel.addEventListener('click', closeDialog);
   elements.save.addEventListener('click', saveItem);
+  elements.form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    saveItem();
+  });
   elements.dialog.addEventListener('cancel', () => {
     state.editingId = null;
     setFormStatus('');

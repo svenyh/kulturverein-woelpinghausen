@@ -74,6 +74,7 @@ function rowToHelper(row) {
     task: row.task,
     contactPerson: row.contact_person || '',
     status: row.status,
+    visible: row.visible === undefined ? true : row.visible === 1,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
@@ -174,11 +175,12 @@ export async function listMemberEventsInternal(db, { visibleOnly = false } = {})
 }
 
 export async function listMemberHelpers(db, { visibleOnly = false } = {}) {
-  void visibleOnly;
+  const where = visibleOnly ? 'WHERE visible = 1' : '';
   const result = await db
     .prepare(
-      `SELECT id, event_name, task, contact_person, status, created_at, updated_at
+      `SELECT id, event_name, task, contact_person, status, visible, created_at, updated_at
        FROM member_helpers
+       ${where}
        ORDER BY CASE status WHEN 'offen' THEN 0 ELSE 1 END, event_name ASC, task ASC`
     )
     .all();
@@ -256,10 +258,17 @@ export async function createMemberItem(db, section, payload) {
   } else if (section === 'helpers') {
     await db
       .prepare(
-        `INSERT INTO member_helpers (id, event_name, task, contact_person, status, updated_at)
-         VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+        `INSERT INTO member_helpers (id, event_name, task, contact_person, status, visible, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
       )
-      .bind(id, payload.eventName, payload.task, payload.contactPerson, payload.status)
+      .bind(
+        id,
+        payload.eventName,
+        payload.task,
+        payload.contactPerson,
+        payload.status,
+        payload.visible ? 1 : 0
+      )
       .run();
   }
 
@@ -323,10 +332,17 @@ export async function updateMemberItem(db, section, id, payload) {
     await db
       .prepare(
         `UPDATE member_helpers
-         SET event_name = ?, task = ?, contact_person = ?, status = ?, updated_at = CURRENT_TIMESTAMP
+         SET event_name = ?, task = ?, contact_person = ?, status = ?, visible = ?, updated_at = CURRENT_TIMESTAMP
          WHERE id = ?`
       )
-      .bind(payload.eventName, payload.task, payload.contactPerson, payload.status, id)
+      .bind(
+        payload.eventName,
+        payload.task,
+        payload.contactPerson,
+        payload.status,
+        payload.visible ? 1 : 0,
+        id
+      )
       .run();
   }
 

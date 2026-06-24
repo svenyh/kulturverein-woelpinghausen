@@ -1,0 +1,1 @@
+ALTER TABLE member_helpers ADD COLUMN visible INTEGER NOT NULL DEFAULT 1 CHECK (visible IN (0, 1));

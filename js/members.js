@@ -8,27 +8,27 @@
     news: {
       status: document.getElementById('members-news-status'),
       list: document.getElementById('members-news-list'),
-      empty: 'Aktuell liegen keine Vereinsinformationen vor.',
+      empty: 'Keine Informationen vorhanden.',
     },
     documents: {
       status: document.getElementById('members-documents-status'),
       list: document.getElementById('members-documents-list'),
-      empty: 'Aktuell sind keine Dokumente veröffentlicht.',
+      empty: 'Keine Dokumente vorhanden.',
     },
     events: {
       status: document.getElementById('members-events-status'),
       list: document.getElementById('members-events-list'),
-      empty: 'Aktuell sind keine internen Termine eingetragen.',
+      empty: 'Keine Termine vorhanden.',
     },
     helpers: {
       status: document.getElementById('members-helpers-status'),
       list: document.getElementById('members-helpers-list'),
-      empty: 'Aktuell sind keine Helfer-Einsätze eingetragen.',
+      empty: 'Keine Helfereinsätze vorhanden.',
     },
     downloads: {
       status: document.getElementById('members-downloads-status'),
       list: document.getElementById('members-downloads-list'),
-      empty: 'Aktuell sind keine Downloads verfügbar.',
+      empty: 'Keine Downloads verfügbar.',
     },
   };
 
@@ -36,7 +36,7 @@
 
   function formatDate(value) {
     const parts = String(value || '').split('-');
-    if (parts.length !== 3) return value;
+    if (!value || parts.length !== 3) return 'Termin folgt';
     return `${parts[2]}.${parts[1]}.${parts[0]}`;
   }
 
@@ -173,9 +173,13 @@
       const card = createCard(item.title, item.description, [createBadge('Interner Termin')]);
       const details = document.createElement('dl');
       details.className = 'members-card__details';
+      const dateText = item.eventDate
+        ? `${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}`
+        : 'Termin folgt';
+      const locationText = item.location || 'Ort folgt';
       details.innerHTML = `
-        <div><dt>Datum</dt><dd>${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}</dd></div>
-        ${item.location ? `<div><dt>Ort</dt><dd>${item.location}</dd></div>` : ''}
+        <div><dt>Datum</dt><dd>${dateText}</dd></div>
+        <div><dt>Ort</dt><dd>${locationText}</dd></div>
       `;
       card.appendChild(details);
       return card;
@@ -196,7 +200,7 @@
       }
       const note = document.createElement('p');
       note.className = 'members-file-pending';
-      note.textContent = 'Eine Online-Anmeldung ist derzeit nicht verfügbar. Bitte den Ansprechpartner direkt kontaktieren.';
+      note.textContent = 'Bei Interesse bitte an den Vorstand wenden.';
       card.appendChild(note);
       return card;
     }, sections.helpers.empty);
