@@ -5,8 +5,18 @@
   font-size: 0.95rem;
 }
 
-.members-intro {
-  margin-bottom: 2rem;
+.members-display {
+  padding-top: 0.5rem;
+}
+
+.members-section__icon {
+  margin-right: 0.25rem;
+}
+
+.members-contact-note {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
 }
 
 .members-intro__lead {

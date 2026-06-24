@@ -49,12 +49,16 @@ function validateFilename(value) {
   if (text.value.includes('..') || text.value.includes('/') || text.value.includes('\\')) {
     return { error: 'filename ist ungueltig.', status: 400 };
   }
+  if (text.value && !/\.pdf$/i.test(text.value)) {
+    return { error: 'filename muss auf .pdf enden.', status: 400 };
+  }
   return text;
 }
 
-function validateDate(value) {
-  const text = validateString(value, 'eventDate');
+function validateDate(value, { required = true } = {}) {
+  const text = validateString(value, 'eventDate', { required, allowEmpty: !required });
   if (text.error) return text;
+  if (!text.value) return { value: '' };
   if (!/^\d{4}-\d{2}-\d{2}$/.test(text.value)) {
     return { error: 'eventDate muss im Format JJJJ-MM-TT sein.', status: 400 };
   }
@@ -62,8 +66,8 @@ function validateDate(value) {
 }
 
 function validateStatus(value) {
-  if (value !== 'offen' && value !== 'besetzt') {
-    return { error: 'status muss offen oder besetzt sein.', status: 400 };
+  if (value !== 'offen' && value !== 'besetzt' && value !== 'abgeschlossen') {
+    return { error: 'status muss offen, besetzt oder abgeschlossen sein.', status: 400 };
   }
   return { value };
 }
@@ -128,7 +132,7 @@ function validatePayload(section, body, { partial = false } = {}) {
   if (section === 'events') {
     const title = validateString(body.title, 'title', { required: !partial });
     if (title.error) return title;
-    const eventDate = validateDate(body.eventDate);
+    const eventDate = validateDate(body.eventDate, { required: !partial });
     if (eventDate.error) return eventDate;
     const eventTime = validateString(body.eventTime, 'eventTime', { required: false, allowEmpty: true });
     if (eventTime.error) return eventTime;
@@ -136,6 +140,8 @@ function validatePayload(section, body, { partial = false } = {}) {
     if (location.error) return location;
     const description = validateString(body.description, 'description', { required: false, allowEmpty: true });
     if (description.error) return description;
+    const category = validateString(body.category, 'category', { required: false, allowEmpty: true });
+    if (category.error) return category;
     const visible = validateBoolean(body.visible, 'visible');
     if (visible.error) return visible;
     return {
@@ -145,15 +151,20 @@ function validatePayload(section, body, { partial = false } = {}) {
         eventTime: eventTime.value,
         location: location.value,
         description: description.value,
+        category: category.value,
         visible: visible.value,
       },
     };
   }
 
+  const title = validateString(body.title || body.task, 'title', { required: !partial });
+  if (title.error) return title;
   const eventName = validateString(body.eventName, 'eventName', { required: !partial });
   if (eventName.error) return eventName;
-  const task = validateString(body.task, 'task', { required: !partial });
-  if (task.error) return task;
+  const description = validateString(body.description, 'description', { required: false, allowEmpty: true });
+  if (description.error) return description;
+  const category = validateString(body.category, 'category', { required: false, allowEmpty: true });
+  if (category.error) return category;
   const contactPerson = validateString(body.contactPerson, 'contactPerson', { required: false, allowEmpty: true });
   if (contactPerson.error) return contactPerson;
   const status = validateStatus(body.status || 'offen');
@@ -162,8 +173,11 @@ function validatePayload(section, body, { partial = false } = {}) {
   if (visible.error) return visible;
   return {
     payload: {
+      title: title.value,
       eventName: eventName.value,
-      task: task.value,
+      task: title.value,
+      description: description.value,
+      category: category.value,
       contactPerson: contactPerson.value,
       status: status.value,
       visible: visible.value,
@@ -210,7 +224,7 @@ export async function onRequestPost(context) {
 
   try {
     const item = await createMemberItem(env.DB, body.section, validation.payload);
-    return jsonResponse({ message: 'Eintrag wurde erstellt.', item }, 201);
+    return jsonResponse({ message: 'Eintrag gespeichert.', item }, 201);
   } catch (error) {
     return jsonResponse({ error: error.message || 'Eintrag konnte nicht erstellt werden.' }, 500);
   }
@@ -245,7 +259,7 @@ export async function onRequestPatch(context) {
   try {
     const item = await updateMemberItem(env.DB, body.section, body.id.trim(), validation.payload);
     if (!item) return jsonResponse({ error: 'Eintrag wurde nicht gefunden.' }, 404);
-    return jsonResponse({ message: 'Eintrag wurde aktualisiert.', item });
+    return jsonResponse({ message: 'Eintrag geändert.', item });
   } catch (error) {
     return jsonResponse({ error: error.message || 'Eintrag konnte nicht aktualisiert werden.' }, 500);
   }
@@ -272,7 +286,7 @@ export async function onRequestDelete(context) {
   try {
     const deleted = await deleteMemberItem(env.DB, section, id.trim());
     if (!deleted) return jsonResponse({ error: 'Eintrag wurde nicht gefunden.' }, 404);
-    return jsonResponse({ message: 'Eintrag wurde geloescht.' });
+    return jsonResponse({ message: 'Eintrag gelöscht.' });
   } catch (error) {
     return jsonResponse({ error: error.message || 'Eintrag konnte nicht geloescht werden.' }, 500);
   }

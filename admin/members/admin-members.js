@@ -2,23 +2,30 @@
   'use strict';
 
   const SECTION_LABELS = {
-    news: 'Aktuelle Informationen',
+    news: 'Informationen',
     documents: 'Dokumente',
-    events: 'Interne Termine',
-    helpers: 'Helfer & Organisation',
+    events: 'Termine',
+    helpers: 'Helfer',
   };
 
   const EMPTY_LABELS = {
     news: 'Noch keine Informationen vorhanden.',
     documents: 'Noch keine Dokumente vorhanden.',
-    events: 'Noch keine internen Termine vorhanden.',
+    events: 'Noch keine Termine vorhanden.',
     helpers: 'Noch keine Helfer-Einsätze vorhanden.',
+  };
+
+  const STATUS_LABELS = {
+    offen: 'Offen',
+    besetzt: 'Besetzt',
+    abgeschlossen: 'Abgeschlossen',
   };
 
   const state = {
     content: { news: [], documents: [], events: [], helpers: [] },
     activeSection: 'news',
     editingId: null,
+    pendingDelete: null,
     busy: false,
     apiOnline: false,
   };
@@ -35,6 +42,7 @@
     },
     addButtons: document.querySelectorAll('[data-members-add]'),
     dialog: document.getElementById('members-admin-dialog'),
+    deleteDialog: document.getElementById('members-admin-delete-dialog'),
     formTitle: document.getElementById('members-admin-form-title'),
     formStatus: document.getElementById('members-admin-form-status'),
     form: document.getElementById('members-admin-form'),
@@ -42,6 +50,8 @@
     close: document.getElementById('members-admin-close'),
     cancel: document.getElementById('members-admin-cancel'),
     save: document.getElementById('members-admin-save'),
+    deleteCancel: document.getElementById('members-admin-delete-cancel'),
+    deleteConfirm: document.getElementById('members-admin-delete-confirm'),
   };
 
   const FIELD_CONFIG = {
@@ -49,27 +59,30 @@
       { name: 'title', label: 'Titel', type: 'text', required: true },
       { name: 'description', label: 'Beschreibung', type: 'textarea' },
       { name: 'category', label: 'Kategorie', type: 'text' },
-      { name: 'priority', label: 'Priorität', type: 'number', defaultValue: '0' },
-      { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
+      { name: 'priority', label: 'Priorität (Sortierung)', type: 'number', defaultValue: '0' },
+      { name: 'visible', label: 'Aktiv', type: 'checkbox', defaultChecked: true },
     ],
     documents: [
       { name: 'title', label: 'Titel', type: 'text', required: true },
       { name: 'description', label: 'Beschreibung', type: 'textarea' },
-      { name: 'filename', label: 'Dateiname (z. B. satzung.pdf)', type: 'text', required: true },
       { name: 'category', label: 'Kategorie', type: 'text' },
-      { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
+      { name: 'filename', label: 'Dateiname', type: 'filename', required: true },
+      { name: 'visible', label: 'Aktiv', type: 'checkbox', defaultChecked: true },
     ],
     events: [
       { name: 'title', label: 'Titel', type: 'text', required: true },
+      { name: 'description', label: 'Beschreibung', type: 'textarea' },
+      { name: 'category', label: 'Kategorie', type: 'text' },
       { name: 'eventDate', label: 'Datum', type: 'date', required: true },
       { name: 'eventTime', label: 'Uhrzeit', type: 'text' },
       { name: 'location', label: 'Ort', type: 'text' },
-      { name: 'description', label: 'Beschreibung', type: 'textarea' },
-      { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
+      { name: 'visible', label: 'Aktiv', type: 'checkbox', defaultChecked: true },
     ],
     helpers: [
+      { name: 'title', label: 'Titel', type: 'text', required: true },
       { name: 'eventName', label: 'Veranstaltung', type: 'text', required: true },
-      { name: 'task', label: 'Aufgabe', type: 'text', required: true },
+      { name: 'description', label: 'Beschreibung', type: 'textarea' },
+      { name: 'category', label: 'Kategorie', type: 'text' },
       { name: 'contactPerson', label: 'Ansprechpartner', type: 'text' },
       {
         name: 'status',
@@ -78,9 +91,10 @@
         options: [
           { value: 'offen', label: 'Offen' },
           { value: 'besetzt', label: 'Besetzt' },
+          { value: 'abgeschlossen', label: 'Abgeschlossen' },
         ],
       },
-      { name: 'visible', label: 'Sichtbar', type: 'checkbox', defaultChecked: true },
+      { name: 'visible', label: 'Aktiv', type: 'checkbox', defaultChecked: true },
     ],
   };
 
@@ -122,9 +136,22 @@
     return `${parts[2]}.${parts[1]}.${parts[0]}`;
   }
 
+  function formatTimestamp(value) {
+    if (!value) return '–';
+    const normalized = String(value).replace(' ', 'T');
+    const date = new Date(normalized);
+    if (Number.isNaN(date.getTime())) return value;
+    return date.toLocaleString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
+
   function getItemTitle(section, item) {
-    if (section === 'helpers') return item.task;
-    return item.title;
+    return item.title || item.task || 'Ohne Titel';
   }
 
   function getSectionItems(section) {
@@ -142,24 +169,24 @@
     return items;
   }
 
-  function renderMeta(section, item) {
-    if (section === 'news') {
-      return `${item.category || 'Info'} · Anzeige-Priorität ${item.priority ?? 0} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
-    }
-    if (section === 'documents') {
-      return `${item.category || 'Dokument'} · ${item.filename || '–'} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
-    }
+  function renderDetails(section, item) {
+    const rows = [];
+    rows.push(`ID: ${item.id}`);
+    rows.push(`Kategorie: ${item.category || '–'}`);
+    if (section === 'news') rows.push(`Priorität: ${item.priority ?? 0}`);
+    if (section === 'documents') rows.push(`Datei: ${item.filename || '–'}`);
     if (section === 'events') {
-      return `${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}${item.location ? ` · ${item.location}` : ''} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
+      rows.push(`Datum: ${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}`);
+      rows.push(`Ort: ${item.location || '–'}`);
     }
-    return `${item.eventName} · ${item.status === 'offen' ? 'Offen' : 'Besetzt'} · ${item.visible ? 'Sichtbar' : 'Ausgeblendet'}`;
-  }
-
-  function renderDescription(section, item) {
     if (section === 'helpers') {
-      return item.contactPerson ? `Ansprechpartner: ${item.contactPerson}` : 'Kein Ansprechpartner hinterlegt.';
+      rows.push(`Veranstaltung: ${item.eventName || '–'}`);
+      rows.push(`Status: ${STATUS_LABELS[item.status] || item.status}`);
+      rows.push(`Ansprechpartner: ${item.contactPerson || '–'}`);
     }
-    return item.description || '';
+    rows.push(`Erstellt: ${formatTimestamp(item.createdAt)}`);
+    rows.push(`Aktualisiert: ${formatTimestamp(item.updatedAt)}`);
+    return rows.join(' · ');
   }
 
   function itemToApiPayload(section, item) {
@@ -184,16 +211,20 @@
     if (section === 'events') {
       return {
         title: item.title,
+        description: item.description || '',
+        category: item.category || '',
         eventDate: item.eventDate,
         eventTime: item.eventTime || '',
         location: item.location || '',
-        description: item.description || '',
         visible: Boolean(item.visible),
       };
     }
     return {
+      title: item.title,
       eventName: item.eventName,
-      task: item.task,
+      task: item.title,
+      description: item.description || '',
+      category: item.category || '',
       contactPerson: item.contactPerson || '',
       status: item.status || 'offen',
       visible: Boolean(item.visible),
@@ -216,59 +247,55 @@
       getSectionItems(section).forEach((item) => {
         const card = document.createElement('article');
         card.className = 'admin-members-card';
-        if (item.visible === false) {
-          card.classList.add('admin-members-card--hidden');
-        }
+        if (!item.visible) card.classList.add('admin-members-card--inactive');
 
-        const header = document.createElement('div');
-        header.className = 'admin-members-card__header';
+        const top = document.createElement('div');
+        top.className = 'admin-members-card__top';
 
-        const copy = document.createElement('div');
-        const title = document.createElement('h3');
-        title.className = 'admin-members-card__title';
-        title.textContent = getItemTitle(section, item);
-
-        const meta = document.createElement('p');
-        meta.className = 'admin-members-card__meta';
-        meta.textContent = renderMeta(section, item);
-
-        copy.append(title, meta);
-        header.appendChild(copy);
-
-        if (item.visible === false) {
-          const badge = document.createElement('span');
-          badge.className = 'admin-members-badge admin-members-badge--hidden';
-          badge.textContent = 'Ausgeblendet';
-          header.appendChild(badge);
-        }
-
-        const text = document.createElement('p');
-        text.className = 'admin-members-card__text';
-        text.textContent = renderDescription(section, item);
+        const statusBadge = document.createElement('span');
+        statusBadge.className = `admin-members-badge ${item.visible ? 'admin-members-badge--active' : 'admin-members-badge--inactive'}`;
+        statusBadge.textContent = item.visible ? '🟢 Aktiv' : '🔴 Inaktiv';
 
         const actions = document.createElement('div');
-        actions.className = 'admin-members-card__actions';
+        actions.className = 'admin-members-card__toolbar';
 
         const editButton = document.createElement('button');
         editButton.type = 'button';
-        editButton.className = 'btn btn--outline';
-        editButton.textContent = 'Bearbeiten';
+        editButton.className = 'admin-members-icon-btn';
+        editButton.title = 'Bearbeiten';
+        editButton.textContent = '✏️';
         editButton.addEventListener('click', () => openDialog(section, item.id));
 
         const toggleButton = document.createElement('button');
         toggleButton.type = 'button';
-        toggleButton.className = 'btn btn--outline';
-        toggleButton.textContent = item.visible ? 'Ausblenden' : 'Sichtbar machen';
+        toggleButton.className = 'admin-members-icon-btn';
+        toggleButton.title = item.visible ? 'Deaktivieren' : 'Aktivieren';
+        toggleButton.textContent = '👁️';
         toggleButton.addEventListener('click', () => toggleVisibility(section, item.id));
 
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
-        deleteButton.className = 'btn btn--outline admin-members-card__delete';
-        deleteButton.textContent = 'Löschen';
-        deleteButton.addEventListener('click', () => deleteItem(section, item.id));
+        deleteButton.className = 'admin-members-icon-btn admin-members-icon-btn--danger';
+        deleteButton.title = 'Löschen';
+        deleteButton.textContent = '🗑️';
+        deleteButton.addEventListener('click', () => openDeleteDialog(section, item.id));
 
         actions.append(editButton, toggleButton, deleteButton);
-        card.append(header, text, actions);
+        top.append(statusBadge, actions);
+
+        const title = document.createElement('h3');
+        title.className = 'admin-members-card__title';
+        title.textContent = getItemTitle(section, item);
+
+        const description = document.createElement('p');
+        description.className = 'admin-members-card__text';
+        description.textContent = item.description || 'Keine Beschreibung hinterlegt.';
+
+        const meta = document.createElement('p');
+        meta.className = 'admin-members-card__meta';
+        meta.textContent = renderDetails(section, item);
+
+        card.append(top, title, description, meta);
         list.appendChild(card);
       });
     });
@@ -293,7 +320,7 @@
       const hint = document.createElement('p');
       hint.className = 'admin-members-form-hint';
       hint.textContent =
-        'Dateien werden aktuell noch über Git/Cursor in /downloads/ gepflegt. Upload folgt später. Der Dateiname verknüpft z. B. satzung.pdf mit /downloads/satzung.pdf.';
+        'PDF auswählen oder Dateiname eingeben. Dateien liegen unter /downloads/. Upload-Endpunkt ist vorbereitet – bis zur Aktivierung bitte Datei manuell ablegen.';
       elements.fields.appendChild(hint);
     }
 
@@ -313,7 +340,8 @@
       } else if (field.type === 'checkbox') {
         input = document.createElement('input');
         input.type = 'checkbox';
-        input.checked = item ? Boolean(item[field.name]) : field.defaultChecked !== false;
+        input.checked = item ? Boolean(item.visible) : field.defaultChecked !== false;
+        input.name = 'visible';
       } else if (field.type === 'select') {
         input = document.createElement('select');
         field.options.forEach((option) => {
@@ -323,6 +351,33 @@
           input.appendChild(opt);
         });
         input.value = item?.[field.name] || field.options[0].value;
+      } else if (field.type === 'filename') {
+        const wrap = document.createElement('div');
+        wrap.className = 'admin-members-file-field';
+
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = '.pdf,application/pdf';
+        fileInput.id = 'members-field-file-picker';
+
+        input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'members-field-filename';
+        input.name = 'filename';
+        input.placeholder = 'z. B. satzung.pdf';
+        input.value = item?.filename ?? '';
+        input.required = true;
+
+        fileInput.addEventListener('change', () => {
+          const file = fileInput.files?.[0];
+          if (!file) return;
+          input.value = file.name;
+        });
+
+        wrap.append(fileInput, input);
+        group.appendChild(wrap);
+        elements.fields.appendChild(group);
+        return;
       } else {
         input = document.createElement('input');
         input.type = field.type;
@@ -340,10 +395,15 @@
   function readForm(section) {
     const item = {};
     FIELD_CONFIG[section].forEach((field) => {
+      if (field.type === 'filename') {
+        const input = elements.fields.querySelector('[name="filename"]');
+        item.filename = input?.value.trim() || '';
+        return;
+      }
       const input = elements.fields.querySelector(`[name="${field.name}"]`);
       if (!input) return;
       if (field.type === 'checkbox') {
-        item[field.name] = input.checked;
+        item.visible = input.checked;
       } else if (field.type === 'number') {
         item[field.name] = Number(input.value || 0);
       } else {
@@ -359,7 +419,7 @@
     const item = id ? state.content[section].find((entry) => entry.id === id) : null;
     elements.formTitle.textContent = item
       ? `${SECTION_LABELS[section]} bearbeiten`
-      : `${SECTION_LABELS[section]} anlegen`;
+      : `${SECTION_LABELS[section]} neu anlegen`;
     buildForm(section, item);
     setFormStatus('');
     elements.dialog.showModal();
@@ -371,20 +431,27 @@
     elements.dialog.close();
   }
 
+  function openDeleteDialog(section, id) {
+    state.pendingDelete = { section, id };
+    elements.deleteDialog.showModal();
+  }
+
+  function closeDeleteDialog() {
+    state.pendingDelete = null;
+    elements.deleteDialog.close();
+  }
+
   async function saveItem() {
     const section = state.activeSection;
-    const form = elements.form;
-
-    if (!form.reportValidity()) {
-      return;
-    }
+    if (!elements.form.reportValidity()) return;
 
     const item = readForm(section);
+    const isEdit = Boolean(state.editingId);
     setBusy(true);
     setFormStatus('Speichern …');
 
     try {
-      if (state.editingId) {
+      if (isEdit) {
         await api('/api/admin/members', {
           method: 'PATCH',
           body: JSON.stringify({ section, id: state.editingId, item }),
@@ -395,9 +462,9 @@
           body: JSON.stringify({ section, item }),
         });
       }
-      await loadContent();
+      await loadContent(false);
       closeDialog();
-      setStatus('Änderungen wurden gespeichert.', 'success');
+      setStatus(isEdit ? 'Eintrag geändert.' : 'Eintrag gespeichert.', 'success');
     } catch (error) {
       setFormStatus(error.message);
     } finally {
@@ -411,7 +478,6 @@
 
     const nextItem = { ...item, visible: !item.visible };
     setBusy(true);
-    setStatus(nextItem.visible ? 'Eintrag wird sichtbar gemacht …' : 'Eintrag wird ausgeblendet …', 'info');
 
     try {
       await api('/api/admin/members', {
@@ -422,8 +488,8 @@
           item: itemToApiPayload(section, nextItem),
         }),
       });
-      await loadContent();
-      setStatus(nextItem.visible ? 'Eintrag ist jetzt sichtbar.' : 'Eintrag wurde ausgeblendet.', 'success');
+      await loadContent(false);
+      setStatus(nextItem.visible ? 'Eintrag aktiviert.' : 'Eintrag deaktiviert.', 'success');
     } catch (error) {
       setStatus(error.message, 'error');
     } finally {
@@ -431,16 +497,19 @@
     }
   }
 
-  async function deleteItem(section, id) {
-    if (!window.confirm('Eintrag wirklich löschen?')) return;
+  async function confirmDelete() {
+    const pending = state.pendingDelete;
+    if (!pending) return;
+
     setBusy(true);
-    setStatus('Eintrag wird gelöscht …', 'info');
     try {
-      await api(`/api/admin/members?section=${encodeURIComponent(section)}&id=${encodeURIComponent(id)}`, {
-        method: 'DELETE',
-      });
-      await loadContent();
-      setStatus('Eintrag wurde gelöscht.', 'success');
+      await api(
+        `/api/admin/members?section=${encodeURIComponent(pending.section)}&id=${encodeURIComponent(pending.id)}`,
+        { method: 'DELETE' }
+      );
+      await loadContent(false);
+      closeDeleteDialog();
+      setStatus('Eintrag gelöscht.', 'success');
     } catch (error) {
       setStatus(error.message, 'error');
     } finally {
@@ -448,9 +517,9 @@
     }
   }
 
-  async function loadContent() {
+  async function loadContent(showLoadedMessage = true) {
     setBusy(true);
-    setStatus('Mitgliederinhalte werden geladen …', 'info');
+    if (showLoadedMessage) setStatus('Mitgliederinhalte werden geladen …', 'info');
     try {
       const payload = await api('/api/admin/members');
       state.content = {
@@ -462,7 +531,9 @@
       state.apiOnline = true;
       renderLists();
       switchTab(state.activeSection);
-      setStatus('Mitgliederinhalte geladen. Einträge können gepflegt werden.', 'success');
+      if (showLoadedMessage) {
+        setStatus('Mitgliederinhalte geladen. Einträge können gepflegt werden.', 'success');
+      }
     } catch (error) {
       state.apiOnline = false;
       Object.keys(elements.lists).forEach((section) => {
@@ -485,6 +556,8 @@
   elements.close.addEventListener('click', closeDialog);
   elements.cancel.addEventListener('click', closeDialog);
   elements.save.addEventListener('click', saveItem);
+  elements.deleteCancel.addEventListener('click', closeDeleteDialog);
+  elements.deleteConfirm.addEventListener('click', confirmDelete);
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault();
     saveItem();
@@ -492,6 +565,9 @@
   elements.dialog.addEventListener('cancel', () => {
     state.editingId = null;
     setFormStatus('');
+  });
+  elements.deleteDialog.addEventListener('cancel', () => {
+    state.pendingDelete = null;
   });
 
   switchTab('news');

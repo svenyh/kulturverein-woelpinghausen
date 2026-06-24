@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mitglieder – Admin</title>
+  <title>Mitglieder – Admin CMS</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/admin/members/admin-members.css">
   <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
 </head>
 <body class="app-page admin-members-page">
-  <div class="app-banner"><strong>Mitglieder</strong> – Mitgliederbereich verwalten</div>
+  <div class="app-banner"><strong>Mitglieder CMS</strong> – Inhalte pflegen</div>
   <header class="header admin-members-header">
     <div class="container header__inner">
       <a href="/admin/" class="header__logo" aria-label="Zur Admin-Startseite">
         <img src="/images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
         <span class="header__logo-text">
           <span class="header__logo-name">Admin</span>
-          <span class="header__logo-place">Mitglieder</span>
+          <span class="header__logo-place">Mitglieder CMS</span>
         </span>
       </a>
       <a href="/mitgliederbereich/" class="btn btn--outline">Öffentliche Vorschau</a>
@@ -25,13 +25,13 @@
 
   <main class="admin-members-main">
     <section class="admin-members-intro" aria-labelledby="page-title">
-      <p class="admin-members-kicker">Verein</p>
-      <h1 id="page-title" class="app-content__title">Mitgliederbereich</h1>
-      <p class="app-content__lead">Informationen, Dokumente, interne Termine und Helfer-Einsätze für den Mitgliederbereich pflegen.</p>
+      <p class="admin-members-kicker">Mini-CMS</p>
+      <h1 id="page-title" class="app-content__title">Mitgliederbereich verwalten</h1>
+      <p class="app-content__lead">Informationen, Dokumente, Termine und Helfer-Einsätze anlegen, bearbeiten, aktivieren oder deaktivieren.</p>
     </section>
 
     <aside class="admin-members-notice" aria-label="Hinweise zur Pflege">
-      <p><strong>Dateien werden aktuell noch über Git/Cursor gepflegt. Upload folgt später.</strong> Dokumente werden über den Dateinamen unter <code>/downloads/</code> verknüpft.</p>
+      <p><strong>Upload vorbereitet:</strong> PDF unter <code>/downloads/</code> ablegen und Dateiname verknüpfen. Der Upload-Endpunkt <code>/api/admin/members/upload</code> ist vorbereitet.</p>
     </aside>
 
     <p class="admin-members-status" id="members-admin-status" role="status" aria-live="polite">Mitgliederinhalte werden geladen …</p>
@@ -45,8 +45,8 @@
 
     <section class="admin-members-panel" data-members-panel="news" aria-labelledby="panel-news-title">
       <div class="admin-members-panel__header">
-        <h2 id="panel-news-title" class="admin-members-panel__title">Aktuelle Informationen</h2>
-        <button type="button" class="btn btn--primary" data-members-add="news">Eintrag hinzufügen</button>
+        <h2 id="panel-news-title" class="admin-members-panel__title">Informationen</h2>
+        <button type="button" class="btn btn--primary" data-members-add="news">Neu anlegen</button>
       </div>
       <div class="admin-members-list" id="members-admin-list-news"></div>
     </section>
@@ -54,23 +54,23 @@
     <section class="admin-members-panel" data-members-panel="documents" hidden aria-labelledby="panel-documents-title">
       <div class="admin-members-panel__header">
         <h2 id="panel-documents-title" class="admin-members-panel__title">Dokumente</h2>
-        <button type="button" class="btn btn--primary" data-members-add="documents">Dokument hinzufügen</button>
+        <button type="button" class="btn btn--primary" data-members-add="documents">Neu anlegen</button>
       </div>
       <div class="admin-members-list" id="members-admin-list-documents"></div>
     </section>
 
     <section class="admin-members-panel" data-members-panel="events" hidden aria-labelledby="panel-events-title">
       <div class="admin-members-panel__header">
-        <h2 id="panel-events-title" class="admin-members-panel__title">Interne Termine</h2>
-        <button type="button" class="btn btn--primary" data-members-add="events">Termin hinzufügen</button>
+        <h2 id="panel-events-title" class="admin-members-panel__title">Termine</h2>
+        <button type="button" class="btn btn--primary" data-members-add="events">Neu anlegen</button>
       </div>
       <div class="admin-members-list" id="members-admin-list-events"></div>
     </section>
 
     <section class="admin-members-panel" data-members-panel="helpers" hidden aria-labelledby="panel-helpers-title">
       <div class="admin-members-panel__header">
-        <h2 id="panel-helpers-title" class="admin-members-panel__title">Helfer &amp; Organisation</h2>
-        <button type="button" class="btn btn--primary" data-members-add="helpers">Helfer-Einsatz hinzufügen</button>
+        <h2 id="panel-helpers-title" class="admin-members-panel__title">Helfer</h2>
+        <button type="button" class="btn btn--primary" data-members-add="helpers">Neu anlegen</button>
       </div>
       <div class="admin-members-list" id="members-admin-list-helpers"></div>
     </section>
@@ -93,6 +93,23 @@
         </div>
       </footer>
     </form>
+  </dialog>
+
+  <dialog class="admin-members-dialog admin-members-dialog--confirm" id="members-admin-delete-dialog" aria-labelledby="members-admin-delete-title">
+    <div class="admin-members-dialog__inner">
+      <header class="admin-members-dialog__header">
+        <h2 class="admin-members-dialog__title" id="members-admin-delete-title">Eintrag wirklich löschen?</h2>
+      </header>
+      <div class="admin-members-dialog__body">
+        <p class="admin-members-card__text">Der Eintrag wird dauerhaft aus der Datenbank entfernt.</p>
+      </div>
+      <footer class="admin-members-dialog__footer">
+        <div class="admin-members-dialog__actions">
+          <button type="button" class="btn btn--outline" id="members-admin-delete-cancel">Abbrechen</button>
+          <button type="button" class="btn btn--primary admin-members-delete-confirm" id="members-admin-delete-confirm">Löschen</button>
+        </div>
+      </footer>
+    </div>
   </dialog>
 
   <script src="/admin/members/admin-members.js"></script>

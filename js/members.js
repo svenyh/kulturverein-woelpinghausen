@@ -25,11 +25,6 @@
       list: document.getElementById('members-helpers-list'),
       empty: 'Keine Helfereinsätze vorhanden.',
     },
-    downloads: {
-      status: document.getElementById('members-downloads-status'),
-      list: document.getElementById('members-downloads-list'),
-      empty: 'Keine Downloads verfügbar.',
-    },
   };
 
   const fileExistsCache = new Map();
@@ -46,9 +41,7 @@
   }
 
   async function fileExists(urlPath) {
-    if (fileExistsCache.has(urlPath)) {
-      return fileExistsCache.get(urlPath);
-    }
+    if (fileExistsCache.has(urlPath)) return fileExistsCache.get(urlPath);
 
     let exists = false;
     try {
@@ -63,9 +56,9 @@
     return exists;
   }
 
-  function createBadge(text, className) {
+  function createBadge(text) {
     const badge = document.createElement('span');
-    badge.className = `members-badge${className ? ` ${className}` : ''}`;
+    badge.className = 'members-badge';
     badge.textContent = text;
     return badge;
   }
@@ -103,7 +96,7 @@
     return notice;
   }
 
-  async function appendDownloadAction(card, item, { button = false } = {}) {
+  async function appendDownloadAction(card, item) {
     const filename = String(item.filename || '').trim();
     if (!filename || isPlaceholderFilename(filename)) {
       card.appendChild(createPendingNotice());
@@ -119,14 +112,9 @@
 
     const link = document.createElement('a');
     link.href = urlPath;
+    link.className = 'members-download';
+    link.textContent = 'PDF herunterladen';
     link.setAttribute('download', '');
-    if (button) {
-      link.className = 'btn btn--primary';
-      link.textContent = 'Herunterladen';
-    } else {
-      link.className = 'members-download';
-      link.textContent = filename;
-    }
     card.appendChild(link);
   }
 
@@ -147,63 +135,69 @@
   }
 
   function renderNews(items) {
-    renderList(sections.news, items, async (item) => {
-      return createCard(item.title, item.description, [createBadge(item.category || 'Info')]);
-    }, sections.news.empty);
+    renderList(
+      sections.news,
+      items,
+      async (item) => createCard(item.title, item.description, [createBadge(item.category || 'Aktuelles')]),
+      sections.news.empty
+    );
   }
 
   function renderDocuments(items) {
-    renderList(sections.documents, items, async (item) => {
-      const card = createCard(item.title, item.description, [createBadge(item.category || 'Dokument')]);
-      await appendDownloadAction(card, item);
-      return card;
-    }, sections.documents.empty);
-  }
-
-  function renderDownloads(items) {
-    renderList(sections.downloads, items, async (item) => {
-      const card = createCard(item.title, item.description, [createBadge(item.category || 'Download')]);
-      await appendDownloadAction(card, item, { button: true });
-      return card;
-    }, sections.downloads.empty);
+    renderList(
+      sections.documents,
+      items,
+      async (item) => {
+        const card = createCard(item.title, item.description, [createBadge(item.category || 'Dokument')]);
+        await appendDownloadAction(card, item);
+        return card;
+      },
+      sections.documents.empty
+    );
   }
 
   function renderEvents(items) {
-    renderList(sections.events, items, async (item) => {
-      const card = createCard(item.title, item.description, [createBadge('Interner Termin')]);
-      const details = document.createElement('dl');
-      details.className = 'members-card__details';
-      const dateText = item.eventDate
-        ? `${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}`
-        : 'Termin folgt';
-      const locationText = item.location || 'Ort folgt';
-      details.innerHTML = `
-        <div><dt>Datum</dt><dd>${dateText}</dd></div>
-        <div><dt>Ort</dt><dd>${locationText}</dd></div>
-      `;
-      card.appendChild(details);
-      return card;
-    }, sections.events.empty);
+    renderList(
+      sections.events,
+      items,
+      async (item) => {
+        const card = createCard(item.title, item.description, [createBadge(item.category || 'Termin')]);
+        const details = document.createElement('dl');
+        details.className = 'members-card__details';
+        const dateText = item.eventDate
+          ? `${formatDate(item.eventDate)}${item.eventTime ? ` · ${item.eventTime} Uhr` : ''}`
+          : 'Termin folgt';
+        details.innerHTML = `
+          <div><dt>Datum</dt><dd>${dateText}</dd></div>
+          <div><dt>Ort</dt><dd>${item.location || 'Ort folgt'}</dd></div>
+        `;
+        card.appendChild(details);
+        return card;
+      },
+      sections.events.empty
+    );
   }
 
   function renderHelpers(items) {
-    renderList(sections.helpers, items, async (item) => {
-      const card = createCard(item.task, '', [
-        createBadge(item.eventName),
-        createBadge(item.status === 'offen' ? 'Offen' : 'Besetzt', item.status === 'offen' ? 'members-badge--open' : 'members-badge--filled'),
-      ]);
-      if (item.contactPerson) {
-        const contact = document.createElement('p');
-        contact.className = 'members-card__text';
-        contact.textContent = `Ansprechpartner: ${item.contactPerson}`;
-        card.appendChild(contact);
-      }
-      const note = document.createElement('p');
-      note.className = 'members-file-pending';
-      note.textContent = 'Bei Interesse bitte an den Vorstand wenden.';
-      card.appendChild(note);
-      return card;
-    }, sections.helpers.empty);
+    renderList(
+      sections.helpers,
+      items,
+      async (item) => {
+        const card = createCard(item.title, item.description, [createBadge(item.eventName || 'Helfer gesucht')]);
+        if (item.contactPerson) {
+          const contact = document.createElement('p');
+          contact.className = 'members-card__text';
+          contact.textContent = `Ansprechpartner: ${item.contactPerson}`;
+          card.appendChild(contact);
+        }
+        const note = document.createElement('p');
+        note.className = 'members-contact-note';
+        note.textContent = 'Bei Interesse bitte an den Vorstand wenden.';
+        card.appendChild(note);
+        return card;
+      },
+      sections.helpers.empty
+    );
   }
 
   async function loadSection(path, key) {
@@ -229,12 +223,9 @@
       renderDocuments(documents);
       renderEvents(events);
       renderHelpers(helpers);
-      renderDownloads(documents);
     } catch {
       Object.values(sections).forEach((section) => {
-        if (section.status) {
-          section.status.textContent = 'Inhalte konnten nicht geladen werden.';
-        }
+        if (section.status) section.status.textContent = 'Inhalte konnten nicht geladen werden.';
       });
     }
   }

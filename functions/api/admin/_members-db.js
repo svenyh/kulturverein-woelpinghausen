@@ -61,6 +61,7 @@ function rowToMemberEvent(row) {
     eventTime: row.event_time || '',
     location: row.location || '',
     description: row.description || '',
+    category: row.category || '',
     visible: row.visible === 1,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -68,10 +69,14 @@ function rowToMemberEvent(row) {
 }
 
 function rowToHelper(row) {
+  const title = row.title || row.task || '';
   return {
     id: row.id,
+    title,
     eventName: row.event_name,
-    task: row.task,
+    task: row.task || title,
+    description: row.description || '',
+    category: row.category || '',
     contactPerson: row.contact_person || '',
     status: row.status,
     visible: row.visible === undefined ? true : row.visible === 1,
@@ -97,7 +102,6 @@ export function toPublicNews(row) {
     title: row.title,
     description: row.description || '',
     category: row.category || '',
-    createdAt: row.created_at,
   };
 }
 
@@ -119,16 +123,18 @@ export function toPublicMemberEvent(row) {
     eventTime: row.event_time || '',
     location: row.location || '',
     description: row.description || '',
+    category: row.category || '',
   };
 }
 
 export function toPublicHelper(row) {
   return {
     id: row.id,
+    title: row.title || row.task,
     eventName: row.event_name,
-    task: row.task,
+    description: row.description || '',
+    category: row.category || '',
     contactPerson: row.contact_person || '',
-    status: row.status,
   };
 }
 
@@ -164,7 +170,7 @@ export async function listMemberEventsInternal(db, { visibleOnly = false } = {})
   const where = visibleOnly ? 'WHERE visible = 1' : '';
   const result = await db
     .prepare(
-      `SELECT id, title, event_date, event_time, location, description, visible, created_at, updated_at
+      `SELECT id, title, event_date, event_time, location, description, category, visible, created_at, updated_at
        FROM member_events
        ${where}
        ORDER BY event_date ASC, event_time ASC, title ASC`
@@ -175,13 +181,13 @@ export async function listMemberEventsInternal(db, { visibleOnly = false } = {})
 }
 
 export async function listMemberHelpers(db, { visibleOnly = false } = {}) {
-  const where = visibleOnly ? 'WHERE visible = 1' : '';
+  const where = visibleOnly ? "WHERE visible = 1 AND status = 'offen'" : '';
   const result = await db
     .prepare(
-      `SELECT id, event_name, task, contact_person, status, visible, created_at, updated_at
+      `SELECT id, title, event_name, task, description, category, contact_person, status, visible, created_at, updated_at
        FROM member_helpers
        ${where}
-       ORDER BY CASE status WHEN 'offen' THEN 0 ELSE 1 END, event_name ASC, task ASC`
+       ORDER BY CASE status WHEN 'offen' THEN 0 WHEN 'besetzt' THEN 1 ELSE 2 END, event_name ASC, title ASC`
     )
     .all();
   const mapper = visibleOnly ? toPublicHelper : rowToHelper;
@@ -207,7 +213,7 @@ async function getById(db, section, id) {
 
 export async function createMemberItem(db, section, payload) {
   const table = TABLE_BY_SECTION[section];
-  const id = payload.id?.trim() || createId(section, payload.title || payload.eventName || payload.task);
+  const id = payload.id?.trim() || createId(section, payload.title || payload.eventName || payload.task || 'eintrag');
 
   if (section === 'news') {
     await db
@@ -242,8 +248,8 @@ export async function createMemberItem(db, section, payload) {
   } else if (section === 'events') {
     await db
       .prepare(
-        `INSERT INTO member_events (id, title, event_date, event_time, location, description, visible, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+        `INSERT INTO member_events (id, title, event_date, event_time, location, description, category, visible, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
       )
       .bind(
         id,
@@ -252,19 +258,23 @@ export async function createMemberItem(db, section, payload) {
         payload.eventTime,
         payload.location,
         payload.description,
+        payload.category,
         payload.visible ? 1 : 0
       )
       .run();
   } else if (section === 'helpers') {
     await db
       .prepare(
-        `INSERT INTO member_helpers (id, event_name, task, contact_person, status, visible, updated_at)
-         VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
+        `INSERT INTO member_helpers (id, title, event_name, task, description, category, contact_person, status, visible, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`
       )
       .bind(
         id,
+        payload.title,
         payload.eventName,
-        payload.task,
+        payload.task || payload.title,
+        payload.description,
+        payload.category,
         payload.contactPerson,
         payload.status,
         payload.visible ? 1 : 0
@@ -315,7 +325,7 @@ export async function updateMemberItem(db, section, id, payload) {
     await db
       .prepare(
         `UPDATE member_events
-         SET title = ?, event_date = ?, event_time = ?, location = ?, description = ?, visible = ?, updated_at = CURRENT_TIMESTAMP
+         SET title = ?, event_date = ?, event_time = ?, location = ?, description = ?, category = ?, visible = ?, updated_at = CURRENT_TIMESTAMP
          WHERE id = ?`
       )
       .bind(
@@ -324,6 +334,7 @@ export async function updateMemberItem(db, section, id, payload) {
         payload.eventTime,
         payload.location,
         payload.description,
+        payload.category,
         payload.visible ? 1 : 0,
         id
       )
@@ -332,12 +343,15 @@ export async function updateMemberItem(db, section, id, payload) {
     await db
       .prepare(
         `UPDATE member_helpers
-         SET event_name = ?, task = ?, contact_person = ?, status = ?, visible = ?, updated_at = CURRENT_TIMESTAMP
+         SET title = ?, event_name = ?, task = ?, description = ?, category = ?, contact_person = ?, status = ?, visible = ?, updated_at = CURRENT_TIMESTAMP
          WHERE id = ?`
       )
       .bind(
+        payload.title,
         payload.eventName,
-        payload.task,
+        payload.task || payload.title,
+        payload.description,
+        payload.category,
         payload.contactPerson,
         payload.status,
         payload.visible ? 1 : 0,
