@@ -90,6 +90,47 @@ export function isValidSection(section) {
   return SECTIONS.includes(section);
 }
 
+export function toPublicNews(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    category: row.category || '',
+    createdAt: row.created_at,
+  };
+}
+
+export function toPublicDocument(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    filename: row.filename || '',
+    category: row.category || '',
+  };
+}
+
+export function toPublicMemberEvent(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    eventDate: row.event_date,
+    eventTime: row.event_time || '',
+    location: row.location || '',
+    description: row.description || '',
+  };
+}
+
+export function toPublicHelper(row) {
+  return {
+    id: row.id,
+    eventName: row.event_name,
+    task: row.task,
+    contactPerson: row.contact_person || '',
+    status: row.status,
+  };
+}
+
 export async function listMemberNews(db, { visibleOnly = false } = {}) {
   const where = visibleOnly ? 'WHERE visible = 1' : '';
   const result = await db
@@ -97,10 +138,11 @@ export async function listMemberNews(db, { visibleOnly = false } = {}) {
       `SELECT id, title, description, category, priority, visible, created_at, updated_at
        FROM member_news
        ${where}
-       ORDER BY priority DESC, updated_at DESC, title ASC`
+       ORDER BY priority DESC, created_at DESC, title ASC`
     )
     .all();
-  return (result.results || []).map(rowToNews);
+  const mapper = visibleOnly ? toPublicNews : rowToNews;
+  return (result.results || []).map(mapper);
 }
 
 export async function listMemberDocuments(db, { visibleOnly = false } = {}) {
@@ -113,7 +155,8 @@ export async function listMemberDocuments(db, { visibleOnly = false } = {}) {
        ORDER BY category ASC, title ASC`
     )
     .all();
-  return (result.results || []).map(rowToDocument);
+  const mapper = visibleOnly ? toPublicDocument : rowToDocument;
+  return (result.results || []).map(mapper);
 }
 
 export async function listMemberEventsInternal(db, { visibleOnly = false } = {}) {
@@ -126,10 +169,12 @@ export async function listMemberEventsInternal(db, { visibleOnly = false } = {})
        ORDER BY event_date ASC, event_time ASC, title ASC`
     )
     .all();
-  return (result.results || []).map(rowToMemberEvent);
+  const mapper = visibleOnly ? toPublicMemberEvent : rowToMemberEvent;
+  return (result.results || []).map(mapper);
 }
 
-export async function listMemberHelpers(db) {
+export async function listMemberHelpers(db, { visibleOnly = false } = {}) {
+  void visibleOnly;
   const result = await db
     .prepare(
       `SELECT id, event_name, task, contact_person, status, created_at, updated_at
@@ -137,7 +182,8 @@ export async function listMemberHelpers(db) {
        ORDER BY CASE status WHEN 'offen' THEN 0 ELSE 1 END, event_name ASC, task ASC`
     )
     .all();
-  return (result.results || []).map(rowToHelper);
+  const mapper = visibleOnly ? toPublicHelper : rowToHelper;
+  return (result.results || []).map(mapper);
 }
 
 export async function listAllMemberContent(db) {

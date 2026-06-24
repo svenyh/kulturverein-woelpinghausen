@@ -12,7 +12,7 @@ export async function onRequestGet(context) {
   if (!env.DB) return jsonResponse({ helpers: [] });
 
   try {
-    const helpers = await listMemberHelpers(env.DB);
+    const helpers = await listMemberHelpers(env.DB, { visibleOnly: true });
     return jsonResponse({ helpers });
   } catch {
     return jsonResponse({ helpers: [] });

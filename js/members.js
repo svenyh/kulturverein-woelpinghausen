@@ -1,6 +1,9 @@
 (function () {
   'use strict';
 
+  const PENDING_FILE_HINT = 'Datei wird noch ergänzt';
+  const PLACEHOLDER_FILENAMES = new Set(['folgt.pdf', 'folgt.txt']);
+
   const sections = {
     news: {
       status: document.getElementById('members-news-status'),
@@ -29,10 +32,35 @@
     },
   };
 
+  const fileExistsCache = new Map();
+
   function formatDate(value) {
     const parts = String(value || '').split('-');
     if (parts.length !== 3) return value;
     return `${parts[2]}.${parts[1]}.${parts[0]}`;
+  }
+
+  function isPlaceholderFilename(filename) {
+    const normalized = String(filename || '').trim().toLowerCase();
+    return !normalized || PLACEHOLDER_FILENAMES.has(normalized);
+  }
+
+  async function fileExists(urlPath) {
+    if (fileExistsCache.has(urlPath)) {
+      return fileExistsCache.get(urlPath);
+    }
+
+    let exists = false;
+    try {
+      const response = await fetch(urlPath, { method: 'HEAD' });
+      const contentType = String(response.headers.get('content-type') || '').toLowerCase();
+      exists = response.ok && !contentType.includes('text/html');
+    } catch {
+      exists = false;
+    }
+
+    fileExistsCache.set(urlPath, exists);
+    return exists;
   }
 
   function createBadge(text, className) {
@@ -68,56 +96,80 @@
     return card;
   }
 
+  function createPendingNotice() {
+    const notice = document.createElement('p');
+    notice.className = 'members-file-pending';
+    notice.textContent = PENDING_FILE_HINT;
+    return notice;
+  }
+
+  async function appendDownloadAction(card, item, { button = false } = {}) {
+    const filename = String(item.filename || '').trim();
+    if (!filename || isPlaceholderFilename(filename)) {
+      card.appendChild(createPendingNotice());
+      return;
+    }
+
+    const urlPath = `/downloads/${encodeURIComponent(filename)}`;
+    const exists = await fileExists(urlPath);
+    if (!exists) {
+      card.appendChild(createPendingNotice());
+      return;
+    }
+
+    const link = document.createElement('a');
+    link.href = urlPath;
+    link.setAttribute('download', '');
+    if (button) {
+      link.className = 'btn btn--primary';
+      link.textContent = 'Herunterladen';
+    } else {
+      link.className = 'members-download';
+      link.textContent = filename;
+    }
+    card.appendChild(link);
+  }
+
   function renderList(target, items, renderer, emptyText) {
     target.list.replaceChildren();
     if (!items.length) {
       target.status.textContent = emptyText;
       target.status.hidden = false;
+      target.list.hidden = true;
       return;
     }
-    items.forEach((item) => target.list.appendChild(renderer(item)));
-    target.status.hidden = true;
-    target.list.hidden = false;
+
+    Promise.all(items.map((item) => renderer(item))).then((nodes) => {
+      nodes.forEach((node) => target.list.appendChild(node));
+      target.status.hidden = true;
+      target.list.hidden = false;
+    });
   }
 
   function renderNews(items) {
-    renderList(sections.news, items, (item) => {
-      const card = createCard(item.title, item.description, [
-        createBadge(item.category || 'Info'),
-        createBadge(`Priorität ${item.priority}`),
-      ]);
-      return card;
+    renderList(sections.news, items, async (item) => {
+      return createCard(item.title, item.description, [createBadge(item.category || 'Info')]);
     }, sections.news.empty);
   }
 
   function renderDocuments(items) {
-    renderList(sections.documents, items, (item) => {
+    renderList(sections.documents, items, async (item) => {
       const card = createCard(item.title, item.description, [createBadge(item.category || 'Dokument')]);
-      const link = document.createElement('a');
-      link.className = 'members-download';
-      link.href = `/downloads/${encodeURIComponent(item.filename)}`;
-      link.textContent = item.filename;
-      link.setAttribute('download', '');
-      card.appendChild(link);
+      await appendDownloadAction(card, item);
       return card;
     }, sections.documents.empty);
   }
 
   function renderDownloads(items) {
-    renderList(sections.downloads, items, (item) => {
+    renderList(sections.downloads, items, async (item) => {
       const card = createCard(item.title, item.description, [createBadge(item.category || 'Download')]);
-      const link = document.createElement('a');
-      link.className = 'btn btn--primary';
-      link.href = `/downloads/${encodeURIComponent(item.filename)}`;
-      link.textContent = 'Herunterladen';
-      link.setAttribute('download', '');
-      card.appendChild(link);
+      await appendDownloadAction(card, item, { button: true });
       return card;
     }, sections.downloads.empty);
   }
 
   function renderEvents(items) {
-    renderList(sections.events, items, (item) => {
+    renderList(sections.events, items, async (item) => {
       const card = createCard(item.title, item.description, [createBadge('Interner Termin')]);
       const details = document.createElement('dl');
       details.className = 'members-card__details';
@@ -131,7 +183,7 @@
   }
 
   function renderHelpers(items) {
-    renderList(sections.helpers, items, (item) => {
+    renderList(sections.helpers, items, async (item) => {
       const card = createCard(item.task, '', [
         createBadge(item.eventName),
         createBadge(item.status === 'offen' ? 'Offen' : 'Besetzt', item.status === 'offen' ? 'members-badge--open' : 'members-badge--filled'),
@@ -142,6 +194,10 @@
         contact.textContent = `Ansprechpartner: ${item.contactPerson}`;
         card.appendChild(contact);
       }
+      const note = document.createElement('p');
+      note.className = 'members-file-pending';
+      note.textContent = 'Eine Online-Anmeldung ist derzeit nicht verfügbar. Bitte den Ansprechpartner direkt kontaktieren.';
+      card.appendChild(note);
       return card;
     }, sections.helpers.empty);
   }
@@ -171,7 +227,7 @@
       renderHelpers(helpers);
       renderDownloads(documents);
     } catch {
-      Object.entries(sections).forEach(([name, section]) => {
+      Object.values(sections).forEach((section) => {
         if (section.status) {
           section.status.textContent = 'Inhalte konnten nicht geladen werden.';
         }
