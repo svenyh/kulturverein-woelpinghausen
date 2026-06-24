@@ -21,6 +21,7 @@
     { id: 'fotos-videos', label: 'Fotos & Videos', href: 'veranstaltungen/' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
     { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
+    { id: 'mitgliederbereich', label: 'Mitgliederbereich', href: 'mitgliederbereich/' },
     { id: 'kontakt', label: 'Kontakt', href: 'kontakt.html' },
   ];
 

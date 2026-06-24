@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mitglieder – Admin</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/admin/members/admin-members.css">
+  <link rel="icon" href="/images/logo-kulturverein.png" type="image/png">
+</head>
+<body class="app-page admin-members-page">
+  <div class="app-banner"><strong>Mitglieder</strong> – Mitgliederbereich verwalten</div>
+  <header class="header admin-members-header">
+    <div class="container header__inner">
+      <a href="/admin/" class="header__logo" aria-label="Zur Admin-Startseite">
+        <img src="/images/logo-kulturverein.png" alt="Logo Kulturverein Wölpinghausen" class="logo-img header__logo-img" width="52" height="52">
+        <span class="header__logo-text">
+          <span class="header__logo-name">Admin</span>
+          <span class="header__logo-place">Mitglieder</span>
+        </span>
+      </a>
+      <a href="/mitgliederbereich/" class="btn btn--outline">Öffentliche Vorschau</a>
+    </div>
+  </header>
+
+  <main class="admin-members-main">
+    <section class="admin-members-intro" aria-labelledby="page-title">
+      <p class="admin-members-kicker">Verein</p>
+      <h1 id="page-title" class="app-content__title">Mitgliederbereich</h1>
+      <p class="app-content__lead">Informationen, Dokumente, interne Termine und Helfer-Einsätze für den Mitgliederbereich pflegen.</p>
+    </section>
+
+    <aside class="admin-members-notice" aria-label="Hinweise zur Pflege">
+      <p><strong>Datei-Upload folgt später.</strong> Dokumente werden über den Dateinamen unter <code>/downloads/</code> verknüpft. PDF-Dateien weiterhin über Git/Cursor einpflegen.</p>
+    </aside>
+
+    <p class="admin-members-status" id="members-admin-status" role="status" aria-live="polite">Mitgliederinhalte werden geladen …</p>
+
+    <div class="admin-members-tabs" role="tablist" aria-label="Mitgliederbereiche">
+      <button type="button" class="admin-members-tab is-active" data-members-tab="news">Informationen</button>
+      <button type="button" class="admin-members-tab" data-members-tab="documents">Dokumente</button>
+      <button type="button" class="admin-members-tab" data-members-tab="events">Termine</button>
+      <button type="button" class="admin-members-tab" data-members-tab="helpers">Helfer</button>
+    </div>
+
+    <section class="admin-members-panel" data-members-panel="news" aria-labelledby="panel-news-title">
+      <div class="admin-members-panel__header">
+        <h2 id="panel-news-title" class="admin-members-panel__title">Aktuelle Informationen</h2>
+        <button type="button" class="btn btn--primary" data-members-add="news">Eintrag hinzufügen</button>
+      </div>
+      <div class="admin-members-list" id="members-admin-list-news"></div>
+    </section>
+
+    <section class="admin-members-panel" data-members-panel="documents" hidden aria-labelledby="panel-documents-title">
+      <div class="admin-members-panel__header">
+        <h2 id="panel-documents-title" class="admin-members-panel__title">Dokumente</h2>
+        <button type="button" class="btn btn--primary" data-members-add="documents">Dokument hinzufügen</button>
+      </div>
+      <div class="admin-members-list" id="members-admin-list-documents"></div>
+    </section>
+
+    <section class="admin-members-panel" data-members-panel="events" hidden aria-labelledby="panel-events-title">
+      <div class="admin-members-panel__header">
+        <h2 id="panel-events-title" class="admin-members-panel__title">Interne Termine</h2>
+        <button type="button" class="btn btn--primary" data-members-add="events">Termin hinzufügen</button>
+      </div>
+      <div class="admin-members-list" id="members-admin-list-events"></div>
+    </section>
+
+    <section class="admin-members-panel" data-members-panel="helpers" hidden aria-labelledby="panel-helpers-title">
+      <div class="admin-members-panel__header">
+        <h2 id="panel-helpers-title" class="admin-members-panel__title">Helfer &amp; Organisation</h2>
+        <button type="button" class="btn btn--primary" data-members-add="helpers">Helfer-Einsatz hinzufügen</button>
+      </div>
+      <div class="admin-members-list" id="members-admin-list-helpers"></div>
+    </section>
+  </main>
+
+  <dialog class="admin-members-dialog" id="members-admin-dialog" aria-labelledby="members-admin-form-title">
+    <form method="dialog" class="admin-members-dialog__inner" id="members-admin-form">
+      <header class="admin-members-dialog__header">
+        <h2 class="admin-members-dialog__title" id="members-admin-form-title">Eintrag bearbeiten</h2>
+        <button type="button" class="admin-media-dialog__close" id="members-admin-close" aria-label="Dialog schließen">&times;</button>
+      </header>
+      <div class="admin-members-dialog__body">
+        <div id="members-admin-fields"></div>
+        <p class="admin-members-status" id="members-admin-form-status" role="status" aria-live="polite"></p>
+      </div>
+      <footer class="admin-members-dialog__footer">
+        <div class="admin-members-dialog__actions">
+          <button type="button" class="btn btn--outline" id="members-admin-cancel">Abbrechen</button>
+          <button type="button" class="btn btn--primary" id="members-admin-save">Speichern</button>
+        </div>
+      </footer>
+    </form>
+  </dialog>
+
+  <script src="/admin/members/admin-members.js"></script>
+</body>
+</html>
