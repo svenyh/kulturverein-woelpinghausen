@@ -19,7 +19,7 @@
     { id: 'startseite', label: 'Startseite', href: 'index.html' },
     { id: 'eventkalender', label: 'Eventkalender', href: 'eventkalender.html' },
     { id: 'ausfluege', label: 'Ausflüge', href: 'ausfluege.html' },
-    { id: 'fotos-videos', label: 'Fotos & Videos', href: 'veranstaltungen/' },
+    { id: 'fotos-videos', label: 'Fotos & Videos', href: 'fotos-videos.html' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
     { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
     { id: 'mitgliederbereich', label: 'Mitgliederbereich', href: 'mitgliederbereich/' },
@@ -137,8 +137,7 @@
   }
 
   function initLightbox() {
-    const thumbs = document.querySelectorAll('.js-lightbox-img');
-    if (!thumbs.length) return;
+    if (document.querySelector('.lightbox')) return;
 
     const overlay = document.createElement('div');
     overlay.className = 'lightbox';
@@ -161,10 +160,15 @@
     const prevBtn = overlay.querySelector('.lightbox__nav--prev');
     const nextBtn = overlay.querySelector('.lightbox__nav--next');
     const closeBtn = overlay.querySelector('.lightbox__close');
-    const items = Array.from(thumbs);
+    let items = [];
     let currentIndex = 0;
 
+    const collectItems = () => Array.from(document.querySelectorAll('.js-lightbox-img'));
+
     const show = (index) => {
+      items = collectItems();
+      if (!items.length) return;
+
       currentIndex = index;
       const thumb = items[currentIndex];
       imgEl.src = thumb.currentSrc || thumb.src;
@@ -188,11 +192,17 @@
     };
 
     const step = (dir) => {
+      items = collectItems();
+      if (!items.length) return;
       show((currentIndex + dir + items.length) % items.length);
     };
 
-    items.forEach((thumb, index) => {
-      thumb.addEventListener('click', () => show(index));
+    document.addEventListener('click', (e) => {
+      const thumb = e.target.closest('.js-lightbox-img');
+      if (!thumb) return;
+      items = collectItems();
+      const index = items.indexOf(thumb);
+      if (index >= 0) show(index);
     });
 
     prevBtn.addEventListener('click', (e) => {
