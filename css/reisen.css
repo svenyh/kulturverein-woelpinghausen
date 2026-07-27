@@ -64,6 +64,30 @@
   font-weight: 600;
 }
 
+.reisen-meta--infobox {
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+  padding: 1rem 1.15rem;
+  background: var(--color-white);
+  border: 1px solid rgba(91, 15, 27, 0.08);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.reisen-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(91, 15, 27, 0.12);
+}
+
+.reisen-nav__adjacent {
+  margin-bottom: 0;
+}
+
 .reisen-report {
   max-width: 760px;
 }
