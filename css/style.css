@@ -2397,6 +2397,60 @@ a.partner-card:hover .partner-card__cta {
   display: none;
 }
 
+.media-videos-section {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(91, 15, 27, 0.12);
+}
+
+.media-videos-section__intro {
+  margin-bottom: 1.5rem;
+}
+
+.media-videos-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.media-video-card {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.media-video-card__title {
+  margin: 0;
+  color: var(--color-bordeaux);
+  font-size: 1.15rem;
+}
+
+.media-videos-grid .media-video {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  border-style: solid;
+  border-color: rgba(91, 15, 27, 0.12);
+  box-shadow: var(--shadow-sm);
+}
+
+.media-videos-grid .media-video__player {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #160509;
+}
+
+.media-videos-grid .media-video__placeholder {
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+@media (min-width: 768px) {
+  .media-videos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 /* --------------------------------------------------------------------------
    Eventkalender
    -------------------------------------------------------------------------- */
