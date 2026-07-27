@@ -2,20 +2,52 @@
   "title": "Herrentour Köln 2024",
   "images": [
     {
-      "src": "/images/reisen/koeln-2024/hero-dom-skyline.webp",
-      "alt": "Kölner Dom und Skyline bei Abendstimmung – Herrentour Köln 2024"
+      "src": "/images/reisen/koeln-2024/anreise-bahnhof.webp",
+      "alt": "Anreise in Köln – die Gruppe trifft sich mit Koffern vor dem Woodcutter"
     },
     {
-      "src": "/images/reisen/koeln-2024/bierkartographen-emblem.webp",
-      "alt": "Emblem der Bierkartographen Wölpinghausen – Gemeinsam unterwegs"
+      "src": "/images/reisen/koeln-2024/erste-eindruecke.webp",
+      "alt": "Erste Eindrücke in der Kölner Altstadt am Woodcutter"
     },
     {
-      "src": "/images/reisen/koeln-2024/brauhaus-gruppe.webp",
-      "alt": "Die Gruppe lachend an einem Holztisch im Kölner Brauhaus mit Kölsch"
+      "src": "/images/reisen/koeln-2024/koelsch-empfang.webp",
+      "alt": "Das erste Kölsch wird eingeschenkt – Empfang in Köln"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/gruppenfoto.webp",
+      "alt": "Gruppenfoto der Bierkartographen auf der Herrentour"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/dom-koeln.webp",
+      "alt": "Der Kölner Dom bei Abendstimmung über dem Rhein"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/altstadt.webp",
+      "alt": "Altstadtflair in Köln – Kopfsteinpflaster und historische Fassaden"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/spaziergang.webp",
+      "alt": "Gemeinsamer Spaziergang der Bierkartographen – unterwegs in Köln"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/brauhaus.webp",
+      "alt": "Gemütliches Brauhaus-Interieur mit Zapfanlage und Holztresen"
     },
     {
       "src": "/images/reisen/koeln-2024/brauhaus-koelsch.webp",
-      "alt": "Kölsch und gesellige Runde im Brauhaus während der Herrentour"
+      "alt": "Kölsch am Tisch – gesellige Runde im Brauhaus"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/gemeinsamer-abend.webp",
+      "alt": "Gemeinsamer Abend in Köln – Feierstimmung mit Konfetti und Lichtshow"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/stadtmotiv-rhein.webp",
+      "alt": "Stadtmotiv am Rhein mit Kölner Dom und Skyline"
+    },
+    {
+      "src": "/images/reisen/koeln-2024/heimreise.webp",
+      "alt": "Ausklang der Tour – gemeinsam unterwegs auf dem Heimweg"
     }
   ]
 }
