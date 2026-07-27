@@ -7,6 +7,7 @@
 
   /** Zentrale Site-Konfiguration – hier URLs später leicht ändern */
   const SITE = {
+    legalName: 'Kulturverein Wölpinghausen i.G.',
     instagramUrl: 'https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=',
     instagramHandle: '@kulturverein_woelpinghausen',
     instagramLabel: 'Instagram Kulturverein Wölpinghausen',
@@ -82,8 +83,9 @@
         <div class="footer__col">
           <h3 class="footer__heading">Kontakt</h3>
           <address class="footer__address">
-            Wölpinghausener Kulturverein<br>Wölpinghausen<br>
-            Kontaktaufnahme aktuell über das Organisationsteam.
+            ${SITE.legalName}<br>
+            Kontakt aktuell über Instagram:<br>
+            <a ${instagramAttrs()}>${SITE.instagramHandle}</a>
           </address>
         </div>
         <div class="footer__col">
@@ -99,7 +101,7 @@
       </div>
       <div class="footer__bottom">
         <div class="container footer__bottom-inner">
-          <p>&copy; 2026 Wölpinghausener Kulturverein</p>
+          <p>&copy; 2026 ${SITE.legalName}</p>
           <div class="footer__legal">
             <a href="impressum.html">Impressum</a><span aria-hidden="true">|</span><a href="datenschutz.html">Datenschutz</a>
           </div>
