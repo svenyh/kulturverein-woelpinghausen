@@ -22,7 +22,7 @@
   <main class="page-content section--cream">
     <div class="container reisen-report-layout">
       <p class="reisen-back">
-        <a href="../ausfluege.html">← Alle Reisen</a>
+        <a href="../ausfluege.html">← Ausflüge &amp; Rückblicke</a>
       </p>
 
       <article class="reisen-report">
@@ -201,9 +201,27 @@
           <div id="reisen-gallery" class="reisen-gallery" hidden></div>
         </section>
 
+        <section class="media-videos-section reisen-video-section" aria-labelledby="reisen-video-title">
+          <h2 id="reisen-video-title">Video</h2>
+          <div class="media-videos-grid media-videos-grid--single">
+            <article class="media-video-card">
+              <div class="media-video" data-video-src="../videos/koeln-2024.mp4">
+                <video class="media-video__player" controls playsinline preload="metadata" aria-label="Video Köln 2024">
+                  <source src="../videos/koeln-2024.mp4" type="video/mp4">
+                  Dein Browser unterstützt dieses Videoformat nicht.
+                </video>
+                <div class="media-video__placeholder">
+                  <span class="media-placeholder__play" aria-hidden="true">▶</span>
+                  <p>Video wird geladen …</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <nav class="reisen-nav" aria-label="Reiseberichte">
           <p class="reisen-back">
-            <a href="../ausfluege.html">← Alle Reisen</a>
+            <a href="../ausfluege.html">← Ausflüge &amp; Rückblicke</a>
           </p>
           <p class="reisen-back reisen-nav__adjacent">
             <a href="duesseldorf-2025.html">Nächste Reise: Düsseldorf 2025 →</a>
@@ -216,6 +234,7 @@
   <div id="site-footer"></div>
   <script src="../js/script.js"></script>
   <script src="../js/reisen-report.js"></script>
+  <script src="../js/media-events.js"></script>
   <script>
     ReisenReport.initGalleryFromManifest(
       '../images/reisen/koeln-2024/gallery-manifest.json',

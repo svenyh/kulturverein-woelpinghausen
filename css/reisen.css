@@ -307,4 +307,13 @@
   .media-videos-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .media-videos-grid--single {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 48rem;
+  }
+}
+
+.reisen-video-section {
+  margin-top: 2.5rem;
 }

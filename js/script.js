@@ -18,8 +18,7 @@
   const NAV = [
     { id: 'startseite', label: 'Startseite', href: 'index.html' },
     { id: 'eventkalender', label: 'Eventkalender', href: 'eventkalender.html' },
-    { id: 'ausfluege', label: 'Ausflüge', href: 'ausfluege.html' },
-    { id: 'fotos-videos', label: 'Fotos & Videos', href: 'fotos-videos.html' },
+    { id: 'ausfluege', label: 'Ausflüge & Rückblicke', href: 'ausfluege.html' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
     { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
     { id: 'mitgliederbereich', label: 'Mitgliederbereich', href: 'mitgliederbereich/' },
