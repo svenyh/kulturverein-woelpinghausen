@@ -2,52 +2,74 @@
   "title": "Herrentour Köln 2024",
   "images": [
     {
-      "src": "/images/reisen/koeln-2024/anreise-bahnhof.webp",
-      "alt": "Anreise in Köln – die Gruppe trifft sich mit Koffern vor dem Woodcutter"
+      "src": "/images/reisen/koeln-2024/01-start-der-herrentour.webp",
+      "alt": "Start der Herrentour nach Köln",
+      "caption": "Frühmorgendlicher Treffpunkt vor der Abfahrt."
     },
     {
-      "src": "/images/reisen/koeln-2024/erste-eindruecke.webp",
-      "alt": "Erste Eindrücke in der Kölner Altstadt am Woodcutter"
+      "src": "/images/reisen/koeln-2024/02-zugfahrt-nach-koeln.webp",
+      "alt": "Zugfahrt nach Köln",
+      "caption": "Unterwegs mit der Bahn in Richtung Köln."
     },
     {
-      "src": "/images/reisen/koeln-2024/koelsch-empfang.webp",
-      "alt": "Das erste Kölsch wird eingeschenkt – Empfang in Köln"
+      "src": "/images/reisen/koeln-2024/03-gemeinsam-im-zug.webp",
+      "alt": "Gemeinsame Anreise im Zug",
+      "caption": "Die Gruppe während der gemeinsamen Anreise."
     },
     {
-      "src": "/images/reisen/koeln-2024/gruppenfoto.webp",
-      "alt": "Gruppenfoto der Bierkartographen auf der Herrentour"
+      "src": "/images/reisen/koeln-2024/04-getraenke-fuer-die-anreise.webp",
+      "alt": "Getränke für die Anreise",
+      "caption": "Erfrischungen für die gemeinsame Zugfahrt."
     },
     {
-      "src": "/images/reisen/koeln-2024/dom-koeln.webp",
-      "alt": "Der Kölner Dom bei Abendstimmung über dem Rhein"
+      "src": "/images/reisen/koeln-2024/05-ankunft-in-koeln.webp",
+      "alt": "Ankunft in Köln",
+      "caption": "Erste gemeinsame Eindrücke nach der Ankunft."
     },
     {
-      "src": "/images/reisen/koeln-2024/altstadt.webp",
-      "alt": "Altstadtflair in Köln – Kopfsteinpflaster und historische Fassaden"
+      "src": "/images/reisen/koeln-2024/06-gruppenfoto-bei-der-ankunft.webp",
+      "alt": "Gruppenfoto bei der Ankunft in Köln",
+      "caption": "Gemeinsames Gruppenfoto nach der Ankunft."
     },
     {
-      "src": "/images/reisen/koeln-2024/spaziergang.webp",
-      "alt": "Gemeinsamer Spaziergang der Bierkartographen – unterwegs in Köln"
+      "src": "/images/reisen/koeln-2024/07-erste-station-in-koeln.webp",
+      "alt": "Erste Station in Köln",
+      "caption": "Gemeinsamer Besuch einer der ersten Stationen der Tour."
     },
     {
-      "src": "/images/reisen/koeln-2024/brauhaus.webp",
-      "alt": "Gemütliches Brauhaus-Interieur mit Zapfanlage und Holztresen"
+      "src": "/images/reisen/koeln-2024/08-biergarten-in-koeln.webp",
+      "alt": "Gemeinsamer Biergartenbesuch in Köln",
+      "caption": "Entspannte Runde im Biergarten."
     },
     {
-      "src": "/images/reisen/koeln-2024/brauhaus-koelsch.webp",
-      "alt": "Kölsch am Tisch – gesellige Runde im Brauhaus"
+      "src": "/images/reisen/koeln-2024/09-koelner-dom.webp",
+      "alt": "Der Kölner Dom",
+      "caption": "Der Kölner Dom als Wahrzeichen der Stadt."
     },
     {
-      "src": "/images/reisen/koeln-2024/gemeinsamer-abend.webp",
-      "alt": "Gemeinsamer Abend in Köln – Feierstimmung mit Konfetti und Lichtshow"
+      "src": "/images/reisen/koeln-2024/10-brauhaus-runde.webp",
+      "alt": "Gemeinsame Runde im Kölner Brauhaus",
+      "caption": "Gesellige Runde an einer langen Brauhaustafel."
     },
     {
-      "src": "/images/reisen/koeln-2024/stadtmotiv-rhein.webp",
-      "alt": "Stadtmotiv am Rhein mit Kölner Dom und Skyline"
+      "src": "/images/reisen/koeln-2024/11-abend-im-brauhaus.webp",
+      "alt": "Abend im Brauhaus",
+      "caption": "Gemeinsamer Abend bei Kölsch und guter Stimmung."
     },
     {
-      "src": "/images/reisen/koeln-2024/heimreise.webp",
-      "alt": "Ausklang der Tour – gemeinsam unterwegs auf dem Heimweg"
+      "src": "/images/reisen/koeln-2024/12-nachtliche-runde.webp",
+      "alt": "Nächtliche Runde in Köln",
+      "caption": "Später gemeinsamer Ausklang der Herrentour."
+    },
+    {
+      "src": "/images/reisen/koeln-2024/13-gruppenfoto-vor-dem-dom.webp",
+      "alt": "Gruppenfoto vor dem Kölner Dom",
+      "caption": "Erinnerungsfoto der Gruppe vor dem Kölner Dom."
+    },
+    {
+      "src": "/images/reisen/koeln-2024/14-rheinpromenade-koeln.webp",
+      "alt": "Rheinpromenade in Köln",
+      "caption": "Blick auf den Rhein und die Kölner Stadtkulisse."
     }
   ]
 }
