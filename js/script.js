@@ -21,7 +21,6 @@
     { id: 'ausfluege', label: 'Ausflüge & Rückblicke', href: 'ausfluege.html' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
     { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
-    { id: 'mitgliederbereich', label: 'Mitgliederbereich', href: 'mitgliederbereich/' },
     { id: 'kontakt', label: 'Kontakt', href: 'kontakt.html' },
   ];
 
@@ -58,10 +57,6 @@
         <nav class="nav" id="nav" aria-label="Hauptnavigation">
           <ul class="nav__list">${links}</ul>
         </nav>
-        <a href="login.html" class="header__login" aria-label="Mitglieder-Login">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          Login
-        </a>
         <a ${instagramAttrs()} class="header__instagram">${INSTAGRAM_SVG}</a>
       </div>
     </header>`;

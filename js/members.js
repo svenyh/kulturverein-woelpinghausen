@@ -56,11 +56,19 @@
     return exists;
   }
 
+  const PREVIEW_BADGE = 'Vorschau';
+
   function createBadge(text) {
     const badge = document.createElement('span');
     badge.className = 'members-badge';
     badge.textContent = text;
     return badge;
+  }
+
+  function createPreviewBadges(extraText) {
+    const badges = [createBadge(PREVIEW_BADGE)];
+    if (extraText) badges.push(createBadge(extraText));
+    return badges;
   }
 
   function createCard(title, text, metaNodes) {
@@ -138,7 +146,7 @@
     renderList(
       sections.news,
       items,
-      async (item) => createCard(item.title, item.description, [createBadge(item.category || 'Aktuelles')]),
+      async (item) => createCard(item.title, item.description, createPreviewBadges(item.category || 'Aktuelles')),
       sections.news.empty
     );
   }
@@ -148,7 +156,7 @@
       sections.documents,
       items,
       async (item) => {
-        const card = createCard(item.title, item.description, [createBadge(item.category || 'Dokument')]);
+        const card = createCard(item.title, item.description, createPreviewBadges(item.category || 'Dokument'));
         await appendDownloadAction(card, item);
         return card;
       },
@@ -161,7 +169,7 @@
       sections.events,
       items,
       async (item) => {
-        const card = createCard(item.title, item.description, [createBadge(item.category || 'Termin')]);
+        const card = createCard(item.title, item.description, createPreviewBadges(item.category || 'Termin'));
         const details = document.createElement('dl');
         details.className = 'members-card__details';
         const dateText = item.eventDate
@@ -183,7 +191,7 @@
       sections.helpers,
       items,
       async (item) => {
-        const card = createCard(item.title, item.description, [createBadge(item.eventName || 'Helfer gesucht')]);
+        const card = createCard(item.title, item.description, createPreviewBadges(item.eventName || 'Helfer gesucht'));
         if (item.contactPerson) {
           const contact = document.createElement('p');
           contact.className = 'members-card__text';

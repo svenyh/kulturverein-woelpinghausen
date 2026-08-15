@@ -1,5 +1,8 @@
-/galerie /veranstaltungen/ 301
-/galerie.html /veranstaltungen/ 301
+/galerie /ausfluege.html 301
+/galerie.html /ausfluege.html 301
+/reisen /ausfluege.html 301
+/reisen/ /ausfluege.html 301
+/reisen/index.html /ausfluege.html 301
 /mitgliederbereich.html /mitgliederbereich/ 301
 /fotos-videos /ausfluege.html 301
 /fotos-videos.html /ausfluege.html 301
