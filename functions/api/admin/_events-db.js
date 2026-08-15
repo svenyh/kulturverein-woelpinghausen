@@ -309,6 +309,7 @@ export async function listAdminEvents(db) {
     .prepare(
       `SELECT ${ADMIN_EVENT_COLUMNS}
        FROM events
+       WHERE origin = 'manual'
        ORDER BY event_date DESC, COALESCE(event_time, '') DESC, title ASC`
     )
     .all();
@@ -367,7 +368,7 @@ export async function updateAdminEvent(db, id, event) {
              ELSE published_at
            END,
            updated_at = CURRENT_TIMESTAMP
-       WHERE raw_id = ?`
+       WHERE raw_id = ? AND origin = 'manual'`
     )
     .bind(
       event.date,
@@ -389,6 +390,9 @@ export async function updateAdminEvent(db, id, event) {
 }
 
 export async function deleteAdminEvent(db, id) {
-  const result = await db.prepare(`DELETE FROM events WHERE raw_id = ?`).bind(id).run();
+  const result = await db
+    .prepare(`DELETE FROM events WHERE raw_id = ? AND origin = 'manual'`)
+    .bind(id)
+    .run();
   return Boolean(result.meta?.changes);
 }
