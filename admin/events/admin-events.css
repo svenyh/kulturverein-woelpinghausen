@@ -141,6 +141,102 @@
   background: #fff;
 }
 
+.admin-events-editor {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d9dee2;
+  background: #fff;
+}
+
+.admin-event-form {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 1.5rem;
+  padding: 1rem;
+  border: 1px solid #d9dee2;
+  background: #f8f9fa;
+}
+
+.admin-event-form[hidden] {
+  display: none;
+}
+
+.admin-event-form .form-group {
+  margin: 0;
+}
+
+.admin-event-form input,
+.admin-event-form textarea,
+.admin-event-form select {
+  width: 100%;
+}
+
+.admin-event-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.admin-events-manual-lists {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.admin-events-manual-lists h3 {
+  margin: 0 0 0.75rem;
+}
+
+.admin-events-compact-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.admin-events-compact-card {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid #d9dee2;
+  border-radius: 6px;
+}
+
+.admin-events-compact-card__content {
+  min-width: 0;
+}
+
+.admin-events-compact-card__content h4,
+.admin-events-compact-card__content p {
+  margin: 0;
+}
+
+.admin-events-compact-card__content p {
+  margin-top: 0.25rem;
+  color: #4c5963;
+  overflow-wrap: anywhere;
+}
+
+.admin-events-compact-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+.admin-events-compact-card__status {
+  display: inline-block;
+  margin-top: 0.45rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  background: #eef1f3;
+  color: #4c5963;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.admin-events-compact-card__status.is-published {
+  background: #e9f5ef;
+  color: #28754f;
+}
+
 .admin-events-controls__heading {
   display: grid;
   gap: 1rem;
@@ -305,6 +401,19 @@
 
   .admin-events-stats {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .admin-event-form,
+  .admin-events-manual-lists {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-event-form__wide {
+    grid-column: 1 / -1;
+  }
+
+  .admin-events-compact-card {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 }
 

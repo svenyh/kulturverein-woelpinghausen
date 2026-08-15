@@ -5,8 +5,11 @@ const CANDIDATE_COLUMNS = `
   source_uid,
   event_date,
   event_time,
+  end_time,
   title,
+  description,
   location,
+  category,
   source_url,
   organizer,
   is_series,
@@ -34,8 +37,11 @@ export function rowToCandidate(row) {
     rawId: row.raw_id,
     date: row.event_date,
     time: row.event_time || null,
+    endTime: row.end_time || null,
     title: row.title,
+    description: row.description || null,
     location: row.location || null,
+    category: row.category || null,
     sourceUrl: row.source_url || null,
     organizer: row.organizer || null,
     showOnWebsite: row.selected_for_website === 1,
@@ -89,7 +95,7 @@ export async function listActiveCandidateRows(db) {
     .prepare(
       `SELECT ${CANDIDATE_COLUMNS}
        FROM events
-       WHERE source_status = 'active'
+       WHERE source_status = 'active' AND origin = 'imported'
        ORDER BY event_date ASC, COALESCE(event_time, '') ASC, title ASC`
     )
     .all();
@@ -99,7 +105,11 @@ export async function listActiveCandidateRows(db) {
 
 export async function listActiveRawIds(db) {
   const result = await db
-    .prepare(`SELECT raw_id FROM events WHERE source_status = 'active' ORDER BY raw_id ASC`)
+    .prepare(
+      `SELECT raw_id FROM events
+       WHERE source_status = 'active' AND origin = 'imported'
+       ORDER BY raw_id ASC`
+    )
     .all();
 
   return (result.results || []).map((row) => row.raw_id);
@@ -123,8 +133,11 @@ export function rowToPublicEvent(row) {
   return {
     date: row.event_date,
     time: row.event_time || null,
+    endTime: row.end_time || null,
     title: row.title,
+    description: row.description || null,
     location: row.location || null,
+    category: row.category || null,
     sourceUrl: row.source_url || null,
     organizer: row.organizer || null,
   };
@@ -153,7 +166,8 @@ export function groupPublishedEventsByMonth(rows) {
 export async function listPublishedEventRows(db) {
   const result = await db
     .prepare(
-      `SELECT event_date, event_time, title, location, source_url, organizer
+      `SELECT event_date, event_time, end_time, title, description, location, category,
+              source_url, organizer
        FROM events
        WHERE source_status = 'active' AND published_on_website = 1
        ORDER BY event_date ASC, COALESCE(event_time, '') ASC, title ASC`
@@ -173,7 +187,7 @@ export async function publishSelectedEvents(db) {
              ELSE NULL
            END,
            updated_at = CURRENT_TIMESTAMP
-       WHERE source_status = 'active'`
+       WHERE source_status = 'active' AND origin = 'imported'`
     )
     .run();
 
@@ -266,4 +280,115 @@ export async function upsertImportedEvents(db, events) {
     updatedCount,
     candidateCount: events.length,
   };
+}
+
+function rowToAdminEvent(row) {
+  return {
+    id: row.raw_id,
+    title: row.title,
+    description: row.description || '',
+    date: row.event_date,
+    startTime: row.event_time || '',
+    endTime: row.end_time || '',
+    location: row.location || '',
+    category: row.category || '',
+    sourceUrl: row.source_url || '',
+    status: row.published_on_website === 1 ? 'published' : 'draft',
+    origin: row.origin,
+    sourceStatus: row.source_status,
+  };
+}
+
+const ADMIN_EVENT_COLUMNS = `
+  raw_id, title, description, event_date, event_time, end_time, location, category,
+  source_url, published_on_website, origin, source_status
+`.trim();
+
+export async function listAdminEvents(db) {
+  const result = await db
+    .prepare(
+      `SELECT ${ADMIN_EVENT_COLUMNS}
+       FROM events
+       ORDER BY event_date DESC, COALESCE(event_time, '') DESC, title ASC`
+    )
+    .all();
+  return (result.results || []).map(rowToAdminEvent);
+}
+
+export async function createManualEvent(db, event) {
+  const id = `manual:${crypto.randomUUID()}`;
+  await db
+    .prepare(
+      `INSERT INTO events (
+         raw_id, source_uid, event_date, event_time, end_time, title, description,
+         location, category, source_url, selected_for_website, published_on_website,
+         source_status, origin, published_at, updated_at
+       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active', 'manual',
+         CASE WHEN ? = 1 THEN CURRENT_TIMESTAMP ELSE NULL END, CURRENT_TIMESTAMP)`
+    )
+    .bind(
+      id,
+      id,
+      event.date,
+      event.startTime || null,
+      event.endTime || null,
+      event.title,
+      event.description || null,
+      event.location || null,
+      event.category || null,
+      event.sourceUrl || null,
+      event.published,
+      event.published,
+      event.published
+    )
+    .run();
+  return getAdminEvent(db, id);
+}
+
+export async function getAdminEvent(db, id) {
+  const row = await db
+    .prepare(`SELECT ${ADMIN_EVENT_COLUMNS} FROM events WHERE raw_id = ?`)
+    .bind(id)
+    .first();
+  return row ? rowToAdminEvent(row) : null;
+}
+
+export async function updateAdminEvent(db, id, event) {
+  const result = await db
+    .prepare(
+      `UPDATE events
+       SET event_date = ?, event_time = ?, end_time = ?, title = ?, description = ?,
+           location = ?, category = ?, source_url = ?,
+           selected_for_website = ?,
+           published_on_website = ?,
+           published_at = CASE
+             WHEN ? = 1 AND published_on_website = 0 THEN CURRENT_TIMESTAMP
+             WHEN ? = 0 THEN NULL
+             ELSE published_at
+           END,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE raw_id = ?`
+    )
+    .bind(
+      event.date,
+      event.startTime || null,
+      event.endTime || null,
+      event.title,
+      event.description || null,
+      event.location || null,
+      event.category || null,
+      event.sourceUrl || null,
+      event.published,
+      event.published,
+      event.published,
+      event.published,
+      id
+    )
+    .run();
+  return result.meta?.changes ? getAdminEvent(db, id) : null;
+}
+
+export async function deleteAdminEvent(db, id) {
+  const result = await db.prepare(`DELETE FROM events WHERE raw_id = ?`).bind(id).run();
+  return Boolean(result.meta?.changes);
 }

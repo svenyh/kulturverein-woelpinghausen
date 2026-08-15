@@ -1865,9 +1865,43 @@ a.partner-card:hover .partner-card__cta {
   box-shadow: 0 0 0 3px rgba(91, 15, 27, 0.1);
 }
 
+.form-group textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
 .form-row {
   display: grid;
   gap: 1rem;
+}
+
+.form-consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.form-consent input {
+  margin-top: 0.25rem;
+  accent-color: var(--color-bordeaux);
+}
+
+.form-consent a {
+  color: var(--color-bordeaux);
+  text-decoration: underline;
+}
+
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .form-actions {
@@ -1902,6 +1936,23 @@ a.partner-card:hover .partner-card__cta {
   background: rgba(91, 15, 27, 0.06);
   color: var(--color-bordeaux);
   border-left: 3px solid var(--color-bordeaux);
+}
+
+.form-notice[data-state="success"] {
+  background: rgba(35, 120, 70, 0.1);
+  color: #1c653a;
+  border-left-color: #237846;
+}
+
+.form-notice[data-state="error"] {
+  background: rgba(160, 45, 45, 0.09);
+  color: #8a2424;
+  border-left-color: #a02d2d;
+}
+
+.form-actions .btn:disabled {
+  cursor: wait;
+  opacity: 0.65;
 }
 
 @media (min-width: 640px) {

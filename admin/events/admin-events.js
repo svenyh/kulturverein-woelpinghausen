@@ -6,6 +6,7 @@
   const state = {
     groups: [],
     events: [],
+    managedEvents: [],
     page: 1,
     dirty: false,
     busy: false,
@@ -33,6 +34,15 @@
     pagePrevious: document.getElementById('page-previous'),
     pageNext: document.getElementById('page-next'),
     pageStatus: document.getElementById('page-status'),
+    newEventButton: document.getElementById('new-event'),
+    eventForm: document.getElementById('event-form'),
+    eventId: document.getElementById('event-id'),
+    cancelEventButton: document.getElementById('cancel-event'),
+    saveEventButton: document.getElementById('save-event'),
+    upcomingEvents: document.getElementById('upcoming-events'),
+    upcomingEventsEmpty: document.getElementById('upcoming-events-empty'),
+    pastEvents: document.getElementById('past-events'),
+    pastEventsEmpty: document.getElementById('past-events-empty'),
   };
 
   function setStatus(message, type) {
@@ -50,6 +60,8 @@
     elements.importButton.disabled = state.busy || !state.apiOnline;
     elements.publishButton.disabled = state.busy || state.dirty || !state.apiOnline;
     elements.saveButton.disabled = state.busy || !state.events.length || !state.dirty || !state.apiOnline;
+    elements.newEventButton.disabled = state.busy || !state.apiOnline;
+    elements.saveEventButton.disabled = state.busy;
     updatePaginationControls();
   }
 
@@ -210,6 +222,135 @@
     updatePaginationControls(events.length);
   }
 
+  function createManagedEventCard(event) {
+    const card = document.createElement('article');
+    card.className = 'admin-events-compact-card';
+    const content = document.createElement('div');
+    content.className = 'admin-events-compact-card__content';
+    content.append(
+      textElement('h4', '', event.title),
+      textElement(
+        'p',
+        '',
+        `${formatDate(event.date)} · ${event.startTime || 'ohne Uhrzeit'}${event.endTime ? `–${event.endTime}` : ''}${event.location ? ` · ${event.location}` : ''}`
+      )
+    );
+    if (event.category) content.append(textElement('p', '', event.category));
+    const status = textElement(
+      'span',
+      `admin-events-compact-card__status${event.status === 'published' ? ' is-published' : ''}`,
+      event.status === 'published' ? 'Veröffentlicht' : 'Entwurf'
+    );
+    content.append(status);
+
+    const actions = document.createElement('div');
+    actions.className = 'admin-events-compact-card__actions';
+    const edit = textElement('button', 'btn btn--outline', 'Bearbeiten');
+    edit.type = 'button';
+    edit.addEventListener('click', () => openEventForm(event));
+    const remove = textElement('button', 'btn btn--outline', 'Löschen');
+    remove.type = 'button';
+    remove.addEventListener('click', () => removeEvent(event));
+    actions.append(edit, remove);
+    card.append(content, actions);
+    return card;
+  }
+
+  function renderManagedEvents() {
+    const today = new Date();
+    const todayKey = [
+      today.getFullYear(),
+      String(today.getMonth() + 1).padStart(2, '0'),
+      String(today.getDate()).padStart(2, '0'),
+    ].join('-');
+    const upcoming = state.managedEvents
+      .filter((event) => event.date >= todayKey)
+      .sort((left, right) => left.date.localeCompare(right.date) || left.startTime.localeCompare(right.startTime));
+    const past = state.managedEvents
+      .filter((event) => event.date < todayKey)
+      .sort((left, right) => right.date.localeCompare(left.date) || right.startTime.localeCompare(left.startTime));
+    elements.upcomingEvents.replaceChildren(...upcoming.map(createManagedEventCard));
+    elements.pastEvents.replaceChildren(...past.map(createManagedEventCard));
+    elements.upcomingEventsEmpty.hidden = upcoming.length > 0;
+    elements.pastEventsEmpty.hidden = past.length > 0;
+  }
+
+  function openEventForm(event) {
+    const values = event || {
+      id: '',
+      title: '',
+      description: '',
+      date: '',
+      startTime: '',
+      endTime: '',
+      location: '',
+      category: '',
+      sourceUrl: '',
+      status: 'draft',
+    };
+    elements.eventId.value = values.id || '';
+    for (const name of ['title', 'description', 'date', 'startTime', 'endTime', 'location', 'category', 'sourceUrl', 'status']) {
+      elements.eventForm.elements[name].value = values[name] || (name === 'status' ? 'draft' : '');
+    }
+    elements.eventForm.hidden = false;
+    elements.eventForm.elements.title.focus();
+  }
+
+  function closeEventForm() {
+    elements.eventForm.reset();
+    elements.eventId.value = '';
+    elements.eventForm.hidden = true;
+  }
+
+  async function loadManagedEvents() {
+    const payload = await api('/api/admin/events');
+    state.managedEvents = Array.isArray(payload.events) ? payload.events : [];
+    renderManagedEvents();
+  }
+
+  async function saveEvent(event) {
+    event.preventDefault();
+    if (!elements.eventForm.reportValidity()) return;
+    const formData = new FormData(elements.eventForm);
+    const payload = Object.fromEntries(formData.entries());
+    const id = elements.eventId.value;
+    if (id) payload.id = id;
+
+    setBusy(true);
+    setStatus(id ? 'Termin wird gespeichert...' : 'Termin wird erstellt...');
+    try {
+      const result = await api('/api/admin/events', {
+        method: id ? 'PATCH' : 'POST',
+        body: JSON.stringify(payload),
+      });
+      await loadManagedEvents();
+      closeEventForm();
+      setStatus(result.message, 'success');
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function removeEvent(event) {
+    if (!window.confirm(`Termin „${event.title}“ wirklich löschen?`)) return;
+    setBusy(true);
+    setStatus('Termin wird gelöscht...');
+    try {
+      const result = await api(`/api/admin/events?id=${encodeURIComponent(event.id)}`, {
+        method: 'DELETE',
+      });
+      await loadManagedEvents();
+      if (elements.eventId.value === event.id) closeEventForm();
+      setStatus(result.message, 'success');
+    } catch (error) {
+      setStatus(error.message, 'error');
+    } finally {
+      setBusy(false);
+    }
+  }
+
   function isOfflineResponse(response) {
     return !response || response.status === 404 || response.status === 503;
   }
@@ -266,6 +407,7 @@
       state.dirty = false;
       prepareFilters();
       renderEvents();
+      await loadManagedEvents();
       setStatus(
         state.events.length ? `${state.events.length} Kandidaten geladen.` : (payload.message || 'Noch keine Kandidaten geladen.'),
         state.events.length ? 'success' : 'info'
@@ -357,6 +499,9 @@
   elements.importButton.addEventListener('click', importEvents);
   elements.saveButton.addEventListener('click', saveSelection);
   elements.publishButton.addEventListener('click', publishEvents);
+  elements.newEventButton.addEventListener('click', () => openEventForm());
+  elements.cancelEventButton.addEventListener('click', closeEventForm);
+  elements.eventForm.addEventListener('submit', saveEvent);
   window.addEventListener('beforeunload', (event) => {
     if (!state.dirty) return;
     event.preventDefault();

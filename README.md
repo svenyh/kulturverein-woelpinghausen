@@ -83,6 +83,32 @@ Wichtig: Das Repository muss als **Pages-Projekt** verbunden sein. Ein Workers-D
 
 Vollständige Schritte: [`docs/deployment.md`](docs/deployment.md)
 
+### Kontakt- und Mitgliedsformulare
+
+Die Formulare auf `kontakt.html` und `mitglied-werden.html` senden an die
+Cloudflare Pages Function `POST /api/forms`. Auf GitHub Pages steht dieser
+Endpunkt nicht zur Verfügung.
+
+Vor der Nutzung müssen im Cloudflare-Pages-Projekt folgende Variablen gesetzt
+werden; das Repository enthält bewusst keine Empfänger-, Absender- oder
+Schlüsselwerte:
+
+- `MAIL_API_KEY` als Secret: API-Schlüssel für Resend
+- `CONTACT_EMAIL`: tatsächliche Empfängeradresse
+- `FROM_EMAIL`: bei Resend verifizierte Absenderadresse
+
+Fehlt eine Variable, antwortet der Endpunkt mit Status `503` und versendet
+nichts. Formulardaten werden nicht in D1 gespeichert.
+
+Der Endpunkt nutzt ein vorhandenes Rate-Limit-Binding namens
+`FORM_RATE_LIMITER`. Lokal darf das Binding fehlen. Wrangler 4.103.0 unterstützt
+die Konfiguration unter `ratelimits`, verlangt aber eine echte
+`namespace_id`; deshalb wurde ohne vorhandene ID kein Platzhalter in
+`wrangler.jsonc` eingetragen. Das Binding mit einer echten Namespace-ID im
+Cloudflare-Dashboard beziehungsweise in der Wrangler-Konfiguration ergänzen.
+Zusätzlich sollte für `/api/forms` im Dashboard eine WAF-Rate-Limit-Regel
+eingerichtet werden.
+
 ### GitHub Pages vs. Cloudflare Pages
 
 | | GitHub Pages | Cloudflare Pages |

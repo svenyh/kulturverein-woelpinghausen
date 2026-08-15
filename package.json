@@ -7,6 +7,7 @@
     "cf:d1:migrate:local": "wrangler d1 migrations apply kulturverein-events --local",
     "cf:d1:migrate:remote": "wrangler d1 migrations apply kulturverein-events --remote",
     "events:test": "node tools/fetch-events-test.js",
+    "forms:test": "node --experimental-default-type=module tools/forms-api-test.js",
     "events:publish": "node tools/publish-events.js",
     "events:selection": "node tools/create-event-selection.js"
   },

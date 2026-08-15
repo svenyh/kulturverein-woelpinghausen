@@ -36,14 +36,23 @@
     const body = document.createElement('div');
     body.className = 'event-calendar-card__body';
 
-    const dateText = event.time
-      ? `${formatDate(event.date)} · ${event.time} Uhr`
+    const timeText = event.time
+      ? `${event.time}${event.endTime ? `–${event.endTime}` : ''} Uhr`
+      : '';
+    const dateText = timeText
+      ? `${formatDate(event.date)} · ${timeText}`
       : formatDate(event.date);
     body.appendChild(textElement('p', 'event-calendar-card__date', dateText));
     body.appendChild(textElement('h3', 'event-calendar-card__title', event.title));
 
     if (event.location) {
       body.appendChild(textElement('p', 'event-calendar-card__location', event.location));
+    }
+    if (event.category) {
+      body.appendChild(textElement('p', 'event-calendar-card__organizer', event.category));
+    }
+    if (event.description) {
+      body.appendChild(textElement('p', 'event-calendar-card__organizer', event.description));
     }
     if (event.organizer) {
       body.appendChild(

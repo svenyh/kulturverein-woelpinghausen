@@ -2,3 +2,9 @@
 # 1. Nach `.dev.vars` kopieren (Datei ist gitignored).
 # 2. Niemals ADMIN_DEV_BYPASS=true in Cloudflare Pages Production setzen.
 ADMIN_DEV_BYPASS=true
+
+# Optional für lokale Formular-Tests. Echte Werte nur in `.dev.vars` oder im
+# Cloudflare-Dashboard hinterlegen, niemals in dieser Beispieldatei.
+MAIL_API_KEY=
+CONTACT_EMAIL=
+FROM_EMAIL=

@@ -39,6 +39,76 @@
     <p class="admin-events-notice" id="offline-notice" hidden>Online-Verbindung wird vorbereitet.</p>
     <p class="admin-events-status" id="admin-status" role="status" aria-live="polite">Kandidaten werden geladen...</p>
 
+    <section class="admin-events-editor" aria-labelledby="manual-events-title">
+      <div class="admin-events-controls__heading">
+        <div>
+          <h2 id="manual-events-title">Termine manuell verwalten</h2>
+          <p>Eigene und importierte Termine direkt bearbeiten.</p>
+        </div>
+        <button type="button" class="btn btn--primary" id="new-event">Neuer Termin</button>
+      </div>
+
+      <form id="event-form" class="admin-event-form" hidden>
+        <input type="hidden" id="event-id">
+        <div class="form-group admin-event-form__wide">
+          <label for="event-title">Titel *</label>
+          <input id="event-title" name="title" type="text" maxlength="200" required>
+        </div>
+        <div class="form-group admin-event-form__wide">
+          <label for="event-description">Kurze Beschreibung *</label>
+          <textarea id="event-description" name="description" rows="4" maxlength="5000" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="event-date">Datum *</label>
+          <input id="event-date" name="date" type="date" required>
+        </div>
+        <div class="form-group">
+          <label for="event-start-time">Startzeit *</label>
+          <input id="event-start-time" name="startTime" type="time" required>
+        </div>
+        <div class="form-group">
+          <label for="event-end-time">Endzeit</label>
+          <input id="event-end-time" name="endTime" type="time">
+        </div>
+        <div class="form-group">
+          <label for="event-status">Status *</label>
+          <select id="event-status" name="status">
+            <option value="draft">Entwurf</option>
+            <option value="published">Veröffentlicht</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="event-location">Ort *</label>
+          <input id="event-location" name="location" type="text" maxlength="500" required>
+        </div>
+        <div class="form-group">
+          <label for="event-category">Kategorie</label>
+          <input id="event-category" name="category" type="text" maxlength="100">
+        </div>
+        <div class="form-group admin-event-form__wide">
+          <label for="event-source-url">Link</label>
+          <input id="event-source-url" name="sourceUrl" type="url" maxlength="2048" placeholder="https://…">
+        </div>
+        <div class="admin-event-form__actions admin-event-form__wide">
+          <button type="submit" class="btn btn--primary" id="save-event">Termin speichern</button>
+          <button type="button" class="btn btn--outline" id="cancel-event">Abbrechen</button>
+        </div>
+      </form>
+
+      <div class="admin-events-manual-lists">
+        <section>
+          <h3>Kommende Termine</h3>
+          <div id="upcoming-events" class="admin-events-compact-list"></div>
+          <p id="upcoming-events-empty" class="admin-events-empty">Keine kommenden Termine.</p>
+        </section>
+        <section>
+          <h3>Vergangene Termine</h3>
+          <div id="past-events" class="admin-events-compact-list"></div>
+          <p id="past-events-empty" class="admin-events-empty">Keine vergangenen Termine.</p>
+        </section>
+      </div>
+    </section>
+
     <section class="admin-events-stats" aria-label="Kennzahlen">
       <div class="admin-events-stat">
         <strong id="stat-loaded">0</strong>
@@ -61,7 +131,7 @@
     <section class="admin-events-controls" aria-labelledby="filter-title">
       <div class="admin-events-controls__heading">
         <div>
-          <h2 id="filter-title">Kandidaten prüfen</h2>
+          <h2 id="filter-title">Importierte Kandidaten prüfen</h2>
           <p id="candidate-summary">0 Termine</p>
         </div>
         <button type="button" class="btn btn--primary" id="save-selection" disabled>Auswahl speichern</button>

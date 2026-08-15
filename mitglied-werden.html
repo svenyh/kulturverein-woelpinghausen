@@ -31,16 +31,48 @@
       </div>
       <div class="auth-card" style="box-shadow:var(--shadow-md);">
         <h2 class="auth-card__title">Mitgliedsanfrage</h2>
-        <p class="auth-card__subtitle">Die digitale Mitgliedsanfrage ist noch nicht freigeschaltet. Bitte melde dich vorerst über Instagram bei uns.</p>
-        <div class="form-notice" role="status">Online-Versand folgt später. Deine Anfrage wird hier noch nicht übermittelt.</div>
-        <div class="form-actions" style="margin-top:1.25rem;">
-          <a href="kontakt.html" class="btn btn--primary">Zum Kontakt</a>
-          <a href="#" data-instagram-link class="btn btn--outline" style="margin-top:0.75rem;color:var(--color-bordeaux);border-color:var(--color-bordeaux);">Über Instagram anfragen</a>
-        </div>
+        <p class="auth-card__subtitle">Sende uns unverbindlich deine Anfrage. Wir melden uns bei dir.</p>
+        <form data-public-form="membership" novalidate>
+          <div class="form-row form-row--2">
+            <div class="form-group">
+              <label for="member-first-name">Vorname *</label>
+              <input id="member-first-name" name="firstName" type="text" autocomplete="given-name" maxlength="100" required>
+            </div>
+            <div class="form-group">
+              <label for="member-last-name">Nachname *</label>
+              <input id="member-last-name" name="lastName" type="text" autocomplete="family-name" maxlength="100" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="member-email">E-Mail *</label>
+            <input id="member-email" name="email" type="email" autocomplete="email" maxlength="254" required>
+          </div>
+          <div class="form-group">
+            <label for="member-phone">Telefon (optional)</label>
+            <input id="member-phone" name="phone" type="tel" autocomplete="tel" maxlength="50">
+          </div>
+          <div class="form-group">
+            <label for="member-message">Nachricht (optional)</label>
+            <textarea id="member-message" name="message" rows="6" maxlength="5000"></textarea>
+          </div>
+          <div class="form-honeypot" aria-hidden="true">
+            <label for="member-website">Website</label>
+            <input id="member-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+          <div class="form-consent">
+            <input id="member-privacy" name="privacy" type="checkbox" required>
+            <label for="member-privacy">Ich habe die <a href="datenschutz.html">Datenschutzerklärung</a> gelesen und stimme der Verarbeitung meiner Angaben zur Bearbeitung der Anfrage zu. *</label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Mitgliedsanfrage senden</button>
+          </div>
+          <div class="form-notice" role="status" aria-live="polite" hidden></div>
+        </form>
       </div>
     </div>
   </main>
   <div id="site-footer"></div>
   <script src="js/script.js"></script>
+  <script src="js/forms.js"></script>
 </body>
 </html>
