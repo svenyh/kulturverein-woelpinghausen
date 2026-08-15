@@ -6,14 +6,25 @@
   'use strict';
 
   /** Zentrale Site-Konfiguration – hier URLs später leicht ändern */
-  const SITE = {
-    legalName: 'Kulturverein Wölpinghausen i.G.',
-    instagramUrl: 'https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=',
-    instagramHandle: '@kulturverein_woelpinghausen',
-    instagramLabel: 'Instagram Kulturverein Wölpinghausen',
-    logoSrc: 'images/logo-kulturverein.png',
-    logoAlt: 'Logo Kulturverein Wölpinghausen',
-  };
+  const SITE = Object.assign(
+    {
+      baseUrl: 'https://kulturverein-woelpinghausen.pages.dev',
+      previewNoindex: true,
+      legalName: 'Kulturverein Wölpinghausen i.G.',
+      instagramUrl: 'https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=',
+      instagramHandle: '@kulturverein_woelpinghausen',
+      instagramLabel: 'Instagram Kulturverein Wölpinghausen',
+      logoSrc: 'images/logo-kulturverein.png',
+      logoAlt: 'Logo Kulturverein Wölpinghausen',
+    },
+    window.KVW_SITE || {}
+  );
+
+  function siteRootPrefix() {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    if (pathParts.length <= 1) return '';
+    return '../'.repeat(pathParts.length - 1);
+  }
 
   const NAV = [
     { id: 'startseite', label: 'Startseite', href: 'index.html' },
@@ -27,8 +38,12 @@
   const INSTAGRAM_SVG =
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>';
 
+  function withRoot(relativePath) {
+    return `${siteRootPrefix()}${relativePath}`;
+  }
+
   function logoImg(className, size) {
-    return `<img src="${SITE.logoSrc}" alt="${SITE.logoAlt}" class="logo-img ${className}" width="${size}" height="${size}">`;
+    return `<img src="${withRoot(SITE.logoSrc)}" alt="${SITE.logoAlt}" class="logo-img ${className}" width="${size}" height="${size}">`;
   }
 
   function instagramAttrs() {
@@ -38,13 +53,14 @@
   function renderHeader(activePage) {
     const links = NAV.map(
       (item) =>
-        `<li><a href="${item.href}" class="nav__link${item.id === activePage ? ' nav__link--active' : ''}">${item.label}</a></li>`
+        `<li><a href="${withRoot(item.href)}" class="nav__link${item.id === activePage ? ' nav__link--active' : ''}">${item.label}</a></li>`
     ).join('');
 
     return `
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
     <header class="header" id="header">
       <div class="container header__inner">
-        <a href="index.html" class="header__logo" aria-label="Zur Startseite">
+        <a href="${withRoot('index.html')}" class="header__logo" aria-label="Zur Startseite">
           ${logoImg('header__logo-img', 52)}
           <span class="header__logo-text">
             <span class="header__logo-name">Kulturverein</span>
@@ -63,12 +79,12 @@
   }
 
   function renderFooter() {
-    const links = NAV.map((item) => `<li><a href="${item.href}">${item.label}</a></li>`).join('');
+    const links = NAV.map((item) => `<li><a href="${withRoot(item.href)}">${item.label}</a></li>`).join('');
     return `
     <footer class="footer">
       <div class="container footer__grid">
         <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
+          <a href="${withRoot('index.html')}" class="footer__logo">
             ${logoImg('footer__logo-img', 56)}
             <span>Kulturverein<br>Wölpinghausen</span>
           </a>
@@ -97,7 +113,7 @@
         <div class="container footer__bottom-inner">
           <p>&copy; 2026 ${SITE.legalName}</p>
           <div class="footer__legal">
-            <a href="impressum.html">Impressum</a><span aria-hidden="true">|</span><a href="datenschutz.html">Datenschutz</a>
+            <a href="${withRoot('impressum.html')}">Impressum</a><span aria-hidden="true">|</span><a href="${withRoot('datenschutz.html')}">Datenschutz</a>
           </div>
         </div>
       </div>
@@ -156,6 +172,7 @@
     const closeBtn = overlay.querySelector('.lightbox__close');
     let items = [];
     let currentIndex = 0;
+    let lastFocusedElement = null;
 
     const collectItems = () => Array.from(document.querySelectorAll('.js-lightbox-img'));
 
@@ -174,6 +191,7 @@
       prevBtn.hidden = !hasMultiple;
       nextBtn.hidden = !hasMultiple;
 
+      lastFocusedElement = document.activeElement;
       overlay.hidden = false;
       document.body.style.overflow = 'hidden';
       closeBtn.focus();
@@ -183,6 +201,9 @@
       overlay.hidden = true;
       document.body.style.overflow = '';
       imgEl.removeAttribute('src');
+      if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+        lastFocusedElement.focus();
+      }
     };
 
     const step = (dir) => {
@@ -236,13 +257,13 @@
       icon.rel = 'icon';
       document.head.appendChild(icon);
     }
-    icon.href = SITE.logoSrc;
+    icon.href = withRoot(SITE.logoSrc);
     icon.type = 'image/png';
 
     if (!document.querySelector('link[rel="apple-touch-icon"]')) {
       const apple = document.createElement('link');
       apple.rel = 'apple-touch-icon';
-      apple.href = SITE.logoSrc;
+      apple.href = withRoot(SITE.logoSrc);
       document.head.appendChild(apple);
     }
   }
@@ -269,7 +290,7 @@
 
       const chain = [
         img.dataset.fallback,
-        SITE.logoSrc,
+        withRoot(SITE.logoSrc),
       ].filter(Boolean);
 
       let step = 0;
@@ -298,7 +319,7 @@
     if (!activePage) return;
     const match = NAV.find((item) => item.id === activePage);
     if (!match) return;
-    const activeLink = document.querySelector(`.nav__link[href="${match.href}"]`);
+    const activeLink = document.querySelector(`.nav__link[href="${withRoot(match.href)}"]`);
     if (activeLink) activeLink.classList.add('nav__link--active');
   }
 

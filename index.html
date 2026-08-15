@@ -3,27 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Kulturverein Wölpinghausen – Gemeinsam feiern, unterwegs sein und das Dorfleben gestalten.">
-  <title>Kulturverein Wölpinghausen</title>
-  <link rel="canonical" href="https://svenyh.github.io/kulturverein-woelpinghausen/">
-  <meta property="og:title" content="Kulturverein Wölpinghausen">
-  <meta property="og:description" content="Kulturverein Wölpinghausen – Gemeinsam feiern, unterwegs sein und das Dorfleben gestalten.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Gemeinschaft, Veranstaltungen und Dorfleben in Wölpinghausen – Ausflüge, Termine und Kultur im Kulturverein Wölpinghausen.">
+  <title>Kulturverein Wölpinghausen | Gemeinschaft & Veranstaltungen</title>
+  <link rel="canonical" href="https://kulturverein-woelpinghausen.pages.dev/">
+  <meta property="og:title" content="Kulturverein Wölpinghausen | Gemeinschaft & Veranstaltungen">
+  <meta property="og:description" content="Gemeinschaft, Veranstaltungen und Dorfleben in Wölpinghausen – Ausflüge, Termine und Kultur im Kulturverein Wölpinghausen.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://svenyh.github.io/kulturverein-woelpinghausen/">
-  <meta property="og:image" content="https://svenyh.github.io/kulturverein-woelpinghausen/images/hero-final.png">
+  <meta property="og:url" content="https://kulturverein-woelpinghausen.pages.dev/">
+  <meta property="og:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
+  <meta property="og:image:alt" content="Kulturverein Wölpinghausen – Gemeinschaft und Veranstaltungen">
   <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kulturverein Wölpinghausen | Gemeinschaft & Veranstaltungen">
+  <meta name="twitter:description" content="Gemeinschaft, Veranstaltungen und Dorfleben in Wölpinghausen – Ausflüge, Termine und Kultur im Kulturverein Wölpinghausen.">
+  <meta name="twitter:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Kulturverein Wölpinghausen i.G.",
+    "url": "https://kulturverein-woelpinghausen.pages.dev/",
+    "logo": "https://kulturverein-woelpinghausen.pages.dev/images/logo-kulturverein.png",
+    "sameAs": [
+      "https://www.instagram.com/kulturverein_woelpinghausen"
+    ],
+    "location": {
+      "@type": "Place",
+      "name": "Wölpinghausen"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
 </head>
 <body data-page="startseite">
   <div id="site-header" class="site-header"></div>
-  <main>
+  <main id="main-content">
     <section class="hero">
       <h1 class="visually-hidden">Kulturverein Wölpinghausen</h1>
-      <img
-        src="images/hero-final.png"
-        alt="Kulturverein Wölpinghausen Hero"
-        class="hero-banner">
+      <picture>
+        <source srcset="images/hero-final.webp" type="image/webp">
+        <img
+          src="images/hero-final.png"
+          alt="Kulturverein Wölpinghausen Hero"
+          class="hero-banner"
+          width="1790"
+          height="878"
+          fetchpriority="high">
+      </picture>
       <div class="hero__mobile-content">
         <p class="hero__mobile-title" aria-hidden="true">Kulturverein<br>Wölpinghausen</p>
         <p class="hero__mobile-tagline" aria-hidden="true">Gemeinsam feiern.<br>Gemeinsam unterwegs.<br>Gemeinsam für Wölpinghausen.</p>
@@ -153,6 +181,7 @@
     </section>
   </main>
   <div id="site-footer"></div>
+  <script src="js/site-config.js"></script>
   <script src="js/script.js"></script>
   <script src="js/home-events.js"></script>
 </body>

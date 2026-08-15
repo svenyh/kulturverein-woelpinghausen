@@ -9,12 +9,18 @@
     "events:test": "node tools/fetch-events-test.js",
     "forms:test": "node --experimental-default-type=module tools/forms-api-test.js",
     "events:publish": "node tools/publish-events.js",
-    "events:selection": "node tools/create-event-selection.js"
+    "events:selection": "node tools/create-event-selection.js",
+    "seo:apply": "node tools/apply-seo-meta.mjs",
+    "qa:links": "node tools/pre-go-live-qa.mjs --base http://127.0.0.1:8788",
+    "qa:prod": "node tools/pre-go-live-qa.mjs --base https://kulturverein-woelpinghausen.pages.dev --lighthouse",
+    "qa:lighthouse": "node tools/pre-go-live-qa.mjs --base http://127.0.0.1:8788 --lighthouse"
   },
   "dependencies": {
     "node-ical": "0.26.1"
   },
   "devDependencies": {
+    "lighthouse": "12.8.2",
+    "playwright": "1.55.0",
     "wrangler": "4.103.0"
   }
 }

@@ -10,3 +10,4 @@ data/events-selection-grouped.md
 *.log
 .DS_Store
 Thumbs.db
+reports/

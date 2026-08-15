@@ -1,0 +1,24 @@
+# Kulturverein Wölpinghausen – robots.txt (Preview-Vorbereitung)
+# GO-LIVE: Preview-Noindex-Meta-Tags entfernen, Sitemap-Zeile aktivieren und Domain ersetzen.
+
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /login
+Disallow: /login.html
+Disallow: /mitgliederbereich/
+Disallow: /galerie
+Disallow: /galerie.html
+Disallow: /fotos-videos
+Disallow: /fotos-videos.html
+Disallow: /reisen/index.html
+Disallow: /veranstaltungen/
+Disallow: /termine.html
+Disallow: /registrierung.html
+Disallow: /admin.html
+Disallow: /deploy/
+
+# Sitemap beim Domain-Go-Live aktivieren:
+# Sitemap: https://FINAL-DOMAIN/sitemap.xml

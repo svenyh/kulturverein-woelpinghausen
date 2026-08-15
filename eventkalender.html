@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Eventkalender mit den wichtigsten Veranstaltungen in Wölpinghausen. Termine und weitere Informationen werden ergänzt.">
-  <title>Eventkalender – Kulturverein Wölpinghausen</title>
-  <link rel="canonical" href="https://svenyh.github.io/kulturverein-woelpinghausen/eventkalender.html">
-  <meta property="og:title" content="Eventkalender – Kulturverein Wölpinghausen">
-  <meta property="og:description" content="Eventkalender mit den wichtigsten Veranstaltungen in Wölpinghausen. Termine und weitere Informationen werden ergänzt.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Termine und Veranstaltungen in Wölpinghausen – der Eventkalender des Kulturverein Wölpinghausen mit aktuellen Terminen.">
+  <title>Veranstaltungen in Wölpinghausen | Kulturverein Wölpinghausen</title>
+  <link rel="canonical" href="https://kulturverein-woelpinghausen.pages.dev/eventkalender.html">
+  <meta property="og:title" content="Veranstaltungen in Wölpinghausen | Kulturverein Wölpinghausen">
+  <meta property="og:description" content="Termine und Veranstaltungen in Wölpinghausen – der Eventkalender des Kulturverein Wölpinghausen mit aktuellen Terminen.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://svenyh.github.io/kulturverein-woelpinghausen/eventkalender.html">
-  <meta property="og:image" content="https://svenyh.github.io/kulturverein-woelpinghausen/images/logo-kulturverein.png">
+  <meta property="og:url" content="https://kulturverein-woelpinghausen.pages.dev/eventkalender.html">
+  <meta property="og:image" content="https://kulturverein-woelpinghausen.pages.dev/images/logo-kulturverein.png">
+  <meta property="og:image:alt" content="Eventkalender Kulturverein Wölpinghausen">
   <meta property="og:locale" content="de_DE">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Veranstaltungen in Wölpinghausen | Kulturverein Wölpinghausen">
+  <meta name="twitter:description" content="Termine und Veranstaltungen in Wölpinghausen – der Eventkalender des Kulturverein Wölpinghausen mit aktuellen Terminen.">
+  <meta name="twitter:image" content="https://kulturverein-woelpinghausen.pages.dev/images/logo-kulturverein.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
 </head>
@@ -26,7 +32,7 @@
     </div>
   </header>
 
-  <main class="page-content section--cream">
+  <main id="main-content" class="page-content section--cream">
     <div class="container">
       <p id="event-calendar-status" class="event-calendar-status" role="status">Termine werden geladen...</p>
       <div id="event-calendar-groups" class="event-calendar-groups" hidden></div>
@@ -34,6 +40,7 @@
   </main>
 
   <div id="site-footer"></div>
+  <script src="js/site-config.js"></script>
   <script src="js/script.js"></script>
   <script src="js/eventkalender.js"></script>
 </body>

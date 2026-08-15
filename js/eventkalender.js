@@ -130,8 +130,45 @@
   }
 
   loadEventGroups()
-    .then((groups) => renderGroups(groups))
+    .then((groups) => {
+      renderGroups(groups);
+      injectEventStructuredData(groups);
+    })
     .catch(() => {
       status.textContent = 'Termine konnten derzeit nicht geladen werden.';
     });
+
+  function injectEventStructuredData(groups) {
+    const events = [];
+    for (const group of groups || []) {
+      if (!group || !Array.isArray(group.events)) continue;
+      for (const event of group.events) {
+        if (!event?.title || !event?.date) continue;
+        const item = {
+          '@type': 'Event',
+          name: event.title,
+          startDate: event.time ? `${event.date}T${event.time}:00` : event.date,
+          eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+          eventStatus: 'https://schema.org/EventScheduled',
+        };
+        if (event.endTime) item.endDate = `${event.date}T${event.endTime}:00`;
+        if (event.location) {
+          item.location = { '@type': 'Place', name: event.location };
+        }
+        if (event.description) item.description = event.description;
+        const sourceUrl = validSourceUrl(event.sourceUrl);
+        if (sourceUrl) item.url = sourceUrl;
+        events.push(item);
+      }
+    }
+    if (!events.length) return;
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@graph': events,
+    });
+    document.head.appendChild(script);
+  }
 })();
