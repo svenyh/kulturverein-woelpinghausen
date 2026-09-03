@@ -30,61 +30,88 @@
   </header>
   <main id="main-content" class="page-content section--cream">
     <div class="container prose">
-      <!-- TODO: E-Mail des Verantwortlichen vor Go-Live ergänzen (in der veröffentlichten Quelle nicht angegeben). -->
-      <!-- TODO: Datenschutzerklärung aktualisieren, sobald MAIL_API_KEY/CONTACT_EMAIL/FROM_EMAIL produktiv gesetzt sind und Resend wirklich versendet. -->
-      <p class="prose__intro">Diese Erklärung beschreibt den aktuellen technischen Stand der Webseite des Kulturverein Wölpinghausen. Der Kulturverein Wölpinghausen ist derzeit eine Interessengemeinschaft.</p>
+      <p class="prose__intro">Diese Datenschutzerklärung informiert über die Verarbeitung personenbezogener Daten beim Besuch der Website des Kulturverein Wölpinghausen. Der Kulturverein Wölpinghausen ist derzeit eine Interessengemeinschaft.</p>
 
       <section class="legal-section" aria-labelledby="ds-verantwortlicher">
         <h2 id="ds-verantwortlicher">1. Verantwortlicher</h2>
         <p>
           Kulturverein Wölpinghausen<br>
-          vorläufig verantwortlich: Sven Nicolaus<br>
+          Sven Nicolaus<br>
           Waidmannsweg 12<br>
           31556 Wölpinghausen<br>
           Deutschland
         </p>
-        <p>Eine E-Mail-Adresse ist in der veröffentlichten Quelle nicht angegeben. Anfragen sind über die <a href="kontakt.html">Kontaktseite</a> oder über <a href="https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=" target="_blank" rel="noopener noreferrer">Instagram</a> möglich.</p>
+        <p>Anfragen zum Datenschutz können schriftlich an die oben genannte Anschrift gerichtet werden. Zusätzlich stehen die <a href="kontakt.html">Kontaktseite</a> und unser <a href="https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=" target="_blank" rel="noopener noreferrer">Instagram-Profil</a> zur Verfügung.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-hosting">
-        <h2 id="ds-hosting">2. Hosting und Bereitstellung</h2>
-        <p>Die öffentliche Webseite wird über <strong>Cloudflare Pages</strong> und parallel über <strong>GitHub Pages</strong> bereitgestellt. Beim Aufruf können die jeweiligen Anbieter technische Zugriffsdaten verarbeiten, insbesondere IP-Adresse, Zeitpunkt, aufgerufene Adresse, Referrer und Browserkennung. Das geschieht, um die Seite auszuliefern, zu sichern und Störungen zu erkennen.</p>
-        <p>Auf Cloudflare Pages können zusätzlich <strong>Cloudflare Functions</strong> (Pages Functions) und eine <strong>Cloudflare-D1-Datenbank</strong> zum Einsatz kommen. GitHub Pages liefert nur die statischen Dateien; dynamische Schnittstellen stehen dort nicht zur Verfügung.</p>
+        <h2 id="ds-hosting">2. Hosting</h2>
+        <p>Diese Website wird über Cloudflare Pages bereitgestellt. Anbieter ist die Cloudflare, Inc., 101 Townsend St., San Francisco, CA 94107, USA. Cloudflare verarbeitet die beim Aufruf anfallenden technischen Daten, um die Seiten auszuliefern, die Verbindung abzusichern und den Betrieb aufrechtzuerhalten.</p>
+        <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse liegt in einem sicheren, stabilen und effizienten Betrieb der Website.</p>
+        <p>Cloudflare handelt für uns als Auftragsverarbeiter. Da Cloudflare ein Unternehmen mit Sitz in den USA ist, können technische Daten auch in den Vereinigten Staaten verarbeitet werden. Cloudflare verwendet hierfür nach eigenen Angaben geeignete Garantien, insbesondere Standardvertragsklauseln.</p>
       </section>
 
-      <section class="legal-section" aria-labelledby="ds-zugriff">
-        <h2 id="ds-zugriff">3. Öffentliche Inhalte und Schnittstellen</h2>
-        <p>Der Eventkalender und die Startseite lesen veröffentlichte Termine zuerst über <code>/api/events</code> (D1). Ist keine Datenbank verfügbar, wird die lokale Datei <code>data/events.json</code> verwendet.</p>
-        <p>Der Mitgliederbereich zeigt öffentlich freigegebene Inhalte (Aktuelles, Dokumente, interne Termine, Helfer-Einsätze) über <code>/api/members/*</code> aus D1. Ein Mitglieder-Login ist derzeit nicht aktiv.</p>
-        <p>Bilder und Videos werden lokal aus diesem Projekt ausgeliefert. Es werden keine Google Fonts und keine bekannten Marketing- oder Analyse-Dienste eingebunden.</p>
-      </section>
-
-      <section class="legal-section" aria-labelledby="ds-admin">
-        <h2 id="ds-admin">4. Admin-Bereich</h2>
-        <p>Der Verwaltungsbereich unter <code>/admin/</code> und die zugehörigen Schnittstellen unter <code>/api/admin/</code> sind für den öffentlichen Besuch nicht vorgesehen. Der Zugriff soll über <strong>Cloudflare Access</strong> geschützt werden. Dabei können Anmeldedaten berechtigter Personen sowie Access-Cookies verarbeitet werden.</p>
-        <p>Im Admin-Bereich können Termine, Medienangaben und Mitgliederinhalte in D1 gepflegt werden. Der optionale Kalenderimport liest den öffentlichen iCalendar-Export der Samtgemeinde Sachsenhagen. Dieser Import wird nicht durch den normalen Seitenbesuch ausgelöst.</p>
+      <section class="legal-section" aria-labelledby="ds-logs">
+        <h2 id="ds-logs">3. Technische Zugriffsdaten</h2>
+        <p>Bei jedem Aufruf der Website werden automatisch Informationen verarbeitet, die Ihr Browser übermittelt. Dazu gehören insbesondere IP-Adresse, Datum und Uhrzeit des Zugriffs, aufgerufene Seite, Referrer und Angaben zu Browser und Betriebssystem.</p>
+        <p>Diese Daten sind erforderlich, um die Website anzuzeigen, Angriffe zu erkennen und Störungen zu beheben. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+        <p>Die Speicherdauer richtet sich nach den betrieblich notwendigen Einstellungen des Hostinganbieters. Eine Zusammenführung dieser Daten mit anderen Datenquellen erfolgt durch uns nicht.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-formulare">
-        <h2 id="ds-formulare">5. Kontakt und Mitgliedsanfrage</h2>
-        <p>Die Seiten <a href="kontakt.html">Kontakt</a> und <a href="mitglied-werden.html">Mitglied werden</a> enthalten Formulare. Beim Absenden werden die eingegebenen Angaben (Name bzw. Vor- und Nachname, E-Mail-Adresse, optional Telefon und Nachricht) als JSON an die Schnittstelle <code>/api/forms</code> übertragen.</p>
-        <p>Der Code sieht einen E-Mail-Versand über <strong>Resend</strong> vor, sofern die Umgebungsvariablen <code>MAIL_API_KEY</code>, <code>CONTACT_EMAIL</code> und <code>FROM_EMAIL</code> gesetzt sind. In der aktuellen Live-Umgebung ist diese Konfiguration <strong>nicht aktiv</strong>; das Formular antwortet dann ohne Mailversand. Es findet derzeit keine produktive Verarbeitung durch Resend statt.</p>
-        <p>Sobald der Versand produktiv eingeschaltet wird, werden die Formulardaten über Resend an die hinterlegte Kontaktadresse übermittelt. Diese Erklärung ist dann vor der Freischaltung zu ergänzen.</p>
+        <h2 id="ds-formulare">4. Kontaktformular und Mitgliedsanfrage</h2>
+        <p>Über die Seiten Kontakt und Mitglied werden können uns Nachrichten bzw. Mitgliedsanfragen übermittelt werden. Je nach Formular können Name, Vor- und Nachname, E-Mail-Adresse, Telefonnummer und Nachricht angegeben werden. Die Einwilligung in die Verarbeitung zur Bearbeitung der Anfrage wird über ein Pflichtfeld bestätigt.</p>
+        <p>Zweck der Verarbeitung ist die Bearbeitung Ihrer Anfrage. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO (Einwilligung). Die Einwilligung kann jederzeit mit Wirkung für die Zukunft widerrufen werden.</p>
+        <p>Ein automatischer E-Mail-Versand der Formulardaten ist derzeit nicht aktiv. Die Angaben werden für die technische Prüfung der Anfrage an unsere Website übermittelt, jedoch nicht dauerhaft bei uns gespeichert und nicht an einen E-Mail-Dienst weitergeleitet.</p>
       </section>
 
-      <section class="legal-section" aria-labelledby="ds-externe">
-        <h2 id="ds-externe">6. Externe Links</h2>
-        <p>Die Webseite verlinkt auf Instagram, auf Webseiten der Partnervereine und auf weitere externe Angebote. Beim Anklicken verlassen Besucher diese Webseite. Es gelten dann die Datenschutzbestimmungen der jeweiligen Anbieter. Es werden keine Social-Media-Plugins oder eingebetteten Feeds geladen.</p>
+      <section class="legal-section" aria-labelledby="ds-inhalte">
+        <h2 id="ds-inhalte">5. Öffentliche Inhalte der Website</h2>
+        <p>Die Website zeigt öffentlich zugängliche Informationen zum Vereinsleben, darunter Termine, Beiträge, Dokumenthinweise, Fotos und Videos. Bilder und Videos werden von uns selbst bereitgestellt und nicht über fremde Video- oder Werbeplattformen eingebettet.</p>
+        <p>Ein Mitglieder-Login besteht nicht. Für den bloßen Besuch dieser öffentlichen Seiten ist keine Anmeldung erforderlich. Rechtsgrundlage für die Bereitstellung der Websiteinhalte ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="ds-links">
+        <h2 id="ds-links">6. Externe Links</h2>
+        <p>Wir verlinken auf Instagram und auf Webseiten von Partnervereinen sowie auf weitere externe Angebote. Beim Anklicken eines solchen Links verlassen Sie unsere Website. Für die dortige Datenverarbeitung sind die jeweiligen Anbieter verantwortlich. Es werden keine Social-Media-Plugins und keine eingebetteten Feeds geladen.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-cookies">
         <h2 id="ds-cookies">7. Cookies</h2>
-        <p>Für den öffentlichen Auftritt werden keine zustimmungspflichtigen Marketing- oder Tracking-Cookies gesetzt. Cloudflare kann im Rahmen von Hosting und Sicherheit technisch notwendige Cookies verwenden. Zusätzliche Cookies von Cloudflare Access entstehen erst beim Aufruf geschützter Admin-Bereiche.</p>
+        <p>Wir setzen keine Cookies zu Werbe-, Analyse- oder Trackingzwecken ein. Ein Cookie-Banner ist daher nicht erforderlich.</p>
+        <p>Der Hostinganbieter kann im Rahmen der Auslieferung und Absicherung der Website technisch notwendige Cookies setzen. Rechtsgrundlage hierfür ist Art. 6 Abs. 1 lit. f DSGVO.</p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="ds-dauer">
+        <h2 id="ds-dauer">8. Speicherdauer</h2>
+        <p>Technische Zugriffsdaten werden nur so lange verarbeitet, wie es für Betrieb und Sicherheit der Website erforderlich ist.</p>
+        <p>Angaben aus Kontakt- oder Mitgliedsanfragen werden derzeit nicht dauerhaft gespeichert, weil der Versand der Anfragen noch nicht aktiv ist.</p>
+        <p>Öffentlich von uns eingestellte Inhalte bleiben veröffentlicht, bis wir sie ändern oder entfernen.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-rechte">
-        <h2 id="ds-rechte">8. Rechte der betroffenen Personen</h2>
-        <p>Soweit personenbezogene Daten verarbeitet werden, bestehen insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Beschwerde bei einer Aufsichtsbehörde. Anfragen dazu können über die auf dieser Seite genannten Kontaktwege gestellt werden.</p>
+        <h2 id="ds-rechte">9. Ihre Rechte</h2>
+        <p>Soweit wir personenbezogene Daten verarbeiten, stehen Ihnen nach der DSGVO insbesondere folgende Rechte zu:</p>
+        <ul>
+          <li>Auskunft über die zu Ihrer Person gespeicherten Daten</li>
+          <li>Berichtigung unrichtiger Daten</li>
+          <li>Löschung, sofern die Voraussetzungen vorliegen</li>
+          <li>Einschränkung der Verarbeitung</li>
+          <li>Widerspruch gegen Verarbeitungen auf Grundlage berechtigten Interesses</li>
+          <li>Datenübertragbarkeit, soweit die Verarbeitung auf Einwilligung beruht und automatisiert erfolgt</li>
+          <li>Widerruf einer erteilten Einwilligung mit Wirkung für die Zukunft</li>
+        </ul>
+        <p>Zur Ausübung dieser Rechte genügt eine Nachricht an die unter Ziffer 1 genannte Anschrift.</p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="ds-beschwerde">
+        <h2 id="ds-beschwerde">10. Beschwerderecht</h2>
+        <p>Sie haben das Recht, sich bei einer Datenschutzaufsichtsbehörde zu beschweren. Zuständig ist in der Regel die Aufsichtsbehörde Ihres Wohnsitzes oder die Behörde am Sitz des Verantwortlichen. Für Niedersachsen ist dies:</p>
+        <p>
+          Die Landesbeauftragte für den Datenschutz Niedersachsen<br>
+          Prinzenstraße 5<br>
+          30159 Hannover
+        </p>
       </section>
 
       <p><a href="impressum.html">Zum Impressum</a> · <a href="index.html">Zur Startseite</a></p>
