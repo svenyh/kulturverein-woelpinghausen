@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Datenschutzerklärung des Kulturverein Wölpinghausen. Die Angaben sind als Platzhalter gekennzeichnet und vor Veröffentlichung zu prüfen.">
+  <meta name="description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
   <title>Datenschutz | Kulturverein Wölpinghausen</title>
   <link rel="canonical" href="https://kulturverein-woelpinghausen.pages.dev/datenschutz.html">
   <meta property="og:title" content="Datenschutz | Kulturverein Wölpinghausen">
-  <meta property="og:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen. Die Angaben sind als Platzhalter gekennzeichnet und vor Veröffentlichung zu prüfen.">
+  <meta property="og:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kulturverein-woelpinghausen.pages.dev/datenschutz.html">
   <meta property="og:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
@@ -16,7 +16,7 @@
   <meta property="og:locale" content="de_DE">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Datenschutz | Kulturverein Wölpinghausen">
-  <meta name="twitter:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen. Die Angaben sind als Platzhalter gekennzeichnet und vor Veröffentlichung zu prüfen.">
+  <meta name="twitter:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
   <meta name="twitter:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
@@ -30,67 +30,63 @@
   </header>
   <main id="main-content" class="page-content section--cream">
     <div class="container prose">
-      <p class="prose__intro">Angaben werden vor offizieller Veröffentlichung ergänzt.</p>
+      <!-- TODO: E-Mail des Verantwortlichen vor Go-Live ergänzen (in der veröffentlichten Quelle nicht angegeben). -->
+      <!-- TODO: Datenschutzerklärung vor Aktivierung von Resend / Kontaktversand und vor der eigenen Domain rechtlich prüfen. -->
+      <p class="prose__intro">Diese Erklärung beschreibt den aktuellen technischen Stand der Webseite des Kulturverein Wölpinghausen. Der Kulturverein Wölpinghausen ist derzeit eine Interessengemeinschaft.</p>
 
       <section class="legal-section" aria-labelledby="ds-verantwortlicher">
         <h2 id="ds-verantwortlicher">1. Verantwortlicher</h2>
         <p>
-          Kulturverein Wölpinghausen i.G.<br>
-          Kontakt aktuell über Instagram:
-          <a href="https://www.instagram.com/kulturverein_woelpinghausen" target="_blank" rel="noopener noreferrer">@kulturverein_woelpinghausen</a>
+          Kulturverein Wölpinghausen<br>
+          vorläufig verantwortlich: Sven Nicolaus<br>
+          Waidmannsweg 12<br>
+          31556 Wölpinghausen<br>
+          Deutschland
         </p>
+        <p>Eine E-Mail-Adresse ist in der veröffentlichten Quelle nicht angegeben. Anfragen sind über die <a href="kontakt.html">Kontaktseite</a> oder über <a href="https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=" target="_blank" rel="noopener noreferrer">Instagram</a> möglich.</p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="ds-hosting">
+        <h2 id="ds-hosting">2. Hosting und Bereitstellung</h2>
+        <p>Die öffentliche Webseite wird über <strong>Cloudflare Pages</strong> und parallel über <strong>GitHub Pages</strong> bereitgestellt. Beim Aufruf können die jeweiligen Anbieter technische Zugriffsdaten verarbeiten, insbesondere IP-Adresse, Zeitpunkt, aufgerufene Adresse, Referrer und Browserkennung. Das geschieht, um die Seite auszuliefern, zu sichern und Störungen zu erkennen.</p>
+        <p>Auf Cloudflare Pages können zusätzlich <strong>Cloudflare Functions</strong> (Pages Functions) und eine <strong>Cloudflare-D1-Datenbank</strong> zum Einsatz kommen. GitHub Pages liefert nur die statischen Dateien; dynamische Schnittstellen stehen dort nicht zur Verfügung.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-zugriff">
-        <h2 id="ds-zugriff">2. Zugriffsdaten</h2>
-        <p>Beim Besuch dieser Webseite können technische Informationen durch den Hostinganbieter verarbeitet werden.</p>
+        <h2 id="ds-zugriff">3. Öffentliche Inhalte und Schnittstellen</h2>
+        <p>Der Eventkalender und die Startseite lesen veröffentlichte Termine zuerst über <code>/api/events</code> (D1). Ist keine Datenbank verfügbar, wird die lokale Datei <code>data/events.json</code> verwendet.</p>
+        <p>Der Mitgliederbereich zeigt öffentlich freigegebene Inhalte (Aktuelles, Dokumente, interne Termine, Helfer-Einsätze) über <code>/api/members/*</code> aus D1. Ein Mitglieder-Login ist derzeit nicht aktiv.</p>
+        <p>Bilder und Videos werden lokal aus diesem Projekt ausgeliefert. Es werden keine Google Fonts und keine bekannten Marketing- oder Analyse-Dienste eingebunden.</p>
       </section>
 
-      <section class="legal-section" aria-labelledby="ds-kontaktformular">
-        <h2 id="ds-kontaktformular">3. Kontaktformular</h2>
-        <p>Wenn Besucher über ein Kontaktformular Anfragen senden, werden die eingegebenen Daten ausschließlich zur Bearbeitung der Anfrage verwendet.</p>
+      <section class="legal-section" aria-labelledby="ds-admin">
+        <h2 id="ds-admin">4. Admin-Bereich</h2>
+        <p>Der Verwaltungsbereich unter <code>/admin/</code> und die zugehörigen Schnittstellen unter <code>/api/admin/</code> sind für den öffentlichen Besuch nicht vorgesehen. Der Zugriff soll über <strong>Cloudflare Access</strong> geschützt werden. Dabei können Anmeldedaten berechtigter Personen sowie Access-Cookies verarbeitet werden.</p>
+        <p>Im Admin-Bereich können Termine, Medienangaben und Mitgliederinhalte in D1 gepflegt werden. Der optionale Kalenderimport liest den öffentlichen iCalendar-Export der Samtgemeinde Sachsenhagen. Dieser Import wird nicht durch den normalen Seitenbesuch ausgelöst.</p>
       </section>
 
-      <section class="legal-section" aria-labelledby="ds-instagram">
-        <h2 id="ds-instagram">4. Instagram</h2>
-        <p>Auf dieser Webseite werden Links zu Instagram verwendet. Beim Anklicken des Links verlassen Besucher diese Webseite und es gelten die Datenschutzbestimmungen von Instagram.</p>
+      <section class="legal-section" aria-labelledby="ds-formulare">
+        <h2 id="ds-formulare">5. Kontakt und Mitgliedsanfrage</h2>
+        <p>Auf der Kontaktseite und unter „Mitglied werden“ gibt es derzeit <strong>keinen aktiven Online-Versand</strong>. Die Seiten weisen ausdrücklich darauf hin, dass Nachrichten und Anfragen hier nicht übermittelt werden. Es findet keine serverseitige Formularverarbeitung statt.</p>
+        <p>Eine Anbindung über Resend ist im aktuellen Code <strong>nicht umgesetzt und nicht produktiv aktiv</strong>. Sobald ein Versanddienst aktiviert wird, muss diese Erklärung vor der Freischaltung ergänzt werden.</p>
+      </section>
+
+      <section class="legal-section" aria-labelledby="ds-externe">
+        <h2 id="ds-externe">6. Externe Links</h2>
+        <p>Die Webseite verlinkt auf Instagram, auf Webseiten der Partnervereine und auf weitere externe Angebote. Beim Anklicken verlassen Besucher diese Webseite. Es gelten dann die Datenschutzbestimmungen der jeweiligen Anbieter. Es werden keine Social-Media-Plugins oder eingebetteten Feeds geladen.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-cookies">
-        <h2 id="ds-cookies">5. Cookies</h2>
-        <p>Derzeit werden keine zustimmungspflichtigen Marketing- oder Tracking-Cookies eingesetzt.</p>
+        <h2 id="ds-cookies">7. Cookies</h2>
+        <p>Für den öffentlichen Auftritt werden keine zustimmungspflichtigen Marketing- oder Tracking-Cookies gesetzt. Cloudflare kann im Rahmen von Hosting und Sicherheit technisch notwendige Cookies verwenden. Zusätzliche Cookies von Cloudflare Access entstehen erst beim Aufruf geschützter Admin-Bereiche.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-rechte">
-        <h2 id="ds-rechte">6. Rechte der betroffenen Personen</h2>
-        <p>Besucher haben grundsätzlich das Recht auf:</p>
-        <ul>
-          <li>Auskunft</li>
-          <li>Berichtigung</li>
-          <li>Löschung</li>
-          <li>Einschränkung der Verarbeitung</li>
-          <li>Datenübertragbarkeit</li>
-          <li>Beschwerde bei einer Aufsichtsbehörde</li>
-        </ul>
+        <h2 id="ds-rechte">8. Rechte der betroffenen Personen</h2>
+        <p>Soweit personenbezogene Daten verarbeitet werden, bestehen insbesondere Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Beschwerde bei einer Aufsichtsbehörde. Anfragen dazu können über die auf dieser Seite genannten Kontaktwege gestellt werden.</p>
       </section>
 
-      <section class="legal-section" aria-labelledby="ds-geplant">
-        <h2 id="ds-geplant">7. Geplante Erweiterungen</h2>
-        <p>Für die weitere Entwicklung dieser Webseite sind unter anderem folgende Funktionen vorgesehen, die derzeit noch nicht aktiv sind:</p>
-        <ul>
-          <li>Mitgliederlogin und geschützter Mitgliederbereich</li>
-          <li>Kontaktformular</li>
-          <li>Bereitstellung über GitHub Pages und/oder Cloudflare Pages</li>
-          <li>Verlinkung zu Instagram</li>
-          <li>zukünftige digitale Vereinsverwaltung</li>
-        </ul>
-        <p>Sobald diese Funktionen eingeführt werden, ist diese Datenschutzerklärung entsprechend anzupassen.</p>
-      </section>
-
-      <aside class="legal-notice" role="note">
-        <strong>Hinweis</strong>
-        Angaben werden vor offizieller Veröffentlichung ergänzt.
-      </aside>
+      <p><a href="impressum.html">Zum Impressum</a> · <a href="index.html">Zur Startseite</a></p>
     </div>
   </main>
   <div id="site-footer"></div>
