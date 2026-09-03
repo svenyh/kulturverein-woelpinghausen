@@ -6,18 +6,18 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
   <title>Datenschutz | Kulturverein Wölpinghausen</title>
-  <link rel="canonical" href="https://kulturverein-woelpinghausen.pages.dev/datenschutz.html">
+  <link rel="canonical" href="https://kulturverein-woelpinghausen.de/datenschutz.html">
   <meta property="og:title" content="Datenschutz | Kulturverein Wölpinghausen">
   <meta property="og:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://kulturverein-woelpinghausen.pages.dev/datenschutz.html">
-  <meta property="og:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
+  <meta property="og:url" content="https://kulturverein-woelpinghausen.de/datenschutz.html">
+  <meta property="og:image" content="https://kulturverein-woelpinghausen.de/images/hero-final.png">
   <meta property="og:image:alt" content="Datenschutz Kulturverein Wölpinghausen">
   <meta property="og:locale" content="de_DE">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Datenschutz | Kulturverein Wölpinghausen">
   <meta name="twitter:description" content="Datenschutzerklärung des Kulturverein Wölpinghausen.">
-  <meta name="twitter:image" content="https://kulturverein-woelpinghausen.pages.dev/images/hero-final.png">
+  <meta name="twitter:image" content="https://kulturverein-woelpinghausen.de/images/hero-final.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="icon" href="images/logo-kulturverein.png" type="image/png">
 </head>
@@ -31,7 +31,7 @@
   <main id="main-content" class="page-content section--cream">
     <div class="container prose">
       <!-- TODO: E-Mail des Verantwortlichen vor Go-Live ergänzen (in der veröffentlichten Quelle nicht angegeben). -->
-      <!-- TODO: Datenschutzerklärung vor Aktivierung von Resend / Kontaktversand und vor der eigenen Domain rechtlich prüfen. -->
+      <!-- TODO: Datenschutzerklärung aktualisieren, sobald MAIL_API_KEY/CONTACT_EMAIL/FROM_EMAIL produktiv gesetzt sind und Resend wirklich versendet. -->
       <p class="prose__intro">Diese Erklärung beschreibt den aktuellen technischen Stand der Webseite des Kulturverein Wölpinghausen. Der Kulturverein Wölpinghausen ist derzeit eine Interessengemeinschaft.</p>
 
       <section class="legal-section" aria-labelledby="ds-verantwortlicher">
@@ -67,8 +67,9 @@
 
       <section class="legal-section" aria-labelledby="ds-formulare">
         <h2 id="ds-formulare">5. Kontakt und Mitgliedsanfrage</h2>
-        <p>Auf der Kontaktseite und unter „Mitglied werden“ gibt es derzeit <strong>keinen aktiven Online-Versand</strong>. Die Seiten weisen ausdrücklich darauf hin, dass Nachrichten und Anfragen hier nicht übermittelt werden. Es findet keine serverseitige Formularverarbeitung statt.</p>
-        <p>Eine Anbindung über Resend ist im aktuellen Code <strong>nicht umgesetzt und nicht produktiv aktiv</strong>. Sobald ein Versanddienst aktiviert wird, muss diese Erklärung vor der Freischaltung ergänzt werden.</p>
+        <p>Die Seiten <a href="kontakt.html">Kontakt</a> und <a href="mitglied-werden.html">Mitglied werden</a> enthalten Formulare. Beim Absenden werden die eingegebenen Angaben (Name bzw. Vor- und Nachname, E-Mail-Adresse, optional Telefon und Nachricht) als JSON an die Schnittstelle <code>/api/forms</code> übertragen.</p>
+        <p>Der Code sieht einen E-Mail-Versand über <strong>Resend</strong> vor, sofern die Umgebungsvariablen <code>MAIL_API_KEY</code>, <code>CONTACT_EMAIL</code> und <code>FROM_EMAIL</code> gesetzt sind. In der aktuellen Live-Umgebung ist diese Konfiguration <strong>nicht aktiv</strong>; das Formular antwortet dann ohne Mailversand. Es findet derzeit keine produktive Verarbeitung durch Resend statt.</p>
+        <p>Sobald der Versand produktiv eingeschaltet wird, werden die Formulardaten über Resend an die hinterlegte Kontaktadresse übermittelt. Diese Erklärung ist dann vor der Freischaltung zu ergänzen.</p>
       </section>
 
       <section class="legal-section" aria-labelledby="ds-externe">
