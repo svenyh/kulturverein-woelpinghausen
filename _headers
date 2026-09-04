@@ -1,0 +1,23 @@
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+
+/admin.html
+  X-Robots-Tag: noindex, nofollow
+
+/login
+  X-Robots-Tag: noindex, nofollow
+
+/login.html
+  X-Robots-Tag: noindex, nofollow
+
+/mitgliederbereich/*
+  X-Robots-Tag: noindex, nofollow
+
+/api/*
+  X-Robots-Tag: noindex, nofollow
+
+/tools/*
+  X-Robots-Tag: noindex, nofollow
+
+/deploy/*
+  X-Robots-Tag: noindex, nofollow

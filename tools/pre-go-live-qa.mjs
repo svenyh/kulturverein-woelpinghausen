@@ -3,7 +3,7 @@
  * Pre-Go-Live QA: Link-Check, Lighthouse (optional), Playwright-Smoke.
  * Usage:
  *   node tools/pre-go-live-qa.mjs --base http://127.0.0.1:8788
- *   node tools/pre-go-live-qa.mjs --base https://kulturverein-woelpinghausen.pages.dev --lighthouse
+ *   node tools/pre-go-live-qa.mjs --base https://kulturverein-woelpinghausen.de --lighthouse
  */
 import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -15,16 +15,16 @@ const root = path.resolve(__dirname, '..');
 
 const PUBLIC_PAGES = [
   '/',
-  '/eventkalender.html',
-  '/ausfluege.html',
-  '/reisen/koeln-2024.html',
-  '/reisen/duesseldorf-2025.html',
-  '/reisen/leipzig-2026.html',
-  '/partnervereine.html',
-  '/mitglied-werden.html',
-  '/kontakt.html',
-  '/impressum.html',
-  '/datenschutz.html',
+  '/eventkalender',
+  '/ausfluege',
+  '/reisen/koeln-2024',
+  '/reisen/duesseldorf-2025',
+  '/reisen/leipzig-2026',
+  '/partnervereine',
+  '/mitglied-werden',
+  '/kontakt',
+  '/impressum',
+  '/datenschutz',
 ];
 
 const VIEWPORTS = [320, 375, 390, 430, 768, 1024, 1280, 1440, 1920];

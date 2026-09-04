@@ -9,7 +9,7 @@
   const SITE = Object.assign(
     {
       baseUrl: 'https://kulturverein-woelpinghausen.de',
-      previewNoindex: true,
+      previewNoindex: false,
       legalName: 'Kulturverein Wölpinghausen',
       instagramUrl: 'https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=',
       instagramHandle: '@kulturverein_woelpinghausen',

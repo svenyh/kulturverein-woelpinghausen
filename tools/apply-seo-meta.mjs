@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
-const BASE = 'https://kulturverein-woelpinghausen.pages.dev';
+const BASE = 'https://kulturverein-woelpinghausen.de';
 
 const PAGES = [
   {
@@ -25,8 +25,8 @@ const PAGES = [
     file: 'eventkalender.html',
     title: 'Veranstaltungen in Wölpinghausen | Kulturverein Wölpinghausen',
     description:
-      'Termine und Veranstaltungen in Wölpinghausen – der Eventkalender des Kulturverein Wölpinghausen mit aktuellen Terminen.',
-    canonical: `${BASE}/eventkalender.html`,
+      'Termine und Veranstaltungen in Wölpinghausen – der Eventkalender des Kulturverein Wölpinghausen mit aktuellen Terminen aus dem Dorfleben.',
+    canonical: `${BASE}/eventkalender`,
     ogType: 'website',
     ogImage: `${BASE}/images/logo-kulturverein.png`,
     ogImageAlt: 'Eventkalender Kulturverein Wölpinghausen',
@@ -36,7 +36,7 @@ const PAGES = [
     title: 'Ausflüge & Rückblicke | Kulturverein Wölpinghausen',
     description:
       'Ausflüge und Rückblicke aus Wölpinghausen – Reiseberichte, Fotos und Videos zu Leipzig, Düsseldorf, Köln und weiteren Touren.',
-    canonical: `${BASE}/ausfluege.html`,
+    canonical: `${BASE}/ausfluege`,
     ogType: 'website',
     ogImage: `${BASE}/images/reisen/duesseldorf-2025/10-gruppenfoto-am-rhein.webp`,
     ogImageAlt: 'Gruppenfoto am Rhein – Ausflüge Kulturverein Wölpinghausen',
@@ -46,7 +46,7 @@ const PAGES = [
     title: 'Herrentour Köln 2024 | Kulturverein Wölpinghausen',
     description:
       'Rückblick auf die Herrentour nach Köln 2024 – Domstadt, Brauhaus und gemeinsame Momente des Kulturverein Wölpinghausen.',
-    canonical: `${BASE}/reisen/koeln-2024.html`,
+    canonical: `${BASE}/reisen/koeln-2024`,
     ogType: 'article',
     ogImage: `${BASE}/images/reisen/koeln-2024/dom-koeln.webp`,
     ogImageAlt: 'Kölner Dom – Herrentour Köln 2024',
@@ -56,7 +56,7 @@ const PAGES = [
     title: 'Herrentour Düsseldorf 2025 | Kulturverein Wölpinghausen',
     description:
       'Rückblick auf die Herrentour nach Düsseldorf 2025 – Altstadt, Altbier und Rheinpromenade mit dem Kulturverein Wölpinghausen.',
-    canonical: `${BASE}/reisen/duesseldorf-2025.html`,
+    canonical: `${BASE}/reisen/duesseldorf-2025`,
     ogType: 'article',
     ogImage: `${BASE}/images/reisen/duesseldorf-2025/10-gruppenfoto-am-rhein.webp`,
     ogImageAlt: 'Gruppenfoto am Rhein – Herrentour Düsseldorf 2025',
@@ -66,7 +66,7 @@ const PAGES = [
     title: 'Leipzig 2026 | Kulturverein Wölpinghausen',
     description:
       'Rückblick auf die Leipzig-Tour 2026 – Innenstadt, Goethe-Denkmal, Nikolaikirche und Passagen mit dem Kulturverein Wölpinghausen.',
-    canonical: `${BASE}/reisen/leipzig-2026.html`,
+    canonical: `${BASE}/reisen/leipzig-2026`,
     ogType: 'article',
     ogImage: `${BASE}/images/reisen/leipzig-2026/06-gruppenfoto-am-goethe-denkmal.webp`,
     ogImageAlt: 'Gruppenfoto am Goethe-Denkmal – Leipzig 2026',
@@ -76,17 +76,17 @@ const PAGES = [
     title: 'Partnervereine in Wölpinghausen | Kulturverein Wölpinghausen',
     description:
       'Partnervereine und Vereinsleben in Wölpinghausen – Verbindungen im Dorf mit dem Kulturverein Wölpinghausen.',
-    canonical: `${BASE}/partnervereine.html`,
+    canonical: `${BASE}/partnervereine`,
     ogType: 'website',
     ogImage: `${BASE}/images/hero-final.png`,
     ogImageAlt: 'Partnervereine Kulturverein Wölpinghausen',
   },
   {
     file: 'mitglied-werden.html',
-    title: 'Mitmachen | Kulturverein Wölpinghausen',
+    title: 'Mitglied werden | Kulturverein Wölpinghausen',
     description:
-      'Mitmachen im Kulturverein Wölpinghausen – Informationen zur Mitgliedschaft, Gemeinschaft und Dorfleben in Wölpinghausen.',
-    canonical: `${BASE}/mitglied-werden.html`,
+      'Mitglied werden im Kulturverein Wölpinghausen – Mitmachen bei Ausflügen, Gemeinschaft und Dorfleben in Wölpinghausen.',
+    canonical: `${BASE}/mitglied-werden`,
     ogType: 'website',
     ogImage: `${BASE}/images/hero-final.png`,
     ogImageAlt: 'Mitmachen beim Kulturverein Wölpinghausen',
@@ -96,7 +96,7 @@ const PAGES = [
     title: 'Kontakt | Kulturverein Wölpinghausen',
     description:
       'Kontakt zum Kulturverein Wölpinghausen – Fragen zu Terminen, Mitgliedschaft und Kooperationen in Wölpinghausen.',
-    canonical: `${BASE}/kontakt.html`,
+    canonical: `${BASE}/kontakt`,
     ogType: 'website',
     ogImage: `${BASE}/images/hero-final.png`,
     ogImageAlt: 'Kontakt Kulturverein Wölpinghausen',
@@ -104,9 +104,8 @@ const PAGES = [
   {
     file: 'impressum.html',
     title: 'Impressum | Kulturverein Wölpinghausen',
-    description:
-      'Impressum des Kulturverein Wölpinghausen. Die Angaben sind als Vorlage gekennzeichnet und vor Veröffentlichung zu prüfen.',
-    canonical: `${BASE}/impressum.html`,
+    description: 'Impressum des Kulturverein Wölpinghausen.',
+    canonical: `${BASE}/impressum`,
     ogType: 'website',
     ogImage: `${BASE}/images/hero-final.png`,
     ogImageAlt: 'Impressum Kulturverein Wölpinghausen',
@@ -114,9 +113,8 @@ const PAGES = [
   {
     file: 'datenschutz.html',
     title: 'Datenschutz | Kulturverein Wölpinghausen',
-    description:
-      'Datenschutzerklärung des Kulturverein Wölpinghausen. Die Angaben sind als Platzhalter gekennzeichnet und vor Veröffentlichung zu prüfen.',
-    canonical: `${BASE}/datenschutz.html`,
+    description: 'Datenschutzerklärung des Kulturverein Wölpinghausen.',
+    canonical: `${BASE}/datenschutz`,
     ogType: 'website',
     ogImage: `${BASE}/images/hero-final.png`,
     ogImageAlt: 'Datenschutz Kulturverein Wölpinghausen',
@@ -126,7 +124,6 @@ const PAGES = [
 function buildHeadBlock(page) {
   return `<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="${page.description}">
   <title>${page.title}</title>
   <link rel="canonical" href="${page.canonical}">
@@ -153,15 +150,18 @@ for (const page of PAGES) {
   {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": "Kulturverein Wölpinghausen i.G.",
+    "name": "Kulturverein Wölpinghausen",
+    "alternateName": "Kulturverein Wölpinghausen – Interessengemeinschaft",
+    "description": "Interessengemeinschaft für Gemeinschaft, Veranstaltungen und Dorfleben in Wölpinghausen.",
     "url": "${BASE}/",
     "logo": "${BASE}/images/logo-kulturverein.png",
     "sameAs": [
       "https://www.instagram.com/kulturverein_woelpinghausen"
     ],
-    "location": {
-      "@type": "Place",
-      "name": "Wölpinghausen"
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Wölpinghausen",
+      "addressCountry": "DE"
     }
   }
   </script>`;
@@ -169,10 +169,15 @@ for (const page of PAGES) {
   html = html.replace(/<head>\s*[\s\S]*?(?=<link rel="stylesheet")/, `<head>\n  ${headBlock}\n  `);
   html = html.replace(/<main(?![^>]*id="main-content")/, '<main id="main-content"');
   const scriptPrefix = page.file.includes('/') ? '../' : '';
-  html = html.replace(
-    new RegExp(`<script src="${scriptPrefix.replace('/', '\\/')}js/script\\.js"><\\/script>`),
-    `<script src="${scriptPrefix}js/site-config.js"></script>\n  <script src="${scriptPrefix}js/script.js"></script>`
-  );
+  if (
+    !html.includes(`${scriptPrefix}js/site-config.js`) &&
+    html.includes(`${scriptPrefix}js/script.js`)
+  ) {
+    html = html.replace(
+      new RegExp(`<script src="${scriptPrefix.replace('/', '\\/')}js/script\\.js"><\\/script>`),
+      `<script src="${scriptPrefix}js/site-config.js"></script>\n  <script src="${scriptPrefix}js/script.js"></script>`
+    );
+  }
   fs.writeFileSync(filePath, html, 'utf8');
   console.log(`Updated ${page.file}`);
 }

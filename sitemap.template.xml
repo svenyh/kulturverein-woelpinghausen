@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- GO-LIVE: {{BASE_URL}} durch die endgültige Domain ersetzen und als sitemap.xml deployen. -->
+<!-- Vorlage – produktive sitemap.xml wird mit tools/generate-sitemap.mjs erzeugt. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>{{BASE_URL}}/</loc></url>
-  <url><loc>{{BASE_URL}}/eventkalender.html</loc></url>
-  <url><loc>{{BASE_URL}}/ausfluege.html</loc></url>
-  <url><loc>{{BASE_URL}}/reisen/koeln-2024.html</loc></url>
-  <url><loc>{{BASE_URL}}/reisen/duesseldorf-2025.html</loc></url>
-  <url><loc>{{BASE_URL}}/reisen/leipzig-2026.html</loc></url>
-  <url><loc>{{BASE_URL}}/partnervereine.html</loc></url>
-  <url><loc>{{BASE_URL}}/mitglied-werden.html</loc></url>
-  <url><loc>{{BASE_URL}}/kontakt.html</loc></url>
-  <url><loc>{{BASE_URL}}/impressum.html</loc></url>
-  <url><loc>{{BASE_URL}}/datenschutz.html</loc></url>
+  <url><loc>{{BASE_URL}}/eventkalender</loc></url>
+  <url><loc>{{BASE_URL}}/ausfluege</loc></url>
+  <url><loc>{{BASE_URL}}/reisen/koeln-2024</loc></url>
+  <url><loc>{{BASE_URL}}/reisen/duesseldorf-2025</loc></url>
+  <url><loc>{{BASE_URL}}/reisen/leipzig-2026</loc></url>
+  <url><loc>{{BASE_URL}}/partnervereine</loc></url>
+  <url><loc>{{BASE_URL}}/mitglied-werden</loc></url>
+  <url><loc>{{BASE_URL}}/kontakt</loc></url>
+  <url><loc>{{BASE_URL}}/impressum</loc></url>
+  <url><loc>{{BASE_URL}}/datenschutz</loc></url>
 </urlset>

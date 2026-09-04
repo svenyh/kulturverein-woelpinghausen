@@ -1,8 +1,26 @@
-/galerie /ausfluege.html 301
-/galerie.html /ausfluege.html 301
-/reisen /ausfluege.html 301
-/reisen/ /ausfluege.html 301
-/reisen/index.html /ausfluege.html 301
+# Pfad-Weiterleitungen (Fallback). Host-Weiterleitungen www/pages.dev
+# laufen über functions/_middleware.js. Offiziell empfohlen Cloudflare zusätzlich:
+# Bulk Redirects für www → Apex und kulturverein-woelpinghausen.pages.dev → Apex
+# (Preserve query string, Subpath matching, Preserve path suffix).
+
+/galerie /ausfluege 301
+/galerie.html /ausfluege 301
+/reisen /ausfluege 301
+/reisen/ /ausfluege 301
+/reisen/index.html /ausfluege 301
+/fotos-videos /ausfluege 301
+/fotos-videos.html /ausfluege 301
 /mitgliederbereich.html /mitgliederbereich/ 301
-/fotos-videos /ausfluege.html 301
-/fotos-videos.html /ausfluege.html 301
+/termine /eventkalender 301
+/termine.html /eventkalender 301
+/registrierung /mitglied-werden 301
+/registrierung.html /mitglied-werden 301
+/veranstaltungen /ausfluege 301
+/veranstaltungen/ /ausfluege 301
+/veranstaltungen/index.html /ausfluege 301
+/veranstaltungen/koeln-2024 /reisen/koeln-2024 301
+/veranstaltungen/koeln-2024/ /reisen/koeln-2024 301
+/veranstaltungen/duesseldorf-2025 /reisen/duesseldorf-2025 301
+/veranstaltungen/duesseldorf-2025/ /reisen/duesseldorf-2025 301
+/veranstaltungen/leipzig-2026 /reisen/leipzig-2026 301
+/veranstaltungen/leipzig-2026/ /reisen/leipzig-2026 301

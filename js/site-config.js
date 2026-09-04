@@ -1,15 +1,13 @@
 /**
- * Zentrale Site-Konfiguration für URLs und Preview-Modus.
- * Beim Domain-Go-Live: previewNoindex entfernen/deaktivieren und baseUrl ersetzen.
+ * Zentrale Site-Konfiguration für URLs und SEO.
  */
 (function () {
   'use strict';
 
   window.KVW_SITE = {
-    /** Aktuelle Preview-Basis-URL – beim Go-Live durch die endgültige Domain ersetzen. */
     baseUrl: 'https://kulturverein-woelpinghausen.de',
-    /** Solange true: noindex auf öffentlichen Seiten (meta robots). Beim Go-Live auf false setzen. */
-    previewNoindex: true,
+    /** Öffentliche Seiten sind indexierbar. */
+    previewNoindex: false,
     legalName: 'Kulturverein Wölpinghausen',
     instagramUrl: 'https://www.instagram.com/kulturverein_woelpinghausen?igsh=enQyNnpzdjk0ZGs=',
     instagramHandle: '@kulturverein_woelpinghausen',

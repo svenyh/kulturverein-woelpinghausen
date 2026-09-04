@@ -11,8 +11,9 @@
     "events:publish": "node tools/publish-events.js",
     "events:selection": "node tools/create-event-selection.js",
     "seo:apply": "node tools/apply-seo-meta.mjs",
+    "seo:sitemap": "node tools/generate-sitemap.mjs",
     "qa:links": "node tools/pre-go-live-qa.mjs --base http://127.0.0.1:8788",
-    "qa:prod": "node tools/pre-go-live-qa.mjs --base https://kulturverein-woelpinghausen.pages.dev --lighthouse",
+    "qa:prod": "node tools/pre-go-live-qa.mjs --base https://kulturverein-woelpinghausen.de --lighthouse",
     "qa:lighthouse": "node tools/pre-go-live-qa.mjs --base http://127.0.0.1:8788 --lighthouse"
   },
   "dependencies": {
