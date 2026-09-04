@@ -82,16 +82,6 @@ const PAGES = [
     ogImageAlt: 'Partnervereine Kulturverein Wölpinghausen',
   },
   {
-    file: 'mitglied-werden.html',
-    title: 'Mitglied werden | Kulturverein Wölpinghausen',
-    description:
-      'Mitglied werden im Kulturverein Wölpinghausen – Mitmachen bei Ausflügen, Gemeinschaft und Dorfleben in Wölpinghausen.',
-    canonical: `${BASE}/mitglied-werden`,
-    ogType: 'website',
-    ogImage: `${BASE}/images/hero-final.png`,
-    ogImageAlt: 'Mitmachen beim Kulturverein Wölpinghausen',
-  },
-  {
     file: 'kontakt.html',
     title: 'Kontakt | Kulturverein Wölpinghausen',
     description:

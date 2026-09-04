@@ -31,7 +31,6 @@
     { id: 'eventkalender', label: 'Eventkalender', href: 'eventkalender.html' },
     { id: 'ausfluege', label: 'Ausflüge & Rückblicke', href: 'ausfluege.html' },
     { id: 'partnervereine', label: 'Partnervereine', href: 'partnervereine.html' },
-    { id: 'mitglied-werden', label: 'Mitglied werden', href: 'mitglied-werden.html' },
     { id: 'kontakt', label: 'Kontakt', href: 'kontakt.html' },
   ];
 

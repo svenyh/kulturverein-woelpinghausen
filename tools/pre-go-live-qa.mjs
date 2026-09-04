@@ -21,7 +21,6 @@ const PUBLIC_PAGES = [
   '/reisen/duesseldorf-2025',
   '/reisen/leipzig-2026',
   '/partnervereine',
-  '/mitglied-werden',
   '/kontakt',
   '/impressum',
   '/datenschutz',

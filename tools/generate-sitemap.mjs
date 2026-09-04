@@ -19,7 +19,6 @@ const ENTRIES = [
   { file: 'reisen/duesseldorf-2025.html', loc: `${BASE}/reisen/duesseldorf-2025` },
   { file: 'reisen/leipzig-2026.html', loc: `${BASE}/reisen/leipzig-2026` },
   { file: 'partnervereine.html', loc: `${BASE}/partnervereine` },
-  { file: 'mitglied-werden.html', loc: `${BASE}/mitglied-werden` },
   { file: 'kontakt.html', loc: `${BASE}/kontakt` },
   { file: 'impressum.html', loc: `${BASE}/impressum` },
   { file: 'datenschutz.html', loc: `${BASE}/datenschutz` },
