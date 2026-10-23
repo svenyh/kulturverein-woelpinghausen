@@ -35,7 +35,6 @@
     time: '18:00',
     title: 'Laternenfest',
     location: 'Schützenplatz Meeresblickstraße',
-    organizer: 'Kulturverein Wölpinghausen',
     description: 'Gegrilltes, Salatbuffet und Getränke am Feuerwehrhaus. Shuttleservice zum Festplatz.',
   });
 
