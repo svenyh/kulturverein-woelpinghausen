@@ -69,5 +69,41 @@
         "organizer": "IG Erntefest / Kirchengemeinde"
       }
     ]
+  },
+  {
+    "month": "November 2026",
+    "events": [
+      {
+        "date": "2026-11-06",
+        "time": "18:00",
+        "title": "Laternenfest",
+        "location": "Schützenplatz Meeresblickstraße",
+        "description": "Am Feuerwehrhaus: Gegrilltes, Salatbuffet und Getränke. Shuttleservice für Autofahrer vom Feuerwehrhaus zum Festplatz.",
+        "organizer": "Kulturverein Wölpinghausen"
+      },
+      {
+        "date": "2026-11-11",
+        "time": "17:00",
+        "title": "Karnevalseröffnung",
+        "location": "Dorfgemeinschaftshaus Wölpinghausen"
+      },
+      {
+        "date": "2026-11-28",
+        "time": "17:00",
+        "title": "Jubiläumsball \"15 Jahre DJ\"",
+        "location": "Dorfkrug Wölpinghausen"
+      }
+    ]
+  },
+  {
+    "month": "Dezember 2026",
+    "events": [
+      {
+        "date": "2026-12-13",
+        "time": "10:00",
+        "title": "Gottesdienst Weihnachtsmarkt",
+        "location": "Meeresblickstraße Wölpinghausen"
+      }
+    ]
   }
 ]
