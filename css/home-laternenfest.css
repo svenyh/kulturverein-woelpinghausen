@@ -1,0 +1,86 @@
+/* Startseiten-Highlight: Laternenfest 2026 */
+.festival-feature {
+  background: radial-gradient(circle at 3% 20%, rgba(222, 136, 56, .13), transparent 37%), var(--color-cream);
+}
+.festival-feature__card {
+  display: grid;
+  overflow: hidden;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.festival-feature__media {
+  position: relative;
+  min-height: 270px;
+  overflow: hidden;
+  background: #192849;
+}
+.festival-feature__media img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.festival-feature__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .9rem;
+  padding: clamp(1.5rem, 4vw, 2.75rem);
+}
+.festival-feature__title {
+  margin: 0;
+  color: var(--color-bordeaux);
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 1.15;
+}
+.festival-feature__intro {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+.festival-feature__facts {
+  display: grid;
+  gap: .55rem;
+  width: 100%;
+  margin: .25rem 0;
+}
+.festival-feature__facts > div {
+  display: grid;
+  grid-template-columns: 5.7rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+  padding-bottom: .45rem;
+  border-bottom: 1px solid #eee7dc;
+}
+.festival-feature__facts dt {
+  font-size: .8rem;
+  color: var(--color-bordeaux);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.festival-feature__facts dd {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.festival-feature__note {
+  color: var(--color-text-muted);
+  font-size: .94rem;
+}
+.festival-feature__cta {
+  margin-top: .4rem;
+}
+.event-card__image--festival {
+  background: #17254a;
+}
+@media (min-width: 830px) {
+  .festival-feature__card {
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  }
+  .festival-feature__media { min-height: 490px; }
+}
+@media (max-width: 480px) {
+  .festival-feature__facts > div { grid-template-columns: 1fr; gap: .1rem; }
+  .festival-feature__media { min-height: 225px; }
+}
