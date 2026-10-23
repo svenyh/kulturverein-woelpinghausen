@@ -30,6 +30,19 @@
     }
   }
 
+  const festival = Object.freeze({
+    date: '2026-11-06',
+    time: '18:00',
+    title: 'Laternenfest',
+    location: 'Schützenplatz Meeresblickstraße',
+    organizer: 'Kulturverein Wölpinghausen',
+    description: 'Gegrilltes, Salatbuffet und Getränke am Feuerwehrhaus. Shuttleservice zum Festplatz.',
+  });
+
+  function isFestival(event) {
+    return event?.date === festival.date && /laternenfest/i.test(event?.title || '');
+  }
+
   function renderEvent(event) {
     const [year, month, day] = event.date.split('-');
     const date = new Date(Number(year), Number(month) - 1, Number(day));
@@ -41,12 +54,16 @@
     card.className = 'event-card';
 
     const image = document.createElement('div');
-    image.className = 'event-card__image event-card__image--logo';
+    image.className = isFestival(event)
+      ? 'event-card__image event-card__image--festival'
+      : 'event-card__image event-card__image--logo';
 
     const logo = document.createElement('img');
-    logo.src = 'images/logo-kulturverein.png';
+    logo.src = isFestival(event)
+      ? 'images/news/laternenfest-2026.svg'
+      : 'images/logo-kulturverein.png';
     logo.alt = '';
-    logo.className = 'img--contain';
+    logo.className = isFestival(event) ? '' : 'img--contain';
     logo.loading = 'lazy';
     image.appendChild(logo);
 
@@ -68,8 +85,10 @@
     }
 
     const link = textElement('a', 'event-card__link', 'Mehr Infos →');
-    const sourceUrl = validSourceUrl(event.sourceUrl);
-    link.href = sourceUrl || 'eventkalender.html';
+    const sourceUrl = isFestival(event) ? null : validSourceUrl(event.sourceUrl);
+    link.href = isFestival(event)
+      ? 'eventkalender.html#laternenfest-2026'
+      : (sourceUrl || 'eventkalender.html');
     if (sourceUrl) {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
@@ -86,6 +105,8 @@
 
     return groups
       .flatMap((group) => (group && Array.isArray(group.events) ? group.events : []))
+      .filter((event) => !isFestival(event))
+      .concat(festival)
       .map((event) => ({ event, timestamp: eventTimestamp(event) }))
       .filter(({ event, timestamp }) => event && event.title && event.date && timestamp !== null)
       .filter(({ timestamp }) => timestamp >= startOfToday.getTime())
