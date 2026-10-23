@@ -29,9 +29,47 @@
     }
   }
 
+  const festival = {
+    date: '2026-11-06',
+    time: '18:00',
+    title: 'Laternenfest',
+    location: 'Schützenplatz Meeresblickstraße',
+    description: 'Am Feuerwehrhaus gibt es Gegrilltes, Salatbuffet und Getränke. Ein Shuttleservice bringt Autofahrer vom Feuerwehrhaus zum Festplatz.',
+    organizer: 'Kulturverein Wölpinghausen',
+  };
+
+  function isFestival(event) {
+    return event?.date === festival.date && /laternenfest/i.test(event?.title || '');
+  }
+
+  function withFestivalInformation(groups) {
+    const updated = (Array.isArray(groups) ? groups : [])
+      .filter((group) => group && Array.isArray(group.events))
+      .map((group) => ({
+        ...group,
+        events: group.events.filter((event) => !isFestival(event)),
+      }));
+    let november = updated.find((group) => group.month === 'November 2026');
+    if (!november) {
+      november = { month: 'November 2026', events: [] };
+      updated.push(november);
+    }
+    november.events.push(festival);
+    for (const group of updated) {
+      group.events.sort((a, b) => `${a.date || ''}${a.time || ''}`.localeCompare(`${b.date || ''}${b.time || ''}`));
+    }
+    return updated
+      .filter((group) => group.events.length)
+      .sort((a, b) => (a.events[0]?.date || '').localeCompare(b.events[0]?.date || ''));
+  }
+
   function renderEvent(event) {
     const card = document.createElement('article');
     card.className = 'event-calendar-card';
+    if (isFestival(event)) {
+      card.id = 'laternenfest-2026';
+      card.style.scrollMarginTop = '110px';
+    }
 
     const body = document.createElement('div');
     body.className = 'event-calendar-card__body';
@@ -131,8 +169,12 @@
 
   loadEventGroups()
     .then((groups) => {
-      renderGroups(groups);
-      injectEventStructuredData(groups);
+      const published = withFestivalInformation(groups);
+      renderGroups(published);
+      injectEventStructuredData(published);
+      if (window.location.hash === '#laternenfest-2026') {
+        requestAnimationFrame(() => document.getElementById('laternenfest-2026')?.scrollIntoView());
+      }
     })
     .catch(() => {
       status.textContent = 'Termine konnten derzeit nicht geladen werden.';
